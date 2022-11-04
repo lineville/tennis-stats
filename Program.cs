@@ -2,12 +2,11 @@
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Microsoft.Extensions.Configuration;
-using System.Web;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.WebUtilities;
 
 // TODO setup github action to run this every week, get the results and update the value in my readme
 // TODO Or create a badge that shows the current rank with link!!!
-
 
 static string BuildUSTARankingURL()
 {
@@ -17,22 +16,18 @@ static string BuildUSTARankingURL()
                   .AddEnvironmentVariables()
                   .Build();
 
-  var queryParams = config.GetSection("UserConfig").Get<Dictionary<string, string>>();
+  var queryParams = config.GetSection("Query").Get<Dictionary<string, string>>();
+  var ustaBase = "https://www.usta.com/en/home/play/rankings.html";
+  var url = QueryHelpers.AddQueryString(ustaBase, queryParams);
 
-  // TODO -- it would be nice to just pass in the whole dictionary using QueryHelpers , but it omits the # after rankings.html ... so I have to manually add it
-  var url = @$"https://www.usta.com/en/home/play/rankings.html#?
-ntrp-matchFormat={queryParams["ntrp-matchFormat"]}&
-ntrp-rankListGender={queryParams["ntrp-rankListGender"]}&
-ntrp-ntrpPlayerLevel={queryParams["ntrp-ntrpPlayerLevel"]}&
-ntrp-sectionCode={queryParams["ntrp-sectionCode"]}&
-searchText={HttpUtility.UrlEncode(queryParams["searchText"])}#tab=ntrp";
-
+  // Workaround for weird # getting ignored in QueryHelpers
+  url = url.Insert(ustaBase.Count(), "#") + "#tab=ntrp";
   return url;
 }
 
+  // Setup quiet headless chrome driver and wait for the page to load
 static FirefoxDriver CreateDriverService()
 {
-  // Setup headless chrome driver and wait for the page to load
   FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
   service.LogLevel = FirefoxDriverLogLevel.Fatal;
   service.SuppressInitialDiagnosticInformation = true;
