@@ -22,14 +22,13 @@ jobs:
           repository: "mozilla/geckodriver"
           latest: true
           fileName: "geckodriver-v0.32.0-linux64.tar.gz"
-          tarBall: true
       
       - name: Extract FireFox Driver
         run: |
-          tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
-          chmod +x geckodriver
-          mv geckodriver /usr/local/bin
-      
+          tar -C /usr/local/bin -xvzf geckodriver-v0.32.0-linux64.tar.gz
+          export PATH=$PATH:/usr/local/bin
+          echo $PATH
+          
       - name: Run Program
         run: |
           dotnet run >> $GITHUB_OUTPUT
