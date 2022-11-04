@@ -1,0 +1,14 @@
+name: Update Rank
+on:
+  schedule:
+    - cron: '40 3 * * 3' # Every Wednesday at 03:40 UTC
+  workflow_dispatch:
+
+jobs:
+  update_rank:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update Rank
+      - run: dotnet run >> $GITHUB_OUTPUT
+
