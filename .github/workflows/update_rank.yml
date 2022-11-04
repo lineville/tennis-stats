@@ -23,7 +23,12 @@ jobs:
           latest: true
           fileName: "geckodriver-v0.32.0-linux64.tar.gz"
           tarBall: true
-          out-file-path: "/usr/local/bin"
+      
+      - name: Extract FireFox Driver
+        run: |
+          tar -xvzf geckodriver-v0.32.0-linux64.tar.gz
+          chmod +x geckodriver
+          mv geckodriver /usr/local/bin
       
       - name: Run Program
         run: |
