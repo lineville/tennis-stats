@@ -16,10 +16,10 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Get FireFox Driver
-        run: |
-          sudo apt-get update 
-          sudo apt-get install firefox-geckodriver
+      # - name: Get FireFox Driver
+      #   run: |
+      #     sudo apt-get update 
+      #     sudo apt-get install firefox-geckodriver
 
       - name: Run Program
         run: |
