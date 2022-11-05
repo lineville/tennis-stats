@@ -20,9 +20,11 @@ Configure the following environment variables in `appsettings.json`
 Run the application
 
 ```console
-dotnet run
+$ dotnet run
+{
+  "Name": "Liam Neville",
+  "NationalRank": 463,
+  "SectionRank": 19,
+  "DistrictRank": 19
+}
 ```
-
-## Actions
-
-- [ ] Scrape the page every 2 weeks, and send an email (maybe only if rank is diff than last time)
