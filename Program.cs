@@ -9,6 +9,19 @@ using Microsoft.AspNetCore.WebUtilities;
 // TODO setup github action to run this every week, get the results and update the value in my readme
 // TODO Or create a badge that shows the current rank with link!!!
 
+static const List<string> DRIVER_OPTIONS = new List<string>()
+{ 
+  "--no-sandbox",
+  "--headless",
+  "--disable-gpu",
+  "--disable-logging",
+  "--disable-dev-shm-usage",
+  "--window-size=1920,1080",
+  "--disable-extensions",
+  "--log-level=3",
+  "--output=/dev/null",
+  };
+
 internal class Program
 {
   private static string BuildUSTARankingURL()
@@ -39,17 +52,10 @@ internal class Program
     FirefoxOptions options = new FirefoxOptions();
 
     options.PageLoadStrategy = PageLoadStrategy.Normal;
-    // options.UnhandledPromptBehavior = UnhandledPromptBehavior.Accept;
+    options.UnhandledPromptBehavior = UnhandledPromptBehavior.Accept;
     options.LogLevel = FirefoxDriverLogLevel.Fatal;
 
-    options.AddArgument("--no-sandbox");
-    options.AddArgument("--headless");
-    options.AddArgument("--disable-gpu");
-    options.AddArgument("--disable-logging");
-    options.AddArgument("--log-level=3");
-    options.AddArgument("--output=/dev/null");
-    options.AddArgument("--window-size=1920,1080");
-    options.AddArgument("--disable-extensions");
+    options.AddArguments(DRIVER_OPTIONS);
 
     var driver = new FirefoxDriver(service, options, new TimeSpan(0, 2, 0));
     return driver;
@@ -65,14 +71,7 @@ internal class Program
     ChromeOptions options = new ChromeOptions();
 
     options.PageLoadStrategy = PageLoadStrategy.Eager;
-    options.AddArgument("--no-sandbox");
-    options.AddArgument("--headless");
-    options.AddArgument("--disable-gpu");
-    options.AddArgument("--disable-logging");
-    options.AddArgument("--log-level=3");
-    options.AddArgument("--output=/dev/null");
-    options.AddArgument("--window-size=1920,1080");
-    options.AddArgument("--disable-extensions");
+    options.AddArguments(DRIVER_OPTIONS);
 
     var driver = new ChromeDriver(service, options, new TimeSpan(0, 2, 0));
     return driver;
