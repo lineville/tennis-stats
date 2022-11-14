@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +27,7 @@ internal class Program
     url = url.Insert(ustaBase.Count(), "#") + "#tab=ntrp";
     return url;
   }
+
   // Setup quiet headless chrome driver and wait for the page to load
   private static FirefoxDriver CreateFirefoxDriverService()
   {
@@ -37,6 +39,7 @@ internal class Program
     FirefoxOptions options = new FirefoxOptions();
 
     options.PageLoadStrategy = PageLoadStrategy.Normal;
+    // options.UnhandledPromptBehavior = UnhandledPromptBehavior.Accept;
     options.LogLevel = FirefoxDriverLogLevel.Fatal;
 
     options.AddArgument("--no-sandbox");
@@ -49,6 +52,29 @@ internal class Program
     options.AddArgument("--disable-extensions");
 
     var driver = new FirefoxDriver(service, options, new TimeSpan(0, 2, 0));
+    return driver;
+  }
+
+  // Setup headless chrome driver and wait for the page to load
+  private static ChromeDriver CreateChromeDriverService()
+  {
+    ChromeDriverService service = ChromeDriverService.CreateDefaultService();
+    service.LogPath = "chromedriver.log";
+    service.HideCommandPromptWindow = true;
+
+    ChromeOptions options = new ChromeOptions();
+
+    options.PageLoadStrategy = PageLoadStrategy.Eager;
+    options.AddArgument("--no-sandbox");
+    options.AddArgument("--headless");
+    options.AddArgument("--disable-gpu");
+    options.AddArgument("--disable-logging");
+    options.AddArgument("--log-level=3");
+    options.AddArgument("--output=/dev/null");
+    options.AddArgument("--window-size=1920,1080");
+    options.AddArgument("--disable-extensions");
+
+    var driver = new ChromeDriver(service, options, new TimeSpan(0, 2, 0));
     return driver;
   }
 
@@ -75,7 +101,6 @@ internal class Program
 
   private static void Main(string[] args)
   {
-
     // Construct the URL
     var url = BuildUSTARankingURL();
 
@@ -85,7 +110,8 @@ internal class Program
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
-    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 20));
+    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
+    driver.GetScreenshot().SaveAsFile("screenshot.png", ScreenshotImageFormat.Png);
     wait.Until(d => d.FindElement(By.ClassName("cell__text")));
 
     // Scrape the player ranking
