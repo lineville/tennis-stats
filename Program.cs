@@ -21,6 +21,8 @@ internal class Program
     "--output=/dev/null",
   };
 
+  private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
+
   private static string BuildUSTARankingURL()
   {
     // Read in config values for appsettings.json to construct the URL
@@ -77,7 +79,7 @@ internal class Program
   private static Player ScrapePlayerRanking(WebDriver driver)
   {
     // Get all the elements with the class name "cell__text" (single tr element)
-    var elements = driver.FindElements(By.ClassName("cell__text"));
+    var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
 
     // Grab rankings and print them out
     var nationalRank = elements[0].Text;
@@ -108,7 +110,7 @@ internal class Program
     driver.Navigate().GoToUrl(url);
     WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
     driver.GetScreenshot().SaveAsFile("screenshot.png", ScreenshotImageFormat.Png);
-    wait.Until(d => d.FindElement(By.ClassName("cell__text")));
+    wait.Until(d => d.FindElement(By.ClassName(HTML_ELEMENT_TARGET)));
 
     // Scrape the player ranking
     var player = ScrapePlayerRanking(driver);
