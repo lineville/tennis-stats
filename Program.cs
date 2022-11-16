@@ -6,24 +6,21 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.WebUtilities;
 
-// TODO setup github action to run this every week, get the results and update the value in my readme
-// TODO Or create a badge that shows the current rank with link!!!
-
-static const List<string> DRIVER_OPTIONS = new List<string>()
-{ 
-  "--no-sandbox",
-  "--headless",
-  "--disable-gpu",
-  "--disable-logging",
-  "--disable-dev-shm-usage",
-  "--window-size=1920,1080",
-  "--disable-extensions",
-  "--log-level=3",
-  "--output=/dev/null",
-  };
-
 internal class Program
 {
+  private static List<string> DRIVER_OPTIONS = new List<string>()
+  {
+    "--no-sandbox",
+    "--headless",
+    "--disable-gpu",
+    "--disable-logging",
+    "--disable-dev-shm-usage",
+    "--window-size=1920,1080",
+    "--disable-extensions",
+    "--log-level=3",
+    "--output=/dev/null",
+  };
+
   private static string BuildUSTARankingURL()
   {
     // Read in config values for appsettings.json to construct the URL

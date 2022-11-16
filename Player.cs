@@ -1,4 +1,5 @@
-public record Player {
+public record Player
+{
   public string? Name { get; init; }
   public int NationalRank { get; init; }
   public int SectionRank { get; init; }
