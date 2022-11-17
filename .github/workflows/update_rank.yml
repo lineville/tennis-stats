@@ -16,10 +16,8 @@ jobs:
         with:
           dotnet-version: 7.0.x
       
-      - name: Setup ChromeDriver
-        uses: browser-actions/setup-chrome@latest
-        # with:
-        #   chromedriver-version: '88.0.4324.96'
+      - name: Build
+        run: dotnet build
       
       # - name: Get FireFox Driver
       #   run: |
