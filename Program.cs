@@ -10,8 +10,8 @@ internal class Program
 {
   private static List<string> DRIVER_OPTIONS = new List<string>()
   {
-    // "--no-sandbox",
-    // "--headless",
+    "--no-sandbox",
+    "--headless",
     "--disable-gpu",
     "--disable-logging",
     "--disable-dev-shm-usage",
