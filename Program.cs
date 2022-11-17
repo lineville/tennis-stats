@@ -10,8 +10,8 @@ internal class Program
 {
   private static List<string> DRIVER_OPTIONS = new List<string>()
   {
-    "--no-sandbox",
-    "--headless",
+    // "--no-sandbox",
+    // "--headless",
     "--disable-gpu",
     "--disable-logging",
     "--disable-dev-shm-usage",
@@ -65,11 +65,12 @@ internal class Program
   {
     ChromeDriverService service = ChromeDriverService.CreateDefaultService();
     service.LogPath = "chromedriver.log";
+    service.SuppressInitialDiagnosticInformation = true;
     service.HideCommandPromptWindow = true;
 
     ChromeOptions options = new ChromeOptions();
 
-    options.PageLoadStrategy = PageLoadStrategy.Eager;
+    options.PageLoadStrategy = PageLoadStrategy.Normal;
     options.AddArguments(DRIVER_OPTIONS);
 
     var driver = new ChromeDriver(service, options, new TimeSpan(0, 2, 0));
@@ -103,8 +104,8 @@ internal class Program
     var url = BuildUSTARankingURL();
 
     // Create the driver
-    // var driver = CreateChromeDriverService();
-    var driver = CreateFirefoxDriverService();
+    var driver = CreateChromeDriverService();
+    // var driver = CreateFirefoxDriverService();
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
