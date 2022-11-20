@@ -104,8 +104,8 @@ internal class Program
     var url = BuildUSTARankingURL();
 
     // Create the driver
-    // var driver = CreateChromeDriverService();
-    var driver = CreateFirefoxDriverService();
+    var driver = CreateChromeDriverService();
+    // var driver = CreateFirefoxDriverService();
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
