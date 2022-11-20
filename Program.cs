@@ -7,21 +7,10 @@ using Microsoft.AspNetCore.WebUtilities;
 
 internal class Program
 {
-  private static List<string> DRIVER_OPTIONS = new List<string>()
-  {
-    "--no-sandbox",
-    "--headless",
-    "--disable-gpu",
-    "--disable-logging",
-    "--disable-dev-shm-usage",
-    "--window-size=1920,1080",
-    "--disable-extensions",
-    "--log-level=3",
-    "--output=/dev/null",
-  };
-
+  // Specific CSS class used by the usta website, this may change in the future...
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
 
+  // Construct the correct URL based on environment variables
   private static string BuildUSTARankingURL()
   {
     // Read in config values for appsettings.json to construct the URL
@@ -39,7 +28,7 @@ internal class Program
     return url;
   }
 
-  // Setup headless chrome driver and wait for the page to load
+  // Setup silent headless chrome driver and wait for the page to load
   private static ChromeDriver CreateChromeDriverService()
   {
     ChromeDriverService service = ChromeDriverService.CreateDefaultService();
@@ -50,15 +39,25 @@ internal class Program
     ChromeOptions options = new ChromeOptions();
 
     options.PageLoadStrategy = PageLoadStrategy.Normal;
-    options.AddArguments(DRIVER_OPTIONS);
+    options.AddArguments(
+      "--no-sandbox",
+      "--headless",
+      "--disable-gpu",
+      "--disable-logging",
+      "--disable-dev-shm-usage",
+      "--window-size=1920,1080",
+      "--disable-extensions",
+      "--log-level=OFF",
+      "--output=/dev/null"
+    );
 
-    var driver = new ChromeDriver(service, options, new TimeSpan(0, 2, 0));
+    var driver = new ChromeDriver(service, options);
     return driver;
   }
 
+  // Extracts the HTML element and returns a Player object
   private static Player ScrapePlayerRanking(WebDriver driver)
   {
-    // Get all the elements with the class name "cell__text" (single tr element)
     var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
 
     // Grab rankings and print them out
@@ -88,7 +87,6 @@ internal class Program
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
     WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
-    driver.GetScreenshot().SaveAsFile("screenshot.png", ScreenshotImageFormat.Png);
     wait.Until(d => d.FindElement(By.ClassName(HTML_ELEMENT_TARGET)));
 
     // Scrape the player ranking
