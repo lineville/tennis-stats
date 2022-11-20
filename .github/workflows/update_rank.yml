@@ -18,4 +18,4 @@ jobs:
 
       - name: Run Program
         run: |
-          echo "```json $(dotnet run) ```" >> $GITHUB_STEP_SUMMARY
+          dotnet run >> $GITHUB_STEP_SUMMARY
