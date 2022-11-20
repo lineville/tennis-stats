@@ -4,15 +4,23 @@ using OpenQA.Selenium.Support.UI;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.WebUtilities;
+using CommandLine;
 
 internal class Program
 {
+  public class Options
+  {
+    [Option('n', "name", Required = false, HelpText = "Player name")]
+    public string? Name { get; set; }
+  }
   // Specific CSS class used by the usta website, this may change in the future...
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
 
   // Construct the correct URL based on environment variables
-  private static string BuildUSTARankingURL()
+  private static string BuildUSTARankingURL(string? name = null)
   {
+    var ustaBase = "https://www.usta.com/en/home/play/rankings.html";
+
     // Read in config values for appsettings.json to construct the URL
     var config = new ConfigurationBuilder()
                     .AddJsonFile("appsettings.json", false)
@@ -20,7 +28,11 @@ internal class Program
                     .Build();
 
     var queryParams = config.GetSection("Query").Get<Dictionary<string, string>>();
-    var ustaBase = "https://www.usta.com/en/home/play/rankings.html";
+    if (name != null)
+    {
+      queryParams["ntrp-searchText"] = name;
+    }
+
     var url = QueryHelpers.AddQueryString(ustaBase, queryParams);
 
     // Workaround for weird # getting ignored in QueryHelpers
@@ -78,8 +90,10 @@ internal class Program
 
   private static void Main(string[] args)
   {
+    var options = Parser.Default.ParseArguments<Options>(args).Value;
+
     // Construct the URL
-    var url = BuildUSTARankingURL();
+    var url = BuildUSTARankingURL(options?.Name);
 
     // Create the driver
     var driver = CreateChromeDriverService();

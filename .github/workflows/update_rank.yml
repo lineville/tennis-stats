@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: '40 3 * * 3' # Every Wednesday at 03:40 UTC
   workflow_dispatch:
+    inputs:
+        name:
+          type: string
+          description: Player name
+          required: false
 
 jobs:
   update_rank:
