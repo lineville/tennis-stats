@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -38,26 +37,6 @@ internal class Program
     // Workaround for weird # getting ignored in QueryHelpers
     url = url.Insert(ustaBase.Count(), "#") + "#tab=ntrp";
     return url;
-  }
-
-  // Setup quiet headless chrome driver and wait for the page to load
-  private static FirefoxDriver CreateFirefoxDriverService()
-  {
-    FirefoxDriverService service = FirefoxDriverService.CreateDefaultService();
-    service.LogLevel = FirefoxDriverLogLevel.Fatal;
-    service.SuppressInitialDiagnosticInformation = true;
-    service.HideCommandPromptWindow = true;
-
-    FirefoxOptions options = new FirefoxOptions();
-
-    options.PageLoadStrategy = PageLoadStrategy.Normal;
-    options.UnhandledPromptBehavior = UnhandledPromptBehavior.Accept;
-    options.LogLevel = FirefoxDriverLogLevel.Fatal;
-
-    options.AddArguments(DRIVER_OPTIONS);
-
-    var driver = new FirefoxDriver(service, options, new TimeSpan(0, 2, 0));
-    return driver;
   }
 
   // Setup headless chrome driver and wait for the page to load
@@ -105,7 +84,6 @@ internal class Program
 
     // Create the driver
     var driver = CreateChromeDriverService();
-    // var driver = CreateFirefoxDriverService();
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
