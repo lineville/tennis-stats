@@ -15,14 +15,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
-      
-      - name: Build
-        run: dotnet build
-      
-      # - name: Get FireFox Driver
-      #   run: |
-      #     sudo apt-get update 
-      #     sudo apt-get install firefox-geckodriver
 
       - name: Run Program
         run: |
