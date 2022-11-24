@@ -8,6 +8,8 @@ on:
           type: string
           description: Player name
           required: false
+env:
+  DEFAULT_PLAYER: Liam Neville # Default player name (me)
 
 jobs:
   update_rank:
@@ -23,4 +25,4 @@ jobs:
 
       - name: Run Program
         run: |
-          dotnet run -n '${{ inputs.name }}' >> $GITHUB_STEP_SUMMARY
+          dotnet run -n '${{ inputs.name || env.DEFAULT_PLAYER }}' >> $GITHUB_STEP_SUMMARY

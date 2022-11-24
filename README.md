@@ -8,19 +8,18 @@ Configure the following environment variables in `appsettings.json`
 
 ```json
   "Query": {
-    "searchText": "Liam Neville",
+    "ntrp-searchText": "Liam Neville",
     "ntrp-matchFormat": "SINGLES",
     "ntrp-rankListGender": "M",
     "ntrp-ntrpPlayerLevel": "level_4_0",
-    "ntrp-sectionCode": "S50",
-    "email": "email@emailcom"
+    "ntrp-sectionCode": "S50"
   }
 ```
 
 Run the application
 
 ```console
-$ dotnet run
+$ dotnet run --name 'Liam Neville'
 {
   "Name": "Liam Neville",
   "NationalRank": 463,
