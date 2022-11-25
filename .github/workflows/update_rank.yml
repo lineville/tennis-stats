@@ -42,11 +42,23 @@ on:
           type: choice
           description: NTRP Section Code
           options:
-          - 'S50'
-          - 'S60'
-          - 'S70'
-          - 'S80'
-          - 'S90'
+            - Eastern
+            - Florida
+            - Hawaii Pacific
+            - Intermountain
+            - Mid-Atlantic
+            - Middle State
+            - Midwest
+            - Missouri Valley
+            - New England
+            - Northern California
+            - Northern
+            - Pacific NW
+            - Southern
+            - Southern California
+            - Southwest
+            - Texas
+            - Unassigned
           required: true
           default: 'S50'
         

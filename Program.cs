@@ -10,6 +10,27 @@ public class Program
   // Specific CSS class used by the USTA website, this may change in the future...
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
 
+  private static Dictionary<string, string> SECTION_CODES = new Dictionary<string, string>()
+  {
+    { "Eastern", "S10" },
+    { "Florida", "S15" },
+    { "Hawaii Pacific", "S20" },
+    { "Intermountain", "S25" },
+    { "Mid-Atlantic", "S30" },
+    { "Middle States", "S35" },
+    { "Midwest", "S85" },
+    { "Missouri Valley", "S40" },
+    { "New England", "S45" },
+    { "Northern California", "S50" },
+    { "Northern", "S55" },
+    { "Pacific NW", "S60" },
+    { "Southern California", "S65" },
+    { "Southern", "S70" },
+    { "Southwest", "S75" },
+    { "Texas", "S80" },
+    { "Unassigned", "SS00" }
+  };
+
   /// <summary>
   /// Construct the correct URL from CLI args
   /// </summary>
@@ -23,7 +44,7 @@ public class Program
       { "ntrp-matchFormat", options.Format ?? "SINGLES"},
       { "ntrp-rankListGender", options.Gender ?? "M" },
       { "ntrp-ntrpPlayerLevel", options.Level ?? "level_4_0" },
-      { "ntrp-sectionCode", options.Section ?? "S50" }
+      { "ntrp-sectionCode", SECTION_CODES[options.Section ?? "Northern California"] }
     };
 
     var url = QueryHelpers.AddQueryString(ustaBase, queryParams);
