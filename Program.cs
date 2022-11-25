@@ -9,7 +9,11 @@ public class Program
 {
   // Specific CSS class used by the USTA website, this may change in the future...
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
+  // USTA rankings base URL also subject to change in the future...
+  private static string USTA_BASE_URL = "https://www.usta.com/en/home/play/rankings.html";
 
+
+  // Mapping NTRP sections to the section codes, scraped from the site internals...
   private static Dictionary<string, string> SECTION_CODES = new Dictionary<string, string>()
   {
     { "Eastern", "S10" },
@@ -36,8 +40,7 @@ public class Program
   /// </summary>
   private static string BuildUSTARankingURL(CLIOptions options)
   {
-    var ustaBase = "https://www.usta.com/en/home/play/rankings.html";
-
+    // Build the query string
     var queryParams = new Dictionary<string, string>()
     {
       { "ntrp-searchText", options.Name ?? "" },
@@ -47,10 +50,10 @@ public class Program
       { "ntrp-sectionCode", SECTION_CODES[options.Section ?? "Northern California"] }
     };
 
-    var url = QueryHelpers.AddQueryString(ustaBase, queryParams);
+    var url = QueryHelpers.AddQueryString(USTA_BASE_URL, queryParams);
 
     // Workaround for weird # getting ignored in QueryHelpers
-    url = url.Insert(ustaBase.Count(), "#") + "#tab=ntrp";
+    url = url.Insert(USTA_BASE_URL.Count(), "#") + "#tab=ntrp";
     return url;
   }
 
@@ -67,6 +70,8 @@ public class Program
     ChromeOptions options = new ChromeOptions();
 
     options.PageLoadStrategy = PageLoadStrategy.Normal;
+
+    // Trying to suppress all selenium logging but there's still a little bit of noise 😢
     options.AddArguments(
       "--no-sandbox",
       "--headless",
@@ -90,41 +95,13 @@ public class Program
   {
     var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
 
-    // Grab rankings and print them out
-    var nationalRank = elements[0].Text;
-    var sectionRank = elements[1].Text;
-    var districtRank = elements[2].Text;
-    var name = elements[3].Text;
-
-    var player = new Player()
+    return new Player()
     {
       Name = elements[3].Text,
       NationalRank = int.Parse(elements[0].Text),
       SectionRank = int.Parse(elements[1].Text),
       DistrictRank = int.Parse(elements[2].Text)
     };
-    return player;
-  }
-
-  /// <summary>
-  /// Prints the player object to the console as JSON
-  /// </summary>
-  private static void PrintAsJSON(Player player)
-  {
-    var json = JsonConvert.SerializeObject(player, Formatting.Indented);
-    Console.WriteLine(json);
-  }
-
-  /// <summary>
-  /// Prints the player object to the console as a markdown list
-  /// </summary>
-  private static void PrintAsMarkdown(Player player)
-  {
-    Console.WriteLine("## " + player.Name);
-
-    Console.WriteLine("\n- National Rank: " + player.NationalRank);
-    Console.WriteLine("- Section Rank: " + player.SectionRank);
-    Console.WriteLine("- District Rank: " + player.DistrictRank);
   }
 
   /// <summary>
@@ -153,14 +130,19 @@ public class Program
     // Close the driver
     driver.Quit();
 
-    // Print out the player ranking
+    // Print out the player ranking as JSON or markdown
     if (options.JSON == true)
     {
-      PrintAsJSON(player);
+      Console.WriteLine(JsonConvert.SerializeObject(player, Formatting.Indented));
     }
     else
     {
-      PrintAsMarkdown(player);
+      // Print out the player ranking as markdown
+      Console.WriteLine("## " + player.Name);
+
+      Console.WriteLine("\n- National Rank: " + player.NationalRank);
+      Console.WriteLine("- Section Rank: " + player.SectionRank);
+      Console.WriteLine("- District Rank: " + player.DistrictRank);
     }
   }
 }
