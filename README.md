@@ -4,26 +4,20 @@ Utility to scrape the USTA rankings page to get a player's current ranking
 
 ## Usage
 
-Configure the following environment variables in `appsettings.json`
-
-```json
-  "Query": {
-    "ntrp-searchText": "Liam Neville",
-    "ntrp-matchFormat": "SINGLES",
-    "ntrp-rankListGender": "M",
-    "ntrp-ntrpPlayerLevel": "level_4_0",
-    "ntrp-sectionCode": "S50"
-  }
-```
-
-Run the application
+Clone the repo and make sure you have a recent version of .NET installed, then run the following command from the root of the repo:
 
 ```console
-$ dotnet run --name 'Liam Neville'
-{
-  "Name": "Liam Neville",
-  "NationalRank": 463,
-  "SectionRank": 19,
-  "DistrictRank": 19
-}
+dotnet run -- --name 'Liam Neville' \
+              --format SINGLES \
+              --gender M \
+              --level level_4_0 \
+              --section S50
 ```
+
+### CLI Options
+
+- `--name` or `-n` - The name of the player to search for
+- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES)
+- `--gender` or `-g` - The gender of the player to search for (M or F)
+- `--level` or `-l` - The NTRP level of the player to search for (level_3_0, level_3_5, level_4_0, level_4_5, level_5_0, level_5_5, level_6_0)
+- `--section` or `-s` - The section of the player to search for (S50, S60 etc.)
