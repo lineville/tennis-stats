@@ -55,7 +55,7 @@ public class Program
   }
 
   /// <summary>
-  /// Setup silent headless chrome driver and wait for the page to load
+  /// Setup silent headless chrome driver service
   /// </summary>
   private static ChromeDriver CreateChromeDriverService()
   {
