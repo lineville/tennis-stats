@@ -64,8 +64,8 @@ jobs:
 
       - name: Run Program
         run: |
-          dotnet run -- --name ${{ inputs.name }} \
-                        --format ${{ inputs.format }} \
-                        --gender ${{ inputs.gender }} \
-                        --level ${{ inputs.level }} \
-                        --section ${{ inputs.section }} >> $GITHUB_STEP_SUMMARY
+          dotnet run -- --name '${{ inputs.name }}' \
+                        --format '${{ inputs.format }}' \
+                        --gender '${{ inputs.gender }}' \
+                        --level '${{ inputs.level }}' \
+                        --section '${{ inputs.section }}' >> $GITHUB_STEP_SUMMARY
