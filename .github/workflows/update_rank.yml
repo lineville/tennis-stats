@@ -60,7 +60,7 @@ on:
             - Texas
             - Unassigned
           required: true
-          default: 'S50'
+          default: 'Northern California'
         
 jobs:
   update_rank:
