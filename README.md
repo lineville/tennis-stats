@@ -33,7 +33,7 @@ dotnet run -- --name 'Liam Neville' \
   - Hawaii Pacific
   - Intermountain
   - Mid-Atlantic
-  - Middle State
+  - Middle States
   - Midwest
   - Missouri Valley
   - New England
