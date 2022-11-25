@@ -16,6 +16,8 @@ dotnet run -- --name 'Liam Neville' \
 
 ### CLI Options
 
+- `--help` or `-h` - Display the help screen
+- `--version` or `-v` - Display version information
 - `--name` or `-n` - The name of the player to search for
 - `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES)
 - `--gender` or `-g` - The gender of the player to search for (M or F)
@@ -45,3 +47,4 @@ dotnet run -- --name 'Liam Neville' \
   - Southwest
   - Texas
   - Unassigned
+- (Optional) `--json` or `-j` - Output the results as JSON

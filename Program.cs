@@ -154,7 +154,7 @@ public class Program
     driver.Quit();
 
     // Print out the player ranking
-    if (options.Output == "json")
+    if (options.JSON == true)
     {
       PrintAsJSON(player);
     }
