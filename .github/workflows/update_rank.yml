@@ -8,9 +8,48 @@ on:
           type: string
           description: Player name
           required: false
-env:
-  DEFAULT_PLAYER: Liam Neville # Default player name (me)
-
+          default: 'Liam Neville'
+        format:
+          type: choice
+          description: Match Format
+          options:
+          - 'SINGLES'
+          - 'DOUBLES'
+          required: true
+          default: 'SINGLES'
+        gender:
+          type: choice
+          description: Gender
+          options:
+          - 'M'
+          - 'F'
+          required: true
+          default: 'M'
+        level:
+          type: choice
+          description: Level
+          options:
+          - 'level_3_0'
+          - 'level_3_5'
+          - 'level_4_0'
+          - 'level_4_5'
+          - 'level_5_0'
+          - 'level_5_5'
+          - 'level_6_0'
+          required: true
+          default: 'level_4_0'
+        section:
+          type: choice
+          description: NTRP Section Code
+          options:
+          - 'S50'
+          - 'S60'
+          - 'S70'
+          - 'S80'
+          - 'S90'
+          required: true
+          default: 'S50'
+        
 jobs:
   update_rank:
     runs-on: ubuntu-latest
@@ -25,4 +64,8 @@ jobs:
 
       - name: Run Program
         run: |
-          dotnet run -n '${{ inputs.name || env.DEFAULT_PLAYER }}' >> $GITHUB_STEP_SUMMARY
+          dotnet run --name ${{ inputs.name }} \
+                     --format ${{ inputs.format }} \
+                     --gender ${{ inputs.gender }} \
+                     --level ${{ inputs.level }} \
+                     --section ${{ inputs.section }} >> $GITHUB_STEP_SUMMARY

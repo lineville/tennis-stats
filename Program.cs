@@ -1,37 +1,30 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.WebUtilities;
 using CommandLine;
 
-internal class Program
+public class Program
 {
-  public class Options
-  {
-    [Option('n', "name", Required = false, HelpText = "Player name")]
-    public string? Name { get; set; }
-  }
-  // Specific CSS class used by the usta website, this may change in the future...
+  // Specific CSS class used by the USTA website, this may change in the future...
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
 
-  // Construct the correct URL based on environment variables
-  private static string BuildUSTARankingURL(string? name = null)
+  /// <summary>
+  /// Construct the correct URL from CLI args
+  /// </summary>
+  private static string BuildUSTARankingURL(CLIOptions options)
   {
     var ustaBase = "https://www.usta.com/en/home/play/rankings.html";
 
-    // Read in config values for appsettings.json to construct the URL
-    var config = new ConfigurationBuilder()
-                    .AddJsonFile("appsettings.json", false)
-                    .AddEnvironmentVariables()
-                    .Build();
-
-    var queryParams = config.GetSection("Query").Get<Dictionary<string, string>>();
-    if (name != null)
+    var queryParams = new Dictionary<string, string>()
     {
-      queryParams["ntrp-searchText"] = name;
-    }
+      { "ntrp-searchText", options.Name ?? "" },
+      { "ntrp-matchFormat", options.Format ?? "SINGLES"},
+      { "ntrp-rankListGender", options.Gender ?? "M" },
+      { "ntrp-ntrpPlayerLevel", options.Level ?? "level_4_0" },
+      { "ntrp-sectionCode", options.Section ?? "S50" }
+    };
 
     var url = QueryHelpers.AddQueryString(ustaBase, queryParams);
 
@@ -40,7 +33,9 @@ internal class Program
     return url;
   }
 
-  // Setup silent headless chrome driver and wait for the page to load
+  /// <summary>
+  /// Setup silent headless chrome driver and wait for the page to load
+  /// </summary>
   private static ChromeDriver CreateChromeDriverService()
   {
     ChromeDriverService service = ChromeDriverService.CreateDefaultService();
@@ -67,7 +62,9 @@ internal class Program
     return driver;
   }
 
-  // Extracts the HTML element and returns a Player object
+  /// <summary>
+  /// Extracts the HTML element and returns a Player object
+  /// </summary>
   private static Player ScrapePlayerRanking(WebDriver driver)
   {
     var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
@@ -88,14 +85,40 @@ internal class Program
     return player;
   }
 
+  /// <summary>
+  /// Prints the player object to the console as JSON
+  /// </summary>
+  private static void PrintAsJSON(Player player)
+  {
+    var json = JsonConvert.SerializeObject(player, Formatting.Indented);
+    Console.WriteLine(json);
+  }
+
+  /// <summary>
+  /// Prints the player object to the console as a markdown list
+  /// </summary>
+  private static void PrintAsMarkdown(Player player)
+  {
+    Console.WriteLine("## " + player.Name);
+
+    Console.WriteLine("\n- National Rank: " + player.NationalRank);
+    Console.WriteLine("- Section Rank: " + player.SectionRank);
+    Console.WriteLine("- District Rank: " + player.DistrictRank);
+  }
+
+  /// <summary>
+  /// Main entry point
+  /// </summary>
   private static void Main(string[] args)
   {
-    var options = Parser.Default.ParseArguments<Options>(args).Value;
+    // Parse command line arguments
+    var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
+      ?? throw new Exception("Failed to parse command line arguments");
 
-    // Construct the URL
-    var url = BuildUSTARankingURL(options?.Name);
+    // Construct the URL from cli args
+    var url = BuildUSTARankingURL(options);
 
-    // Create the driver
+    // Create the chrome driver
     var driver = CreateChromeDriverService();
 
     // Navigate to the URL and wait for the page to load
@@ -110,6 +133,13 @@ internal class Program
     driver.Quit();
 
     // Print out the player ranking
-    Console.WriteLine(JsonConvert.SerializeObject(player, Formatting.Indented));
+    if (options.Output == "json")
+    {
+      PrintAsJSON(player);
+    }
+    else
+    {
+      PrintAsMarkdown(player);
+    }
   }
 }
