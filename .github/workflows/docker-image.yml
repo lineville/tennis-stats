@@ -18,7 +18,7 @@ jobs:
       working-directory: ${{ github.workspace }}/src
       run: docker build . --file '${{ github.workspace }}/src/Dockerfile' --tag usta-scraper
     - name: Run the Docker image
-      run: docker run -it --rm usta-scraper -f SINGLES \
+      run: docker run -t usta-scraper -f SINGLES \
         -g M \
         -l level_4_0 \
         -s 'Northern California' \
