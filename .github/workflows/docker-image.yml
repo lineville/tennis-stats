@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Build Docker Image
 
 on:
   push:
@@ -17,3 +17,9 @@ jobs:
     - name: Build the Docker image
       working-directory: ${{ github.workspace }}/src
       run: docker build . --file '${{ github.workspace }}/src/Dockerfile' --tag usta-scraper
+    - name: Run the Docker image
+      run: docker run -it --rm usta-scraper -f SINGLES \
+        -g M \
+        -l level_4_0 \
+        -s 'Northern California' \
+        -n 'Liam Neville' >> $GITHUB_STEP_SUMMARY
