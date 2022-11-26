@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
-using Newtonsoft.Json;
 using Microsoft.AspNetCore.WebUtilities;
 using CommandLine;
 
@@ -11,6 +10,8 @@ public class Program
   private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
   // USTA rankings base URL also subject to change in the future...
   private static string USTA_BASE_URL = "https://www.usta.com/en/home/play/rankings.html";
+  // How long we wait for the page to load before we give up
+  private static int PAGE_LOAD_TIMEOUT = 10;
 
 
   // Mapping NTRP sections to the section codes, scraped from the site internals...
@@ -91,9 +92,20 @@ public class Program
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  private static Player ScrapePlayerRanking(WebDriver driver)
+  private static Player ScrapePlayerRanking(WebDriver driver, string url, string name)
   {
+
+    // Navigate to the URL and wait for the page to load
+    driver.Navigate().GoToUrl(url);
+    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, PAGE_LOAD_TIMEOUT));
+    wait.Until(d => d.FindElement(By.ClassName(HTML_ELEMENT_TARGET)));
+
     var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
+
+    if (elements[3].Text != name)
+    {
+      throw new NotFoundException($"No ranking found for {name}");
+    }
 
     return new Player()
     {
@@ -119,30 +131,28 @@ public class Program
     // Create the chrome driver
     var driver = CreateChromeDriverService();
 
-    // Navigate to the URL and wait for the page to load
-    driver.Navigate().GoToUrl(url);
-    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, 30));
-    wait.Until(d => d.FindElement(By.ClassName(HTML_ELEMENT_TARGET)));
-
-    // Scrape the player ranking
-    var player = ScrapePlayerRanking(driver);
-
-    // Close the driver
-    driver.Quit();
-
-    // Print out the player ranking as JSON or markdown
-    if (options.JSON == true)
+    try
     {
-      Console.WriteLine(JsonConvert.SerializeObject(player, Formatting.Indented));
+      // Scrape the player ranking
+      var player = ScrapePlayerRanking(driver, url, options.Name ?? "");
+      // Print out the player ranking as JSON or markdown
+      if (options.JSON == true)
+      {
+        Console.WriteLine(player.ToJSON());
+      }
+      else
+      {
+        Console.WriteLine(player.ToMarkDown(options));
+      }
     }
-    else
+    catch (Exception)
     {
-      // Print out the player ranking as markdown
-      Console.WriteLine("## " + player.Name);
-
-      Console.WriteLine("\n- National Rank: " + player.NationalRank);
-      Console.WriteLine("- Section Rank: " + player.SectionRank);
-      Console.WriteLine("- District Rank: " + player.DistrictRank);
+      Console.WriteLine($"No ranking found for {options.Name}");
+    }
+    finally
+    {
+      // Close the driver
+      driver.Quit();
     }
   }
 }
