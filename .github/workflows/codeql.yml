@@ -58,7 +58,7 @@ jobs:
         dotnet-version: 7.0.x
 
     - name: Build with .NET Core
-      run: dotnet build
+      run: dotnet build src/usta-scraper.csproj
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
