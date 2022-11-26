@@ -2,24 +2,22 @@ name: Build Docker Image
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      working-directory: ${{ github.workspace }}/src
-      run: docker build . --file '${{ github.workspace }}/src/Dockerfile' --tag usta-scraper
-    - name: Run the Docker image
-      run: docker run -t usta-scraper -f SINGLES \
-        -g M \
-        -l level_4_0 \
-        -s 'Northern California' \
-        -n 'Liam Neville' >> $GITHUB_STEP_SUMMARY
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        working-directory: ${{ github.workspace }}/src
+        run: docker build . --file '${{ github.workspace }}/src/Dockerfile' --tag usta-scraper
+      - name: Run the Docker image
+        run: docker run -d usta-scraper -- --format SINGLES \
+          --gender M \
+          --level level_4_0 \
+          --section 'Northern California' \
+          --name 'Liam Neville' >> $GITHUB_STEP_SUMMARY
