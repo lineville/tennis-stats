@@ -7,10 +7,7 @@ public record Player
   public int SectionRank { get; init; }
   public int DistrictRank { get; init; }
 
-  public string ToJSON()
-  {
-    return JsonConvert.SerializeObject(this, Formatting.Indented);
-  }
+  public string ToJSON() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
   public string ToMarkDown(CLIOptions options)
   {
