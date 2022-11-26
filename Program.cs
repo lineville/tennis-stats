@@ -74,15 +74,15 @@ public class Program
 
     // Trying to suppress all selenium logging but there's still a little bit of noise 😢
     options.AddArguments(
-      "--no-sandbox",
-      "--headless",
-      "--disable-gpu",
-      "--disable-logging",
-      "--disable-dev-shm-usage",
-      "--window-size=1920,1080",
-      "--disable-extensions",
-      "--log-level=OFF",
-      "--output=/dev/null"
+      "no-sandbox",
+      "headless",
+      "disable-gpu",
+      "disable-logging",
+      "disable-dev-shm-usage",
+      "window-size=1920,1080",
+      "disable-extensions",
+      "log-level=OFF",
+      "output=/dev/null"
     );
 
     var driver = new ChromeDriver(service, options);
