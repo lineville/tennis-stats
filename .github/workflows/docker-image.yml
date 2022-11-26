@@ -15,4 +15,5 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
+      working-directory: ${{ github.workspace }}/src
       run: docker build . --file '${{ github.workspace }}/src/Dockerfile' --tag usta-scraper
