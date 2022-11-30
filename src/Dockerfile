@@ -3,7 +3,8 @@ FROM ubuntu:latest AS build
 WORKDIR /src
 
 # Get .NET 7 SDK
-RUN sudo apt-get update && \
+RUN apt-get update && \
+  apt-get install -y sudo && \
   sudo apt-get install -y dotnet-sdk-7.0
 
 # Copy csproj and restore as distinct layers
