@@ -2,6 +2,8 @@
 FROM ubuntu:latest AS build
 WORKDIR /src
 
+RUN apt-get update && apt-get install -y wget
+
 RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
   sudo dpkg -i packages-microsoft-prod.deb && \
   rm packages-microsoft-prod.deb
