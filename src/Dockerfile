@@ -4,14 +4,15 @@ WORKDIR /src
 
 RUN apt-get update && \
   apt-get install -y wget && \
-  apt-get install -y sudo
+  apt-get install -y sudo && \
+  apt-get install -y snap
 
 RUN wget https://packages.microsoft.com/config/ubuntu/22.10/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
   sudo dpkg -i packages-microsoft-prod.deb && \
   rm packages-microsoft-prod.deb
 
 # Get .NET 7 SDK
-RUN sudo apt-get install -y dotnet-sdk-7.0
+RUN sudo snap install dotnet-sdk --classic --channel=7.0
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj .
