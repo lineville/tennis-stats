@@ -5,7 +5,7 @@ WORKDIR /src
 # _____________________________________________________________________________
 
 # We need wget to set up the PPA and xvfb to have a virtual screen and unzip to install the Chromedriver
-RUN apt-get install -y wget xvfb unzip
+RUN apt-get install -y wget unzip
 
 # Set up the Chrome PPA
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
