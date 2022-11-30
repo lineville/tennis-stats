@@ -62,6 +62,13 @@ on:
           required: true
           default: 'Northern California'
         
+env:
+  NAME: Liam Neville
+  FORMAT: SINGLES
+  GENDER: M
+  LEVEL: level_4_0
+  SECTION: Northern California
+
 jobs:
   update_rank:
     runs-on: ubuntu-latest
@@ -77,8 +84,8 @@ jobs:
       - name: Run Program
         working-directory: ${{ github.workspace }}/src
         run: |
-          dotnet run -- --name '${{ inputs.name }}' \
-                        --format '${{ inputs.format }}' \
-                        --gender '${{ inputs.gender }}' \
-                        --level '${{ inputs.level }}' \
-                        --section '${{ inputs.section }}' >> $GITHUB_STEP_SUMMARY
+          dotnet run -- --name '${{ inputs.name || env.NAME }}' \
+                        --format '${{ inputs.format || env.FORMAT }}' \
+                        --gender '${{ inputs.gender || env.GENDER }}' \
+                        --level '${{ inputs.level || env.LEVEL }}' \
+                        --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_STEP_SUMMARY
