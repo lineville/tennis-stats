@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install ChromeDriver
-        run: apt-get install chromium-chromedriver
+        run: sudo apt-get install chromium-chromedriver
       - name: Build the Docker image
         working-directory: ${{ github.workspace }}/src
         run: docker build -f '${{ github.workspace }}/src/Dockerfile' -t usta-scraper .
