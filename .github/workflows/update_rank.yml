@@ -75,6 +75,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: Run Program
+        working-directory: ${{ github.workspace }}/src
         run: |
           dotnet run -- --name '${{ inputs.name }}' \
                         --format '${{ inputs.format }}' \
