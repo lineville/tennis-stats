@@ -36,5 +36,5 @@ RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-containe
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as runtime
 WORKDIR /src
 
-COPY --from=runtime /src/out .
+COPY --from=build /src/out .
 ENTRYPOINT ["dotnet", "usta-scraper.dll"]
