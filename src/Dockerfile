@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# # Copy csproj and restore as distinct layers
+# Copy csproj and restore as distinct layers
 COPY *.csproj .
 RUN dotnet restore
 
