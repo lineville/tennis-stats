@@ -14,4 +14,4 @@ RUN dotnet publish usta-scraper.csproj -p:PublishChromeDriver=true -c Release -o
 FROM selenium/standalone-chrome
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["./usta-scraper"]
+ENTRYPOINT ["./usta-scraper", "--name", "Liam Neville", "--format", "SINGLES", "--gender", "M", "--section", "Northern California", "--level", "level_4_0"]
