@@ -31,7 +31,7 @@ RUN apt update && apt install -y  \
 # Build and publish a release
 COPY . ./
 # RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-contained -r linux-x64 /p:PublishTrimmed=true
-RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out -r linux-x64
+RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out -r linux-x64 --self-contained
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as runtime
