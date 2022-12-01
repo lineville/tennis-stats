@@ -15,7 +15,9 @@ COPY . .
 RUN dotnet publish -p:PublishChromeDriver=true -c Release -o /app 
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime
+# FROM mcr.microsoft.com/dotnet/runtime:7.0 AS runtime
+# WORKDIR /app
+FROM selenium/standalone-chrome
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "usta-scraper.dll"]
