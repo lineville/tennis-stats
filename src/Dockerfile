@@ -2,16 +2,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-# Copy csproj and restore as distinct layers
+# # Copy csproj and restore as distinct layers
 COPY *.csproj .
 RUN dotnet restore
 
 # Build and publish a release
-COPY . .
-RUN dotnet publish usta-scraper.csproj -p:PublishChromeDriver=true -c Release -o /app --self-contained -r linux-x64
+COPY . ./
+RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-contained -r linux-x64 /p:PublishTrimmed=true
 
 # Build runtime image
 FROM selenium/standalone-chrome
 WORKDIR /app
-COPY --from=build /app .
+
+COPY --from=build /app/out .
 ENTRYPOINT ["./usta-scraper"]
