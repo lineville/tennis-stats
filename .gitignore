@@ -37,5 +37,3 @@ msbuild.wrn
 .vs/
 screenshot.png
 *.log
-
-src/app/*

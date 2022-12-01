@@ -1,6 +1,6 @@
 # Base on dotnet 7
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /src
+WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj .
@@ -34,7 +34,7 @@ RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-containe
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/sdk:7.0 as runtime
-WORKDIR /src
+WORKDIR /app
 
-COPY --from=build /src/out .
+COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "usta-scraper.dll"]

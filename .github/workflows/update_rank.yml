@@ -82,7 +82,7 @@ jobs:
           dotnet-version: 7.0.x
 
       - name: Run Program
-        working-directory: ${{ github.workspace }}/src
+        working-directory: ${{ github.workspace }}
         run: |
           dotnet run -- --name '${{ inputs.name || env.NAME }}' \
                         --format '${{ inputs.format || env.FORMAT }}' \
