@@ -2,8 +2,10 @@
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
-RUN apt-get update && \
-  apt-get install -y google-chrome-stable libnss3 libgconf-2-4
+RUN apt-get update
+RUN apt-get install -y wget
+RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install ./google-chrome-stable_current_amd64.deb
 
 # Copy csproj and restore as distinct layers
 COPY *.csproj .
