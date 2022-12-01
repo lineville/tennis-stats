@@ -12,7 +12,7 @@ RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-containe
 
 # Build runtime image
 FROM selenium/standalone-chrome
-WORKDIR /app
+WORKDIR /src
 
-COPY --from=build /app/out .
+COPY --from=build /src/out .
 ENTRYPOINT ["./usta-scraper"]
