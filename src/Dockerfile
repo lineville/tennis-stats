@@ -8,10 +8,10 @@ RUN dotnet restore
 
 # Build and publish a release
 COPY . .
-RUN dotnet publish usta-scraper.csproj -p:PublishChromeDriver=true -c Release -o /app --self-contained -r linux-x64 /p:PublishTrimmed=true
+RUN dotnet publish usta-scraper.csproj -p:PublishChromeDriver=true -c Release -o /app --self-contained -r linux-x64
 
 # Build runtime image
 FROM selenium/standalone-chrome
 WORKDIR /app
 COPY --from=build /app .
-ENTRYPOINT ["./usta-scraper", "--name", "Liam Neville", "--format", "SINGLES", "--gender", "M", "--section", "Northern California", "--level", "level_4_0"]
+ENTRYPOINT ["./usta-scraper"]
