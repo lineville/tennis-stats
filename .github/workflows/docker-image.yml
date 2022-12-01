@@ -17,8 +17,4 @@ jobs:
         run: docker build -f '${{ github.workspace }}/Dockerfile' -t usta-scraper .
       - name: Run the Docker image
         run: |
-          docker run -t usta-scraper -- --name 'Liam Neville' \
-            --format SINGLES \
-            --gender M \
-            --level level_4_0 \
-            --section 'Northern California' >> $GITHUB_STEP_SUMMARY
+          docker run -t --rm usta-scraper --name='Liam Neville' --format=SINGLES --gender=M --level=level_4_0 --section='Northern California' >> $GITHUB_STEP_SUMMARY
