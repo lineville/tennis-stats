@@ -4,7 +4,9 @@ Utility to scrape the USTA rankings page to get a player's current ranking
 
 ## Usage
 
-Clone the repo and make sure you have a recent version of .NET installed, then run the following command from the root of the repo:
+- Clone this repo
+- Install .NET 7 (if not already installed)
+- Install Chrome (if not already installed)
 
 ```console
 dotnet run -- --name 'Liam Neville' \
