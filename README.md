@@ -29,8 +29,6 @@ dotnet run -- --name 'Liam Neville' \
   - level_4_0
   - level_4_5
   - level_5_0
-  - level_5_5
-  - level_6_0
 - `--section` or `-s` - The section of the player to search for, options include
   - Eastern
   - Florida
