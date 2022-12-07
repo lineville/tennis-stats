@@ -2,59 +2,35 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using CommandLine;
 
 public class Program
 {
-  // Specific CSS class used by the USTA website, this may change in the future...
-  private static string HTML_ELEMENT_TARGET = "v-grid-cell__content";
-  // USTA rankings base URL also subject to change in the future...
-  private static string USTA_BASE_URL = "https://www.usta.com/en/home/play/rankings.html";
-  // How long we wait for the page to load before we give up
-  private static int PAGE_LOAD_TIMEOUT = 10;
-
-
-  // Mapping NTRP sections to the section codes, scraped from the site internals...
-  private static Dictionary<string, string> SECTION_CODES = new Dictionary<string, string>()
-  {
-    { "Eastern", "S10" },
-    { "Florida", "S15" },
-    { "Hawaii Pacific", "S20" },
-    { "Intermountain", "S25" },
-    { "Mid-Atlantic", "S30" },
-    { "Middle States", "S35" },
-    { "Midwest", "S85" },
-    { "Missouri Valley", "S40" },
-    { "New England", "S45" },
-    { "Northern California", "S50" },
-    { "Northern", "S55" },
-    { "Pacific NW", "S60" },
-    { "Southern California", "S65" },
-    { "Southern", "S70" },
-    { "Southwest", "S75" },
-    { "Texas", "S80" },
-    { "Unassigned", "SS00" }
-  };
 
   /// <summary>
   /// Construct the correct URL from CLI args
   /// </summary>
-  private static string BuildUSTARankingURL(CLIOptions options)
+  private static string BuildUSTARankingURL(CLIOptions options, IConfiguration configuration)
   {
+    var queryKeys = configuration.GetRequiredSection("QUERY_PARAMS").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load QUERY_PARAMS from appsettings.json");
+    var sectionCodes = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");
+    var ustaBaseURL = configuration.GetValue<string>("USTA_BASE_URL") ?? throw new Exception("Failed to load USTA_BASE_URL from appsettings.json");
+
     // Build the query string
     var queryParams = new Dictionary<string, string>()
     {
-      { "ntrp-searchText", options.Name ?? "" },
-      { "ntrp-matchFormat", options.Format ?? "SINGLES"},
-      { "ntrp-rankListGender", options.Gender ?? "M" },
-      { "ntrp-ntrpPlayerLevel", options.Level ?? "level_4_0" },
-      { "ntrp-sectionCode", SECTION_CODES[options.Section ?? "Northern California"] }
+      { queryKeys["Name"], options.Name ?? "" },
+      { queryKeys["Format"], options.Format ?? ""},
+      { queryKeys["Gender"], options.Gender ?? "" },
+      { queryKeys["Level"], options.Level ?? "" },
+      { queryKeys["Section"], sectionCodes[options.Section ?? ""] }
     };
 
-    var url = QueryHelpers.AddQueryString(USTA_BASE_URL, queryParams);
+    var url = QueryHelpers.AddQueryString(ustaBaseURL, queryParams);
 
     // Workaround for weird # getting ignored in QueryHelpers
-    url = url.Insert(USTA_BASE_URL.Count(), "#") + "#tab=ntrp";
+    url = url.Insert(ustaBaseURL.Count(), "#") + "#tab=ntrp";
     return url;
   }
 
@@ -69,8 +45,6 @@ public class Program
     service.HideCommandPromptWindow = true;
 
     ChromeOptions options = new ChromeOptions();
-
-    options.PageLoadStrategy = PageLoadStrategy.Normal;
 
     // Trying to suppress all selenium logging but there's still a little bit of noise 😢
     options.AddArguments(
@@ -93,15 +67,17 @@ public class Program
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  private static Player ScrapePlayerRanking(WebDriver driver, string url, string name)
+  private static Player ScrapePlayerRanking(WebDriver driver, string url, string name, IConfiguration configuration)
   {
+    var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET") ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
+    var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
-    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, PAGE_LOAD_TIMEOUT));
-    wait.Until(d => d.FindElement(By.ClassName(HTML_ELEMENT_TARGET)));
+    WebDriverWait wait = new WebDriverWait(driver, new TimeSpan(0, 0, timeout));
+    wait.Until(d => d.FindElement(By.ClassName(htmlElement)));
 
-    var elements = driver.FindElements(By.ClassName(HTML_ELEMENT_TARGET));
+    var elements = driver.FindElements(By.ClassName(htmlElement));
 
     if (elements[3].Text != name)
     {
@@ -127,15 +103,15 @@ public class Program
     var gender = Environment.GetEnvironmentVariable("NTRP_GENDER");
     var level = Environment.GetEnvironmentVariable("NTRP_LEVEL");
     var section = Environment.GetEnvironmentVariable("NTRP_SECTION");
-    
 
-    if (name != null) 
+
+    if (name != null)
       args = ReplaceOrAdd(args, "--name", "-n", name);
 
-    if (format != null) 
+    if (format != null)
       args = ReplaceOrAdd(args, "--format", "-f", format);
 
-    if (gender != null) 
+    if (gender != null)
       args = ReplaceOrAdd(args, "--gender", "-g", gender);
 
     if (level != null)
@@ -148,6 +124,9 @@ public class Program
 
   }
 
+  /// <summary>
+  /// Replace or add a key value pair to the args array
+  /// </summary>
   private static string[] ReplaceOrAdd(string[] args, string key, string shortKey, string value)
   {
     if (args.Contains(key) || args.Contains(shortKey))
@@ -167,13 +146,19 @@ public class Program
   /// </summary>
   private static void Main(string[] args)
   {
+    IConfiguration configuration = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
+      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+      .AddEnvironmentVariables()
+      .Build();
+
     args = OverrideArgsWithEnvironmentVariables(args);
     // Parse command line arguments
     var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
       ?? throw new Exception("Failed to parse command line arguments");
 
     // Construct the URL from cli args
-    var url = BuildUSTARankingURL(options);
+    var url = BuildUSTARankingURL(options, configuration);
 
     // Create the chrome driver
     var driver = CreateChromeDriverService();
@@ -181,7 +166,7 @@ public class Program
     try
     {
       // Scrape the player ranking
-      var player = ScrapePlayerRanking(driver, url, options.Name ?? "");
+      var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
       // Print out the player ranking as JSON or markdown
       if (options.JSON == true)
       {
