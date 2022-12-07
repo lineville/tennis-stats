@@ -43,7 +43,7 @@ RUN apt update && apt install -y  \
 
 # Build and publish a release
 FROM build AS publish
-RUN dotnet publish -p:PublishChromeDriver=true -c Release -o /app/publish -r linux-x64 /p:PublishTrimmed=true /p:UseAppHost=false
+RUN dotnet publish -p:PublishChromeDriver=true -c Release -o /app/publish --self-contained -r linux-x64 /p:PublishTrimmed=true /p:UseAppHost=false
 
 # Build runtime image
 FROM base AS final
