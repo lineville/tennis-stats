@@ -6,6 +6,14 @@ on:
   pull_request:
     branches: ["main"]
 
+env:
+  DOCKER_IMAGE_NAME: usta-scraper
+  NTRP_NAME: Liam Neville
+  NTRP_FORMAT: SINGLES
+  NTRP_GENDER: M
+  NTRP_LEVEL: level_4_0
+  NTRP_SECTION: Northern California
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,4 +25,4 @@ jobs:
         run: docker build -f '${{ github.workspace }}/Dockerfile' -t usta-scraper .
       - name: Run the Docker image
         run: |
-          docker run -t --rm usta-scraper --name='Liam Neville' --format=SINGLES --gender=M --level=level_4_0 --section='Northern California' >> $GITHUB_STEP_SUMMARY
+          docker run -t --rm usta-scraper >> $GITHUB_STEP_SUMMARY
