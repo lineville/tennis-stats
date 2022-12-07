@@ -40,11 +40,9 @@
     {
       "type": "docker-build",
       "label": "docker-build: debug",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "dockerBuild": {
-        "tag": "ustascraper:dev",
+        "tag": "usta-scraper:dev",
         "target": "base",
         "dockerfile": "${workspaceFolder}/Dockerfile",
         "context": "${workspaceFolder}",
@@ -57,11 +55,9 @@
     {
       "type": "docker-build",
       "label": "docker-build: release",
-      "dependsOn": [
-        "build"
-      ],
+      "dependsOn": ["build"],
       "dockerBuild": {
-        "tag": "ustascraper:latest",
+        "tag": "usta-scraper:latest",
         "dockerfile": "${workspaceFolder}/Dockerfile",
         "context": "${workspaceFolder}",
         "pull": true
@@ -73,9 +69,7 @@
     {
       "type": "docker-run",
       "label": "docker-run: debug",
-      "dependsOn": [
-        "docker-build: debug"
-      ],
+      "dependsOn": ["docker-build: debug"],
       "dockerRun": {},
       "netCore": {
         "appProject": "${workspaceFolder}/usta-scraper.csproj",
@@ -85,9 +79,7 @@
     {
       "type": "docker-run",
       "label": "docker-run: release",
-      "dependsOn": [
-        "docker-build: release"
-      ],
+      "dependsOn": ["docker-build: release"],
       "dockerRun": {},
       "netCore": {
         "appProject": "${workspaceFolder}/usta-scraper.csproj"

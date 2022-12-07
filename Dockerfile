@@ -1,11 +1,24 @@
 # Base on dotnet 7
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
-# Copy csproj and restore as distinct layers
-COPY *.csproj .
-RUN dotnet restore
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
 
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /src
+
+# Copy csproj and restore as distinct layers
+COPY usta-scraper.csproj ./
+RUN dotnet restore "usta-scraper.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "usta-scraper.csproj" -c Release -o /app/build
+
+
+# Install Chrome and other dependencies
 RUN apt update && apt install -y  \
   apt-transport-https \
   ca-certificates \
@@ -29,12 +42,11 @@ RUN apt update && apt install -y  \
   && rm -rf /var/lib/apt/lists/*
 
 # Build and publish a release
-COPY . ./
-RUN dotnet publish -p:PublishChromeDriver=true -c Release -o out --self-contained -r linux-x64 /p:PublishTrimmed=true
+FROM build AS publish
+RUN dotnet publish -p:PublishChromeDriver=true -c Release -o /app/publish -r linux-x64 /p:PublishTrimmed=true /p:UseAppHost=false
 
 # Build runtime image
-FROM mcr.microsoft.com/dotnet/sdk:7.0 as runtime
+FROM base AS final
 WORKDIR /app
-
-COPY --from=build /app/out .
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "usta-scraper.dll"]
