@@ -118,10 +118,56 @@ public class Program
   }
 
   /// <summary>
+  /// Override args with environment variables
+  /// </summary>
+  private static string[] OverrideArgsWithEnvironmentVariables(string[] args)
+  {
+    var name = Environment.GetEnvironmentVariable("NTRP_NAME");
+    var format = Environment.GetEnvironmentVariable("NTRP_FORMAT");
+    var gender = Environment.GetEnvironmentVariable("NTRP_GENDER");
+    var level = Environment.GetEnvironmentVariable("NTRP_LEVEL");
+    var section = Environment.GetEnvironmentVariable("NTRP_SECTION");
+    
+
+    if (name != null) 
+      args = ReplaceOrAdd(args, "--name", "-n", name);
+
+    if (format != null) 
+      args = ReplaceOrAdd(args, "--format", "-f", format);
+
+    if (gender != null) 
+      args = ReplaceOrAdd(args, "--gender", "-g", gender);
+
+    if (level != null)
+      args = ReplaceOrAdd(args, "--level", "-l", level);
+
+    if (section != null)
+      args = ReplaceOrAdd(args, "--section", "-s", section);
+
+    return args;
+
+  }
+
+  private static string[] ReplaceOrAdd(string[] args, string key, string shortKey, string value)
+  {
+    if (args.Contains(key) || args.Contains(shortKey))
+    {
+      args[Array.IndexOf(args, key) + 1] = value;
+    }
+    else
+    {
+      args = args.Append(key).Append(value).ToArray();
+    }
+
+    return args;
+  }
+
+  /// <summary>
   /// Main entry point
   /// </summary>
   private static void Main(string[] args)
   {
+    args = OverrideArgsWithEnvironmentVariables(args);
     // Parse command line arguments
     var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
       ?? throw new Exception("Failed to parse command line arguments");
