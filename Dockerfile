@@ -2,6 +2,7 @@
 FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
+# Install Chrome and ChromeDriver
 RUN apt-get update && apt-get install -y \
   curl \
   unzip \
