@@ -39,25 +39,10 @@ public class Program
   private static ChromeDriver CreateChromeDriverService()
   {
     ChromeDriverService service = ChromeDriverService.CreateDefaultService();
-    service.LogPath = "chromedriver.log";
     service.SuppressInitialDiagnosticInformation = true;
-    service.HideCommandPromptWindow = true;
 
     ChromeOptions options = new ChromeOptions();
-
-    // Trying to suppress all selenium logging but there's still a little bit of noise 😢
-    options.AddArguments(
-      "no-sandbox",
-      "headless",
-      "disable-gpu",
-      "disable-logging",
-      "disable-dev-shm-usage",
-      "window-size=1920,1080",
-      "disable-extensions",
-      "log-level=OFF",
-      "--user-agent=Chrome/73.0.3683.86",
-      "output=/dev/null"
-    );
+    options.AddArguments("headless", "--user-agent=Chrome/73.0.3683.86");
 
     var driver = new ChromeDriver(service, options);
     return driver;
@@ -80,7 +65,7 @@ public class Program
 
     var elements = driver.FindElements(By.ClassName(htmlElement));
 
-    if (elements[3].Text != name)
+    if (elements[3].Text != name) // Throw if the name doesn't match
     {
       throw new NotFoundException($"No ranking found for {name}");
     }
@@ -99,6 +84,7 @@ public class Program
   /// </summary>
   private static void Main(string[] args)
   {
+    // Load appsettings.json static data
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json", optional: false)
@@ -111,13 +97,14 @@ public class Program
     // Construct the URL from cli args
     var url = BuildUSTARankingURL(options, configuration);
 
-    // Create the chrome driver
+    // Create the chrome driver service
     var driver = CreateChromeDriverService();
 
     try
     {
       // Scrape the player ranking
       var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
+      
       // Print out the player ranking as JSON or markdown
       if (options.JSON == true)
       {
