@@ -7,7 +7,6 @@ using CommandLine;
 
 public class Program
 {
-
   /// <summary>
   /// Construct the correct URL from CLI args
   /// </summary>
@@ -56,7 +55,7 @@ public class Program
       "window-size=1920,1080",
       "disable-extensions",
       "log-level=OFF",
-      "--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36",
+      "--user-agent=Chrome/73.0.3683.86",
       "output=/dev/null"
     );
 
@@ -69,7 +68,9 @@ public class Program
   /// </summary>
   private static Player ScrapePlayerRanking(WebDriver driver, string url, string name, IConfiguration configuration)
   {
-    var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET") ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
+    var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
+      ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
+
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
     // Navigate to the URL and wait for the page to load

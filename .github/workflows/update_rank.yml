@@ -1,67 +1,67 @@
 name: Update Rank
 on:
   schedule:
-    - cron: '40 11 * * 3' # Every Wednesday at 03:40 UTC
+    - cron: "40 11 * * 3" # Every Wednesday at 03:40 UTC
   workflow_dispatch:
     inputs:
-        name:
-          type: string
-          description: Player name
-          required: false
-          default: 'Liam Neville'
-        format:
-          type: choice
-          description: Match Format
-          options:
-          - 'SINGLES'
-          - 'DOUBLES'
-          required: true
-          default: 'SINGLES'
-        gender:
-          type: choice
-          description: Gender
-          options:
-          - 'M'
-          - 'F'
-          required: true
-          default: 'M'
-        level:
-          type: choice
-          description: Level
-          options:
-          - 'level_3_0'
-          - 'level_3_5'
-          - 'level_4_0'
-          - 'level_4_5'
-          - 'level_5_0'
-          - 'level_5_5'
-          - 'level_6_0'
-          required: true
-          default: 'level_4_0'
-        section:
-          type: choice
-          description: NTRP Section Code
-          options:
-            - Eastern
-            - Florida
-            - Hawaii Pacific
-            - Intermountain
-            - Mid-Atlantic
-            - Middle States
-            - Midwest
-            - Missouri Valley
-            - New England
-            - Northern California
-            - Northern
-            - Pacific NW
-            - Southern
-            - Southern California
-            - Southwest
-            - Texas
-            - Unassigned
-          required: true
-          default: 'Northern California'
-        
+      name:
+        type: string
+        description: Player name
+        required: false
+        default: "Liam Neville"
+      format:
+        type: choice
+        description: Match Format
+        options:
+          - "SINGLES"
+          - "DOUBLES"
+        required: true
+        default: "SINGLES"
+      gender:
+        type: choice
+        description: Gender
+        options:
+          - "M"
+          - "F"
+        required: true
+        default: "M"
+      level:
+        type: choice
+        description: Level
+        options:
+          - "level_3_0"
+          - "level_3_5"
+          - "level_4_0"
+          - "level_4_5"
+          - "level_5_0"
+          - "level_5_5"
+          - "level_6_0"
+        required: true
+        default: "level_4_0"
+      section:
+        type: choice
+        description: NTRP Section Code
+        options:
+          - Eastern
+          - Florida
+          - Hawaii Pacific
+          - Intermountain
+          - Mid-Atlantic
+          - Middle States
+          - Midwest
+          - Missouri Valley
+          - New England
+          - Northern California
+          - Northern
+          - Pacific NW
+          - Southern
+          - Southern California
+          - Southwest
+          - Texas
+          - Unassigned
+        required: true
+        default: "Northern California"
+
 env:
   NAME: Liam Neville
   FORMAT: SINGLES
@@ -75,17 +75,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      
-      - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.x
 
-      - name: Run Program
+      - name: Build
         working-directory: ${{ github.workspace }}
+        run: docker build -t usta-scraper .
+
+      - name: Run
         run: |
-          dotnet run -- --name '${{ inputs.name || env.NAME }}' \
-                        --format '${{ inputs.format || env.FORMAT }}' \
-                        --gender '${{ inputs.gender || env.GENDER }}' \
-                        --level '${{ inputs.level || env.LEVEL }}' \
-                        --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_STEP_SUMMARY
+          docker run -it --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
+                                           --format '${{ inputs.format || env.FORMAT }}' \
+                                           --gender '${{ inputs.gender || env.GENDER }}' \
+                                           --level '${{ inputs.level || env.LEVEL }}' \
+                                           --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_STEP_SUMMARY
