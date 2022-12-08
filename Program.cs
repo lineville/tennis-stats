@@ -148,7 +148,7 @@ public class Program
   {
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+      .AddJsonFile("appsettings.json", optional: false)
       .AddEnvironmentVariables()
       .Build();
 
