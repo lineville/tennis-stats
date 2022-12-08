@@ -4,8 +4,6 @@ Utility to scrape the USTA rankings page to get a player's current ranking
 
 ## Run with Docker
 
-- Install Docker (if not already installed)
-
 ```console
 docker build -t usta-scraper .
 docker run --rm usta-scraper --name 'Liam Neville' \
