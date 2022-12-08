@@ -19,7 +19,7 @@ RUN dotnet build "usta-scraper.csproj" -c Release -o /app/build
 
 # Build and publish a release
 FROM build AS publish
-RUN dotnet publish -c Release -o /app/publish --self-contained -r linux-x64 /p:PublishChromeDriver=true /p:PublishTrimmed=true /p:UseAppHost=false
+RUN dotnet publish -c Release -o /app/publish -r linux-x64 /p:PublishChromeDriver=true /p:PublishTrimmed=true /p:UseAppHost=false
 
 # Build runtime image
 FROM base AS final
