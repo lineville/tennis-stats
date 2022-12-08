@@ -8,11 +8,11 @@ Utility to scrape the USTA rankings page to get a player's current ranking
 
 ```console
 docker build -t usta-scraper .
-docker run -t --rm usta-scraper --name 'Liam Neville' \
-                                --format SINGLES \
-                                --gender M \
-                                --level level_4_0 \
-                                --section 'Northern California'
+docker run --rm usta-scraper --name 'Liam Neville' \
+                             --format SINGLES \
+                             --gender M \
+                             --level level_4_0 \
+                             --section 'Northern California'
 ```
 
 ## Run with Dotnet
