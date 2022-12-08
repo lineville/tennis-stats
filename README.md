@@ -41,7 +41,7 @@ dotnet run -- --name 'Liam Neville' \
 
 - `--section` or `-s` - The section of the player to search for, o
   - Replaced by environment variable `NTRP_SECTION`
-    - Options include
+  - Options include
     - Eastern
     - Florida
     - Hawaii Pacific
