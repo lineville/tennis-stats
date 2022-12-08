@@ -17,4 +17,4 @@ jobs:
         run: docker build -t usta-scraper .
       - name: Run the Docker image
         run: |
-          docker run -t --rm -e 'NTRP_NAME=Liam Neville' -e 'NTRP_FORMAT=SINGLES' -e 'NTRP_GENDER=M' -e 'NTRP_LEVEL=level_4_0' -e 'NTRP_SECTION=Northern California' usta-scraper >> $GITHUB_STEP_SUMMARY
+          docker run -t --rm usta-scraper -n 'Liam Neville' -f SINGLES -g M -l level_4_0 -s 'Northern California' >> $GITHUB_STEP_SUMMARY
