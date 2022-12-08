@@ -2,15 +2,23 @@
 
 Utility to scrape the USTA rankings page to get a player's current ranking
 
-## Run with Docker
+## Prerequisites
+- Install [Docker](https://docs.docker.com/get-docker/)
+- Create a [PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` scope
 
+## Usage
 ```console
-docker build -t usta-scraper .
-docker run --rm usta-scraper --name 'Liam Neville' \
-                             --format SINGLES \
-                             --gender M \
-                             --level level_4_0 \
-                             --section 'Northern California'
+$ echo <YOUR_PAT> | docker login ghcr.io -u <YOUR_USERNAME> --password-stdin # Login to Docker
+$ docker pull ghcr.io/lineville/usta-scraper:latest # Pull the container
+$ docker run ghcr.io/lineville/usta-scraper --name 'Liam Neville' --format SINGLES --gender M --level level_4_0 --section 'Northern California'
+                             
+## Liam Neville
+
+### Northern California Men's 4.0 singles
+
+- National Rank: 352
+- Section Rank: 18
+- District Rank: 18
 ```
 
 ### CLI Options
