@@ -15,19 +15,6 @@ docker run --rm usta-scraper --name 'Liam Neville' \
                              --section 'Northern California'
 ```
 
-## Run with Dotnet
-
-- Install .NET 7 (if not already installed)
-- Install Chrome (if not already installed)
-
-```console
-dotnet run -- --name 'Liam Neville' \
-              --format SINGLES \
-              --gender M \
-              --level level_4_0 \
-              --section 'Northern California'
-```
-
 ### CLI Options
 
 - `--help` or `-h` - Display the help screen
