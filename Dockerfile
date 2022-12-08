@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
-# Install Chrome and ChromeDriver
+# Install Base Dependencies
 RUN apt-get update && apt-get install -y \
   curl \
   unzip \
@@ -11,15 +11,16 @@ RUN apt-get update && apt-get install -y \
   libgconf-2-4 \
   wget
 
+# Install Chrome
 RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 RUN apt install -y ./google-chrome-stable_current_amd64.deb
 
+# Install ChromeDriver
 RUN wget https://chromedriver.storage.googleapis.com/86.0.4240.22/chromedriver_linux64.zip
 RUN unzip chromedriver_linux64.zip
 RUN mv chromedriver /usr/bin/chromedriver
 RUN chown root:root /usr/bin/chromedriver
 RUN chmod +x /usr/bin/chromedriver
-
 
 # Creates a non-root user with an explicit UID and adds permission to access the /app folder
 # For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers

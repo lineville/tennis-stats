@@ -82,7 +82,7 @@ jobs:
 
       - name: Run
         run: |
-          docker run -it --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
+          docker run -t --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
                                            --format '${{ inputs.format || env.FORMAT }}' \
                                            --gender '${{ inputs.gender || env.GENDER }}' \
                                            --level '${{ inputs.level || env.LEVEL }}' \
