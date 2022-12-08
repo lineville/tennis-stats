@@ -82,8 +82,8 @@ jobs:
 
       - name: Run
         run: |
-          $(docker run -t --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
+          docker run -t --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
                                           --format '${{ inputs.format || env.FORMAT }}' \
                                           --gender '${{ inputs.gender || env.GENDER }}' \
                                           --level '${{ inputs.level || env.LEVEL }}' \
-                                          --section '${{ inputs.section || env.SECTION }}') >> $GITHUB_STEP_SUMMARY
+                                          --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_STEP_SUMMARY
