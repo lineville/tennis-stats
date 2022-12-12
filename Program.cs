@@ -111,29 +111,38 @@ public class Program
     // Create the chrome driver service
     var driver = CreateChromeDriverService();
 
-    try
+    var maxRetries = configuration.GetValue<int>("MAX_RETRIES");
+    var retries = 0;
+    var foundRanking = false;
+
+    while (retries < maxRetries && foundRanking == false)
     {
-      // Scrape the player ranking
-      var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
-      
-      // Print out the player ranking as JSON or markdown
-      if (options.JSON == true)
+      try
       {
-        Console.WriteLine(player.ToJSON());
+        // Scrape the player ranking
+        var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
+
+        // Print out the player ranking as JSON or markdown
+        if (options.JSON == true)
+        {
+          Console.WriteLine(player.ToJSON());
+        }
+        else
+        {
+          Console.WriteLine(player.ToMarkDown(options));
+        }
+
+        foundRanking = true;
       }
-      else
+      catch (Exception)
       {
-        Console.WriteLine(player.ToMarkDown(options));
+        retries++;
       }
-    }
-    catch (Exception e)
-    {
-      throw new Exception($"No ranking found for {options.Name}", e);
-    }
-    finally
-    {
-      // Close the driver
-      driver.Quit();
+      finally
+      {
+        // Close the driver
+        driver.Quit();
+      }
     }
   }
 }
