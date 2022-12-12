@@ -144,5 +144,10 @@ public class Program
         driver.Quit();
       }
     }
+
+    if (foundRanking == false)
+    {
+      throw new Exception($"Failed to find ranking for {options.Name}");
+    }
   }
 }
