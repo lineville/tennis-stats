@@ -92,4 +92,5 @@ jobs:
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
+          EMAIL_BODY: $GITHUB_STEP_SUMMARY
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}

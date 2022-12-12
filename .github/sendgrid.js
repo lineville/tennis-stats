@@ -6,9 +6,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const msg = {
     to: 'liamgneville@gmail.com',
     from: 'ustascraper@gmail.com',
-    subject: 'Updated USTA Rankings',
-    text: 'New rankings are available!',
-    html: '<p>New rankings are available!</p>',
+    subject: 'USTA Rankings Update',
+    text: process.env.EMAIL_BODY,
+    html: `<p>${process.env.EMAIL_BODY}</p>`,
 };
 
 sgMail
