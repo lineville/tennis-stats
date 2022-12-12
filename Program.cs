@@ -126,9 +126,9 @@ public class Program
         Console.WriteLine(player.ToMarkDown(options));
       }
     }
-    catch (Exception)
+    catch (Exception e)
     {
-      Console.WriteLine($"No ranking found for {options.Name}");
+      throw new Exception($"No ranking found for {options.Name}", e);
     }
     finally
     {

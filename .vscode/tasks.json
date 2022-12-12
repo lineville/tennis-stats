@@ -70,16 +70,7 @@
       "type": "docker-run",
       "label": "docker-run: debug",
       "dependsOn": ["docker-build: debug"],
-      "dockerRun": {
-        "env": {
-          "ASPNETCORE_ENVIRONMENT": "Development",
-          "NTRP_NAME": "Liam Neville",
-          "NTRP_FORMAT": "SINGLES",
-          "NTRP_GENDER": "M",
-          "NTRP_LEVEL": "level_4_0",
-          "NTRP_SECTION": "Northern California"
-        }
-      },
+      "dockerRun": {},
       "netCore": {
         "appProject": "${workspaceFolder}/usta-scraper.csproj",
         "enableDebugging": true
