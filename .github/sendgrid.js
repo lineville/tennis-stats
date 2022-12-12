@@ -5,8 +5,8 @@ const sendGridMailClient = require("@sendgrid/mail");
 sendGridMailClient.setApiKey(process.env.SENDGRID_API_KEY);
 
 const message = {
-  to: "liamgneville@gmail.com",
-  from: "ustascraper@gmail.com",
+  to: process.env.TO_EMAIL,
+  from: process.env.FROM_EMAIL,
   subject: "USTA Rankings Update",
   text: process.env.EMAIL_BODY,
   html: `<p>${process.env.EMAIL_BODY}</p>`,

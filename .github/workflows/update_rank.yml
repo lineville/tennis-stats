@@ -37,6 +37,8 @@ on:
           - "level_5_0"
           - "level_5_5"
           - "level_6_0"
+          - "level_6_5"
+          - "level_7_0"
         required: true
         default: "level_4_0"
       section:
@@ -92,5 +94,7 @@ jobs:
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           EMAIL_BODY: $GITHUB_STEP_SUMMARY
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
