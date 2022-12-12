@@ -17,11 +17,7 @@ $ echo <YOUR_PAT> | docker login ghcr.io -u <YOUR_USERNAME> --password-stdin
 $ docker pull ghcr.io/lineville/usta-scraper:latest
 
 ## Search for a player's ranking
-$ docker run ghcr.io/lineville/usta-scraper --name 'Liam Neville' \
-                                            --format SINGLES \
-                                            --gender M \
-                                            --level level_4_0 \
-                                            --section 'Northern California'
+$ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l level_4_0 -s "Northern California"
 
 ## Liam Neville
 
