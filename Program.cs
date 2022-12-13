@@ -107,6 +107,9 @@ public class Program
     // Construct the URL from cli args
     var url = BuildUSTARankingURL(options, configuration);
 
+    // Create the chrome driver service
+    var driver = CreateChromeDriverService();
+
     var maxRetries = configuration.GetValue<int>("MAX_RETRIES");
     var retries = 0;
     var foundRanking = false;
@@ -115,27 +118,28 @@ public class Program
     {
       try
       {
-        using (var driver = CreateChromeDriverService())
+        // Scrape the player ranking
+        var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
+
+        // Print out the player ranking as JSON or markdown
+        if (options.JSON == true)
         {
-          // Scrape the player ranking
-          var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
-
-          // Print out the player ranking as JSON or markdown
-          if (options.JSON == true)
-          {
-            Console.WriteLine(player.ToJSON());
-          }
-          else
-          {
-            Console.WriteLine(player.ToMarkDown(options));
-          }
-
-          foundRanking = true;
+          Console.WriteLine(player.ToJSON());
         }
+        else
+        {
+          Console.WriteLine(player.ToMarkDown(options));
+        }
+
+        foundRanking = true;
       }
       catch (Exception)
       {
         retries++;
+      }
+      finally
+      {
+        driver.Quit();
       }
     }
 
