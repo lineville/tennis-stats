@@ -90,7 +90,7 @@ jobs:
       - name: Run
         id: run
         run: |
-          RANKING_REPORT=$(docker run usta-scraper -n '${{ inputs.name || env.NAME }}' -f '${{ inputs.format || env.FORMAT }}' -g '${{ inputs.gender || env.GENDER }}' -l '${{ inputs.level || env.LEVEL }}' -s '${{ inputs.section || env.SECTION }}')
+          RANKING_REPORT="$(docker run usta-scraper -n '${{ inputs.name || env.NAME }}' -f '${{ inputs.format || env.FORMAT }}' -g '${{ inputs.gender || env.GENDER }}' -l '${{ inputs.level || env.LEVEL }}' -s '${{ inputs.section || env.SECTION }}')"
           RANKING_REPORT="${RANKING_REPORT//'%'/'%25'}"
           RANKING_REPORT="${RANKING_REPORT//$'\n'/'%0A'}"
           RANKING_REPORT="${RANKING_REPORT//$'\r'/'%0D'}"
