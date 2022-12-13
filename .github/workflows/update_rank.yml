@@ -86,20 +86,12 @@ jobs:
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-scraper .
-
-      - name: Run
-        id: run
-        run: |
-          MY_STRING=$(cat << EOF
-          test1
-          test2
-          test3
-          EOF
-          )
-          MY_STRING="${MY_STRING//'%'/'%25'}"
-          MY_STRING="${MY_STRING//$'\n'/'%0A'}"
-          MY_STRING="${MY_STRING//$'\r'/'%0D'}"
-          MY_STRING >> $GITHUB_OUTPUT
+      
+      - uses: actions/github-script@v6
+        id: set-output
+        with:
+          script: |
+            core.setOutput("ranking_report", $(docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l level_4_0 -s "Northern California"))
 
   send_email:
     runs-on: ubuntu-22.04
