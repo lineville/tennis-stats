@@ -90,11 +90,16 @@ jobs:
       - name: Run
         id: run
         run: |
-          RANKING_REPORT="$(docker run usta-scraper -n '${{ inputs.name || env.NAME }}' -f '${{ inputs.format || env.FORMAT }}' -g '${{ inputs.gender || env.GENDER }}' -l '${{ inputs.level || env.LEVEL }}' -s '${{ inputs.section || env.SECTION }}')"
-          RANKING_REPORT="${RANKING_REPORT//'%'/'%25'}"
-          RANKING_REPORT="${RANKING_REPORT//$'\n'/'%0A'}"
-          RANKING_REPORT="${RANKING_REPORT//$'\r'/'%0D'}"
-          RANKING_REPORT >> $GITHUB_OUTPUT
+          MY_STRING=$(cat << EOF
+          test1
+          test2
+          test3
+          EOF
+          )
+          MY_STRING="${MY_STRING//'%'/'%25'}"
+          MY_STRING="${MY_STRING//$'\n'/'%0A'}"
+          MY_STRING="${MY_STRING//$'\r'/'%0D'}"
+          MY_STRING >> $GITHUB_OUTPUT
 
   send_email:
     runs-on: ubuntu-22.04
