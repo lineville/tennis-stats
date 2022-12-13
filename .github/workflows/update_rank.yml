@@ -75,6 +75,10 @@ env:
 jobs:
   update_rank:
     runs-on: ubuntu-22.04
+
+    outputs:
+      ranking_report: ${{ steps.run.outputs.ranking_report }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -84,17 +88,27 @@ jobs:
         run: docker build -t usta-scraper .
 
       - name: Run
+        id: run
         run: |
           docker run --rm usta-scraper --name '${{ inputs.name || env.NAME }}' \
                                        --format '${{ inputs.format || env.FORMAT }}' \
                                        --gender '${{ inputs.gender || env.GENDER }}' \
                                        --level '${{ inputs.level || env.LEVEL }}' \
-                                       --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_STEP_SUMMARY
+                                       --section '${{ inputs.section || env.SECTION }}' >> $GITHUB_OUTPUT
+
+  send_email:
+    runs-on: ubuntu-22.04
+
+    needs: update_rank
+
+    steps:
+      - name: Set Step Summary
+        run: echo ${{ needs.update_rank.outputs.ranking_report }} >> $GITHUB_STEP_SUMMARY
 
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          EMAIL_BODY: $GITHUB_STEP_SUMMARY
+          EMAIL_BODY: ${{ needs.update_rank.outputs.ranking_report }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
