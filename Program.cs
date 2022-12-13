@@ -71,9 +71,10 @@ public class Program
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
-    var elements = new WebDriverWait(driver, new TimeSpan(0, 0, timeout))
-      .Until(d => d.FindElement(By.ClassName(htmlElement)))
-      .FindElements(By.ClassName(htmlElement));
+    var wait = new WebDriverWait(driver, new TimeSpan(0, 0, timeout));
+    wait.Until(d => d.FindElement(By.ClassName(htmlElement)));
+
+    var elements = driver.FindElements(By.ClassName(htmlElement));
 
     if (elements[3].Text != name) // Throw if the name doesn't match
     {
@@ -107,8 +108,6 @@ public class Program
     // Construct the URL from cli args
     var url = BuildUSTARankingURL(options, configuration);
 
-    // Create the chrome driver service
-    var driver = CreateChromeDriverService();
 
     var maxRetries = configuration.GetValue<int>("MAX_RETRIES");
     var retries = 0;
@@ -116,30 +115,34 @@ public class Program
 
     while (retries < maxRetries && foundRanking == false)
     {
-      try
+      // Create the chrome driver service
+      using (var driver = CreateChromeDriverService())
       {
-        // Scrape the player ranking
-        var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
-
-        // Print out the player ranking as JSON or markdown
-        if (options.JSON == true)
+        try
         {
-          Console.WriteLine(player.ToJSON());
-        }
-        else
-        {
-          Console.WriteLine(player.ToMarkDown(options));
-        }
+          // Scrape the player ranking
+          var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
 
-        foundRanking = true;
-      }
-      catch (Exception)
-      {
-        retries++;
-      }
-      finally
-      {
-        driver.Quit();
+          // Print out the player ranking as JSON or markdown
+          if (options.JSON == true)
+          {
+            Console.WriteLine(player.ToJSON());
+          }
+          else
+          {
+            Console.WriteLine(player.ToMarkDown(options));
+          }
+
+          foundRanking = true;
+        }
+        catch (Exception)
+        {
+          retries++;
+        }
+        finally
+        {
+          driver.Quit();
+        }
       }
     }
 
