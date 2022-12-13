@@ -90,9 +90,7 @@ jobs:
       - name: Run
         id: run
         run: |
-          echo "<<EOF" >> $GITHUB_ENV
-          echo -e "ranking_report=$(docker run usta-scraper -n 'Liam Neville' -f SINGLES -g M -l level_4_0 -s 'Northern California')" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          echo "RANKING_REPORT=$(docker run usta-scraper -n 'Liam Neville' -f SINGLES -g M -l level_4_0 -s 'Northern California')" >> $GITHUB_ENV
 
   send_email:
     runs-on: ubuntu-22.04
@@ -101,12 +99,12 @@ jobs:
 
     steps:
       - name: Set Step Summary
-        run: echo ${{ needs.update_rank.outputs.ranking_report }} >> $GITHUB_STEP_SUMMARY
+        run: echo ${{ env.RANKING_REPORT }} >> $GITHUB_STEP_SUMMARY
 
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          EMAIL_BODY: ${{ needs.update_rank.outputs.ranking_report }}
+          EMAIL_BODY: ${{ env.RANKING_REPORT }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
