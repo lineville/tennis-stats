@@ -101,6 +101,7 @@ jobs:
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
+          SCRIPT_FILEPATH: ./github/sendgrid.js
           TO_EMAIL: ${{ secrets.TO_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
