@@ -91,7 +91,7 @@ jobs:
         id: set-output
         with:
           script: |
-            core.setOutput("ranking_report", $(docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l level_4_0 -s "Northern California"))
+            core.setOutput("ranking_report", "$(docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l level_4_0 -s "Northern California")")
 
   send_email:
     runs-on: ubuntu-22.04
