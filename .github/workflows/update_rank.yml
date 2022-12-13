@@ -90,7 +90,9 @@ jobs:
       - name: Run
         id: run
         run: |
-          echo "RANKING_REPORT=$(docker run usta-scraper -n 'Liam Neville' -f SINGLES -g M -l level_4_0 -s 'Northern California')" >> $GITHUB_ENV
+          echo 'RANKING_REPORT<<EOF' >> $GITHUB_ENV
+          docker run usta-scraper -n 'Liam Neville' -f SINGLES -g M -l level_4_0 -s 'Northern California' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
   send_email:
     runs-on: ubuntu-22.04
