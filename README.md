@@ -67,4 +67,6 @@ $ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l
   - Texas
   - Unassigned
 
-- (Optional) `--json` or `-j` - Output the results as JSON (Defaults to markdown)
+- (Optional) `--output` or `-o` - Defaults to markdown, options include
+  - html
+  - json

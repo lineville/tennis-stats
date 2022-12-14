@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using Markdig;
 
 public record Player
 {
@@ -19,6 +20,24 @@ public record Player
 - National Rank: {this.NationalRank}
 - Section Rank: {this.SectionRank}
 - District Rank: {this.DistrictRank}";
+  }
+
+  public string ToHTML(CLIOptions options)
+  {
+    return Markdown.ToHtml(ToMarkDown(options));
+  }
+
+  public string ToString(CLIOptions options)
+  {
+    switch (options.Output)
+    {
+      case "json":
+        return ToJSON();
+      case "html":
+        return ToHTML(options);
+      default:
+        return ToMarkDown(options);
+    }
   }
 
   public string ParseLevel(string? level) => $"{level?.Split("_")[1]}.{level?.Split("_")[2]}";

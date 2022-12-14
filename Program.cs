@@ -123,15 +123,7 @@ public class Program
           // Scrape the player ranking
           var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
 
-          // Print out the player ranking as JSON or markdown
-          if (options.JSON == true)
-          {
-            Console.WriteLine(player.ToJSON());
-          }
-          else
-          {
-            Console.WriteLine(player.ToMarkDown(options));
-          }
+          Console.WriteLine(player.ToString(options));
 
           foundRanking = true;
         }

@@ -16,6 +16,6 @@ public class CLIOptions
   [Option('s', "section", Required = true, HelpText = "NTRP Section Code (Options can be found at https://github.com/lineville/usta-scraper)")]
   public string? Section { get; set; }
 
-  [Option('j', "json", Required = false, HelpText = "Output the result as json")]
-  public bool JSON { get; set; }
+  [Option('o', "output", Required = false, HelpText = "Output format ('json' or 'html')")]
+  public string? Output { get; set; }
 }

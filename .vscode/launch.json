@@ -17,7 +17,9 @@
         "--level",
         "level_4_0",
         "--section",
-        "Northern California"
+        "Northern California",
+        "--output",
+        "html"
       ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",
