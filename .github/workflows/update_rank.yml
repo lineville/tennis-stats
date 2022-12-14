@@ -95,9 +95,7 @@ jobs:
                                   -s ${{ inputs.Section || env.SECTION }} \
                                   -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-
-      - name: Set Step Summary
-        run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
+          echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
 
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
