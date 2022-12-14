@@ -62,7 +62,7 @@ public class Program
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  private static Player ScrapePlayerRanking(WebDriver driver, string url, string name, IConfiguration configuration)
+  private static Player ScrapePlayerRanking(WebDriver driver, string url, IConfiguration configuration, CLIOptions options)
   {
     var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
       ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
@@ -76,17 +76,17 @@ public class Program
 
     var elements = driver.FindElements(By.ClassName(htmlElement));
 
-    if (elements[3].Text != name) // Throw if the name doesn't match
+    if (elements[3].Text != options.Name) // Throw if the name doesn't match
     {
-      throw new NotFoundException($"No ranking found for {name}");
+      throw new NotFoundException($"No ranking found for {options.Name}");
     }
 
     return new Player()
     {
-      Name = elements[3].Text,
       NationalRank = int.Parse(elements[0].Text),
       SectionRank = int.Parse(elements[1].Text),
-      DistrictRank = int.Parse(elements[2].Text)
+      DistrictRank = int.Parse(elements[2].Text),
+      Options = options
     };
   }
 
@@ -108,7 +108,6 @@ public class Program
     // Construct the URL from cli args
     var url = BuildUSTARankingURL(options, configuration);
 
-
     var maxRetries = configuration.GetValue<int>("MAX_RETRIES");
     var retries = 0;
     var foundRanking = false;
@@ -121,9 +120,9 @@ public class Program
         try
         {
           // Scrape the player ranking
-          var player = ScrapePlayerRanking(driver, url, options.Name ?? "", configuration);
+          var player = ScrapePlayerRanking(driver, url, configuration, options);
 
-          Console.WriteLine(player.ToString(options));
+          Console.WriteLine(player.ToString());
 
           foundRanking = true;
         }

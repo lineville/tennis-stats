@@ -3,40 +3,40 @@ using Markdig;
 
 public record Player
 {
-  public string? Name { get; init; }
   public int NationalRank { get; init; }
   public int SectionRank { get; init; }
   public int DistrictRank { get; init; }
+  public CLIOptions? Options { get; init; }
 
   public string ToJSON() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
-  public string ToMarkDown(CLIOptions options)
+  public string ToMarkDown()
   {
     // Print out the player ranking as markdown
-    return @$"## {this.Name}
+    return @$"## {this.Options?.Name}
 
-### {options.Section} {(options.Gender == "M" ? "Men's" : "Women's")} {ParseLevel(options.Level)} {options.Format?.ToLower()}
+### {this.Options?.Section} {(this.Options?.Gender == "M" ? "Men's" : "Women's")} {ParseLevel(this.Options?.Level)} {this.Options?.Format?.ToLower()}
 
 - National Rank: {this.NationalRank}
 - Section Rank: {this.SectionRank}
 - District Rank: {this.DistrictRank}";
   }
 
-  public string ToHTML(CLIOptions options)
+  public string ToHTML()
   {
-    return Markdown.ToHtml(ToMarkDown(options));
+    return Markdown.ToHtml(ToMarkDown());
   }
 
-  public string ToString(CLIOptions options)
+  public override string ToString()
   {
-    switch (options.Output)
+    switch (this.Options?.Output)
     {
       case "json":
         return ToJSON();
       case "html":
-        return ToHTML(options);
+        return ToHTML();
       default:
-        return ToMarkDown(options);
+        return ToMarkDown();
     }
   }
 
