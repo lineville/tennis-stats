@@ -9,7 +9,7 @@ on:
         type: string
         description: Player name
         required: false
-        default: "'Liam Neville'"
+        default: "Liam Neville"
       format:
         type: choice
         description: Match Format
@@ -63,7 +63,7 @@ on:
           - "Texas"
           - "Unassigned"
         required: true
-        default: "'Northern California'"
+        default: "Northern California"
 
 env:
   NAME: Liam Neville
