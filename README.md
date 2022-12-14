@@ -1,6 +1,6 @@
 # USTA Ranking Web Scraper
 
-Utility to scrape the USTA rankings page to get a player's current ranking
+Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
 ## Prerequisites
 
