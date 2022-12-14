@@ -9,7 +9,7 @@ on:
         type: string
         description: Player name
         required: false
-        default: "Liam Neville"
+        default: "'Liam Neville'"
       format:
         type: choice
         description: Match Format
@@ -45,25 +45,25 @@ on:
         type: choice
         description: NTRP Section Code
         options:
-          - Eastern
-          - Florida
-          - Hawaii Pacific
-          - Intermountain
-          - Mid-Atlantic
-          - Middle States
-          - Midwest
-          - Missouri Valley
-          - New England
-          - Northern California
-          - Northern
-          - Pacific NW
-          - Southern
-          - Southern California
-          - Southwest
-          - Texas
-          - Unassigned
+          - "Eastern"
+          - "Florida"
+          - "Hawaii Pacific"
+          - "Intermountain"
+          - "Mid-Atlantic"
+          - "Middle States"
+          - "Midwest"
+          - "Missouri Valley"
+          - "New England"
+          - "Northern California"
+          - "Northern"
+          - "Pacific NW"
+          - "Southern"
+          - "Southern California"
+          - "Southwest"
+          - "Texas"
+          - "Unassigned"
         required: true
-        default: "Northern California"
+        default: "'Northern California'"
 
 env:
   NAME: Liam Neville
@@ -88,7 +88,7 @@ jobs:
         id: run
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-          docker run usta-scraper -n ${{ inputs.Name || env.NAME }} -f ${{ inputs.Format || env.FORMAT }} -g ${{ inputs.Gender || env.GENDER }} -l ${{ inputs.Level || env.LEVEL }} -s ${{ inputs.Section || env.SECTION }} -o html >> $GITHUB_ENV
+          docker run usta-scraper -n '${{ inputs.Name || env.NAME }}' -f ${{ inputs.Format || env.FORMAT }} -g ${{ inputs.Gender || env.GENDER }} -l ${{ inputs.Level || env.LEVEL }} -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
           echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
 
