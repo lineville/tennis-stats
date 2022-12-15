@@ -122,6 +122,7 @@ public class Program
           // Scrape the player ranking
           var player = ScrapePlayerRanking(driver, url, configuration, options);
 
+          Console.Clear();
           Console.WriteLine(player.ToString());
 
           foundRanking = true;
