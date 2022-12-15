@@ -15,7 +15,7 @@ public record Player
     // Print out the player ranking as markdown
     return @$"## {this.Options?.Name}
 
-### {this.Options?.Section} {(this.Options?.Gender == "M" ? "Men's" : "Women's")} {ParseLevel(this.Options?.Level)} {this.Options?.Format?.ToLower()}
+### {this.Options?.Section} {(this.Options?.Gender == "M" ? "Men's" : "Women's")} {this.Options?.Level} {this.Options?.Format?.ToLower()}
 
 - National Rank: {this.NationalRank}
 - Section Rank: {this.SectionRank}
@@ -39,6 +39,4 @@ public record Player
         return ToMarkDown();
     }
   }
-
-  public string ParseLevel(string? level) => $"{level?.Split("_")[1]}.{level?.Split("_")[2]}";
 }

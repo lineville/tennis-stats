@@ -22,7 +22,7 @@ public class Program
       { queryKeys["Name"], options.Name ?? "" },
       { queryKeys["Format"], options.Format ?? ""},
       { queryKeys["Gender"], options.Gender ?? "" },
-      { queryKeys["Level"], options.Level ?? "" },
+      { queryKeys["Level"], "level_" + options.Level?.Replace(".", "_") ?? "" },
       { queryKeys["Section"], sectionCodes[options.Section ?? ""] }
     };
 

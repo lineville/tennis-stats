@@ -30,17 +30,17 @@ on:
         type: choice
         description: Level
         options:
-          - "level_3_0"
-          - "level_3_5"
-          - "level_4_0"
-          - "level_4_5"
-          - "level_5_0"
-          - "level_5_5"
-          - "level_6_0"
-          - "level_6_5"
-          - "level_7_0"
+          - "3.0"
+          - "3.5"
+          - "4.0"
+          - "4.5"
+          - "5.0"
+          - "5.5"
+          - "6.0"
+          - "6.5"
+          - "7.0"
         required: true
-        default: "level_4_0"
+        default: "4.0"
       section:
         type: choice
         description: NTRP Section Code
@@ -69,7 +69,7 @@ env:
   NAME: Liam Neville
   FORMAT: SINGLES
   GENDER: M
-  LEVEL: level_4_0
+  LEVEL: 4.0
   SECTION: Northern California
 
 jobs:

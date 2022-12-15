@@ -17,7 +17,7 @@ $ echo <YOUR_PAT> | docker login ghcr.io -u <YOUR_USERNAME> --password-stdin
 $ docker pull ghcr.io/lineville/usta-scraper:latest
 
 ## Search for a player's ranking
-$ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l level_4_0 -s "Northern California"
+$ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
 
 ## Liam Neville
 
@@ -37,15 +37,15 @@ $ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l
 - `--gender` or `-g` - The gender of the player to search for (M or F)
 - `--level` or `-l` - The NTRP level of the player to search for, options include
 
-  - level_3_0
-  - level_3_5
-  - level_4_0
-  - level_4_5
-  - level_5_0
-  - level_5_5
-  - level_6_0
-  - level_6_5
-  - level_7_0
+  - 3.0
+  - 3.5
+  - 4.0
+  - 4.5
+  - 5.0
+  - 5.5
+  - 6.0
+  - 6.5
+  - 7.0
 
 - `--section` or `-s` - The section of the player to search for, options include
 

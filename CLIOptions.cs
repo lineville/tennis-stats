@@ -10,7 +10,7 @@ public class CLIOptions
   [Option('g', "gender", Required = true, HelpText = "Gender ('M' or 'F')")]
   public string? Gender { get; set; }
 
-  [Option('l', "level", Required = false, HelpText = "NTRP level ('level_3_0', 'level_3_5', 'level_4_0', 'level_4_5', 'level_5_0', 'level_5_5', 'level_6_0', 'level_6_5', 'level_7_0')")]
+  [Option('l', "level", Required = false, HelpText = "NTRP level ('3.0', '3.5', '4.0', '4.5', '5.0', '5.5', '6.0', '6.5', '7.0')")]
   public string? Level { get; set; }
 
   [Option('s', "section", Required = true, HelpText = "NTRP Section Code (Options can be found at https://github.com/lineville/usta-scraper)")]
