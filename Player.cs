@@ -8,19 +8,20 @@ public record Player
   public int DistrictRank { get; init; }
   public CLIOptions? Options { get; init; }
 
-  public string ToJSON() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
   public string ToMarkDown()
   {
     // Print out the player ranking as markdown
     return @$"## {this.Options?.Name}
 
-### {this.Options?.Section} {(this.Options?.Gender == "M" ? "Men's" : "Women's")} {this.Options?.Level} {this.Options?.Format?.ToLower()}
+### {this.Options?.Section} {(this.Options?.Gender == Gender.M ? "Men's" : "Women's")} {this.Options?.Level} {this.Options?.Format.ToString().ToLower()}
 
 - National Rank: {this.NationalRank}
 - Section Rank: {this.SectionRank}
 - District Rank: {this.DistrictRank}";
   }
+  
+  public string ToJSON() => JsonConvert.SerializeObject(this, Formatting.Indented);
 
   public string ToHTML()
   {
@@ -31,9 +32,9 @@ public record Player
   {
     switch (this.Options?.Output)
     {
-      case "json":
+      case Output.json:
         return ToJSON();
-      case "html":
+      case Output.html:
         return ToHTML();
       default:
         return ToMarkDown();

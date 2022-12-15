@@ -20,9 +20,9 @@ public class Program
     var queryParams = new Dictionary<string, string>()
     {
       { queryKeys["Name"], options.Name ?? "" },
-      { queryKeys["Format"], options.Format ?? ""},
-      { queryKeys["Gender"], options.Gender ?? "" },
-      { queryKeys["Level"], "level_" + options.Level?.Replace(".", "_") ?? "" },
+      { queryKeys["Format"], options.Format.ToString()},
+      { queryKeys["Gender"], options.Gender.ToString()},
+      { queryKeys["Level"], "level_" + options.Level?.ToString().Replace(".", "_")},
       { queryKeys["Section"], sectionCodes[options.Section ?? ""] }
     };
 
