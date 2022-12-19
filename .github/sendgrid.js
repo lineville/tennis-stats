@@ -4,13 +4,11 @@ const sendGridMailClient = require("@sendgrid/mail");
 sendGridMailClient.setApiKey(process.env.SENDGRID_API_KEY);
 
 const trimmedEmailBody = (str) => {
-  if (str.startsWith("ChromeDriver was started successfully.")) {
-    return str.split("\n").slice(1).join("\n");
-  } else {
-    return str;
+  while (!str.startsWith("<h2>") && str !== "") {
+    str = str.split("\n").slice(1).join("\n");
   }
-}
-
+  return str;
+};
 
 const message = {
   to: process.env.TO_EMAIL,
