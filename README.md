@@ -10,14 +10,11 @@ Tool to scrape the USTA rankings page to get a player's current ranking and send
 ## Usage
 
 ```console
-## Login to Docker
-$ echo <YOUR_PAT> | docker login ghcr.io -u <YOUR_USERNAME> --password-stdin
-
-## Pull the latest container
-$ docker pull ghcr.io/lineville/usta-scraper:latest
-
-## Search for a player's ranking
-$ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
+$ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" \
+                                            --format SINGLES \
+                                            --gender M \
+                                            --level 4.0 \
+                                            --section "Northern California"
 
 ## Liam Neville
 
