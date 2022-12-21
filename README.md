@@ -7,12 +7,12 @@ Tool to scrape the USTA rankings page to get a player's current ranking and send
 - Install docker locally or open in GitHub CodeSpaces
 
 ```console
-$ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" --format SINGLES --gender M --level 4.0 --section "Northern California"
+$ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
 ```
 
 ### Example Output
 
-```console
+```markdown
 ## Liam Neville
 
 ### Northern California Men's 4.0 singles
@@ -24,8 +24,6 @@ $ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" --format SINGL
 
 ### CLI Options
 
-- `--help` or `-h` - Display the help screen
-- `--version` or `-v` - Display version information
 - `--name` or `-n` - The name of the player to search for
 - `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES)
 - `--gender` or `-g` - The gender of the player to search for (M or F)
@@ -64,3 +62,6 @@ $ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" --format SINGL
 - (Optional) `--output` or `-o` - Defaults to markdown, options include
   - html
   - json
+  
+- (Optional) `--help` or `-h` - Display the help screen
+- (Optional) `--version` or `-v` - Display version information
