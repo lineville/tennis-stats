@@ -2,11 +2,6 @@
 
 Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
-## Prerequisites
-
-- Install [Docker](https://docs.docker.com/get-docker/)
-- Create a [GitHub PAT](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) with `read:packages` scope
-
 ## Usage
 
 ```console
