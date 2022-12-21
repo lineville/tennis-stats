@@ -4,13 +4,15 @@ Tool to scrape the USTA rankings page to get a player's current ranking and send
 
 ## Usage
 
-```console
-$ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" \
-                                            --format SINGLES \
-                                            --gender M \
-                                            --level 4.0 \
-                                            --section "Northern California"
+- Install docker locally or open in GitHub CodeSpaces
 
+```console
+$ docker run ghcr.io/lineville/usta-scraper --name "Liam Neville" --format SINGLES --gender M --level 4.0 --section "Northern California"
+```
+
+### Example Output
+
+```console
 ## Liam Neville
 
 ### Northern California Men's 4.0 singles
