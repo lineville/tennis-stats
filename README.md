@@ -7,7 +7,7 @@ Tool to scrape the USTA rankings page to get a player's current ranking and send
 - Install docker locally or open in GitHub CodeSpaces
 
 ```console
-docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
+docker run -t ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
 ```
 
 ### Example Output
