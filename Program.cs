@@ -115,7 +115,10 @@ public class Program
 
         Player? player = null;
 
-        AnsiConsole.Status().Spinner(new TennisBallSpinner()).Start("Searching for ranking", _ctx =>
+        AnsiConsole
+        .Status()
+        .Spinner(new TennisBallSpinner())
+        .Start("Searching for ranking", _ctx =>
         {
             while (retries < maxRetries && player == null)
             {
