@@ -17,9 +17,9 @@ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4
 
 ### Northern California Men's 4.0 singles
 
-- National Rank: 352
-- Section Rank: 18
-- District Rank: 18
+- National Rank: 349
+- Section Rank: 16
+- District Rank: 16
 ```
 
 ### CLI Options
@@ -62,6 +62,5 @@ docker run ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4
 - (Optional) `--output` or `-o` - Defaults to markdown, options include
   - html
   - json
-  
 - (Optional) `--help` or `-h` - Display the help screen
 - (Optional) `--version` or `-v` - Display version information
