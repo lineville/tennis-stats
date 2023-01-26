@@ -107,6 +107,9 @@ public class Program
         var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
           ?? throw new Exception("Failed to parse command line arguments");
 
+        // TODO Make options optional and if they aren't provided provide an interactive prompt
+
+
         // Construct the URL from cli args
         var url = BuildUSTARankingURL(options, configuration);
 
