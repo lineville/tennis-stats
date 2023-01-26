@@ -35,7 +35,7 @@ COPY USTACLI/usta-cli.csproj ./
 RUN dotnet restore "usta-cli.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "usta-cli.csproj" -c Release -o /app/build
+RUN dotnet build "USTACLI/usta-cli.csproj" -c Release -o /app/build
 
 # Build and publish a release
 FROM build AS publish
