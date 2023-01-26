@@ -31,11 +31,11 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY usta-scraper.csproj ./
-RUN dotnet restore "usta-scraper.csproj"
+COPY usta-cli.csproj ./
+RUN dotnet restore "usta-cli.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "usta-scraper.csproj" -c Release -o /app/build
+RUN dotnet build "usta-cli.csproj" -c Release -o /app/build
 
 # Build and publish a release
 FROM build AS publish
@@ -45,4 +45,4 @@ RUN dotnet publish -c Release -o /app/publish -p:PublishChromeDriver=true
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "usta-scraper.dll"]
+ENTRYPOINT ["dotnet", "usta-cli.dll"]

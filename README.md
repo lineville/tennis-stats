@@ -1,13 +1,13 @@
-# USTA Ranking Web Scraper
+# USTA CLI
 
-Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
+Command Line Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
 ## Usage
 
 - Install docker locally or open in GitHub CodeSpaces
 
 ```console
-docker run -t ghcr.io/lineville/usta-scraper -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
+docker run -t ghcr.io/lineville/usta-cli -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
 ```
 
 ### Example Output

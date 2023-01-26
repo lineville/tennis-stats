@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/usta-scraper.csproj",
+        "${workspaceFolder}/usta-cli.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/usta-scraper.csproj",
+        "${workspaceFolder}/usta-cli.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/usta-scraper.csproj"
+        "${workspaceFolder}/usta-cli.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -42,14 +42,14 @@
       "label": "docker-build: debug",
       "dependsOn": ["build"],
       "dockerBuild": {
-        "tag": "usta-scraper:dev",
+        "tag": "usta-cli:dev",
         "target": "base",
         "dockerfile": "${workspaceFolder}/Dockerfile",
         "context": "${workspaceFolder}",
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-scraper.csproj"
+        "appProject": "${workspaceFolder}/usta-cli.csproj"
       }
     },
     {
@@ -57,13 +57,13 @@
       "label": "docker-build: release",
       "dependsOn": ["build"],
       "dockerBuild": {
-        "tag": "usta-scraper:latest",
+        "tag": "usta-cli:latest",
         "dockerfile": "${workspaceFolder}/Dockerfile",
         "context": "${workspaceFolder}",
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-scraper.csproj"
+        "appProject": "${workspaceFolder}/usta-cli.csproj"
       }
     },
     {
@@ -72,7 +72,7 @@
       "dependsOn": ["docker-build: debug"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-scraper.csproj",
+        "appProject": "${workspaceFolder}/usta-cli.csproj",
         "enableDebugging": true
       }
     },
@@ -82,7 +82,7 @@
       "dependsOn": ["docker-build: release"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-scraper.csproj"
+        "appProject": "${workspaceFolder}/usta-cli.csproj"
       }
     }
   ]

@@ -13,7 +13,7 @@ public class CLIOptions
     [Option('l', "level", Required = false, HelpText = "NTRP level ('3.0', '3.5', '4.0', '4.5', '5.0', '5.5', '6.0', '6.5', '7.0')")]
     public string? Level { get; set; }
 
-    [Option('s', "section", Required = true, HelpText = "NTRP Section Code (Options can be found at https://github.com/lineville/usta-scraper)")]
+    [Option('s', "section", Required = true, HelpText = "NTRP Section Code (Options can be found at https://github.com/lineville/usta-cli)")]
     public string? Section { get; set; }
 
     [Option('o', "output", Required = false, HelpText = "Output format ('json' or 'html')")]
