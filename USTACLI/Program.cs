@@ -11,7 +11,7 @@ public class Program
     /// <summary>
     /// Construct the correct URL from CLI args
     /// </summary>
-    private static string BuildUSTARankingURL(CLIOptions options, IConfiguration configuration)
+    public static string BuildUSTARankingURL(CLIOptions options, IConfiguration configuration)
     {
         var queryKeys = configuration.GetRequiredSection("QUERY_PARAMS").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load QUERY_PARAMS from appsettings.json");
         var sectionCodes = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");
@@ -37,7 +37,7 @@ public class Program
     /// <summary>
     /// Setup silent headless chrome driver service
     /// </summary>
-    private static ChromeDriver CreateChromeDriverService()
+    public static ChromeDriver CreateChromeDriverService()
     {
         ChromeDriverService service = ChromeDriverService.CreateDefaultService();
         service.SuppressInitialDiagnosticInformation = true;
@@ -63,7 +63,7 @@ public class Program
     /// <summary>
     /// Extracts the HTML element and returns a Player object
     /// </summary>
-    private static Player ScrapePlayerRanking(WebDriver driver, string url, IConfiguration configuration, CLIOptions options)
+    public static Player ScrapePlayerRanking(WebDriver driver, string url, IConfiguration configuration, CLIOptions options)
     {
         var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
           ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
@@ -95,7 +95,7 @@ public class Program
     /// <summary>
     /// Main entry point
     /// </summary>
-    private static void Main(string[] args)
+    public static void Main(string[] args)
     {
         // Load appsettings.json static data
         IConfiguration configuration = new ConfigurationBuilder()

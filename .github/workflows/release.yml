@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: 🚀 Release
 
 on:
   release:
@@ -18,6 +18,15 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: 🧪 Test
+        run: |
+          dotnet test
 
       - name: Log in to the Container registry
         uses: docker/login-action@v2

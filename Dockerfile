@@ -31,11 +31,11 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 
 # Copy csproj and restore as distinct layers
-COPY usta-cli.csproj ./
+COPY USTACLI/usta-cli.csproj ./
 RUN dotnet restore "usta-cli.csproj"
 COPY . .
 WORKDIR "/src/."
-RUN dotnet build "usta-cli.csproj" -c Release -o /app/build
+RUN dotnet build "USTACLI/usta-cli.csproj" -c Release -o /app/build
 
 # Build and publish a release
 FROM build AS publish
