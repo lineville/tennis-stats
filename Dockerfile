@@ -32,7 +32,7 @@ WORKDIR /src
 
 # Copy csproj and restore as distinct layers
 COPY USTACLI/usta-cli.csproj ./
-RUN dotnet restore "USTACLI/usta-cli.csproj"
+RUN dotnet restore "usta-cli.csproj"
 COPY . .
 WORKDIR "/src/."
 RUN dotnet build "USTACLI/usta-cli.csproj" -c Release -o /app/build
