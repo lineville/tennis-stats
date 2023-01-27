@@ -91,26 +91,15 @@ public class Program
     };
   }
 
-
   /// <summary>
-  /// Main entry point
-  /// </summary>
-  public static void Main(string[] args)
+  /// Interactive prompts to fill in missing CLI options
+  /// <summary>
+  public static void InteractiveFallback(CLIOptions options, IConfiguration configuration)
   {
-    // Load appsettings.json static data
-    IConfiguration configuration = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: false)
-      .Build();
-
-    // Parse command line arguments
-    var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
-      ?? throw new Exception("Failed to parse command line arguments");
-
     if (options.Name == null)
     {
       var name = AnsiConsole.Prompt(
-        new TextPrompt<string>("Name 👉"));
+        new TextPrompt<string>("What's your [aqua]name[/]?"));
       options.Name = name;
     }
 
@@ -118,7 +107,7 @@ public class Program
     {
       var level = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("NTRP level 👇")
+        .Title("Select your [aqua]NTRP level[/]")
         .PageSize(10)
         .AddChoices(new[] { "3.0", "3.5", "4.0", "4.5", "5.0" }));
       options.Level = level;
@@ -128,7 +117,7 @@ public class Program
     {
       var gender = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Gender 👇")
+        .Title("Select your [aqua]gender[/]")
         .PageSize(10)
         .AddChoices(new[] { "M 👨", "F 👩" }));
       options.Gender = gender.StartsWith("M") ? Gender.M : Gender.F;
@@ -138,7 +127,7 @@ public class Program
     {
       var format = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Format 👇")
+        .Title("Select your [aqua]match format[/]")
         .PageSize(10)
         .AddChoices(new[]
           { $"SINGLES {(options.Gender == Gender.M ? "🙋" : "🙋‍♀️")}",
@@ -154,11 +143,30 @@ public class Program
       var sectionNames = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>()?.Keys ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");
       var section = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Section 👇")
+        .Title("Select your [aqua]USTA section[/]")
         .PageSize(20)
         .AddChoices(sectionNames));
       options.Section = section;
     }
+  }
+
+
+  /// <summary>
+  /// Main entry point
+  /// </summary>
+  public static void Main(string[] args)
+  {
+    // Load appsettings.json static data
+    IConfiguration configuration = new ConfigurationBuilder()
+      .SetBasePath(Directory.GetCurrentDirectory())
+      .AddJsonFile("appsettings.json", optional: false)
+      .Build();
+
+    // Parse command line arguments
+    var options = Parser.Default.ParseArguments<CLIOptions>(args).Value
+      ?? throw new Exception("Failed to parse command line arguments. Run with --help for usage information.");
+
+    InteractiveFallback(options, configuration);
 
     // Construct the URL from cli args
     var url = BuildUSTARankingURL(options, configuration);
@@ -201,7 +209,7 @@ public class Program
     }
     else
     {
-      Console.WriteLine(player.ToString());
+      player.Print();
     }
 
   }

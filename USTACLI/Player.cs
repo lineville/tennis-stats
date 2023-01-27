@@ -1,5 +1,7 @@
 using Newtonsoft.Json;
 using Markdig;
+using Spectre.Console;
+using Spectre.Console.Json;
 
 public record Player
 {
@@ -28,16 +30,19 @@ public record Player
         return Markdown.ToHtml(ToMarkDown());
     }
 
-    public override string ToString()
+    public void Print()
     {
         switch (this.Options?.Output)
         {
             case Output.json:
-                return ToJSON();
+                AnsiConsole.Write(new JsonText(ToJSON()));
+                break;
             case Output.html:
-                return ToHTML();
+                AnsiConsole.Write(ToHTML());
+                break;
             default:
-                return ToMarkDown();
+                AnsiConsole.Write(ToMarkDown());
+                break;
         }
     }
 }
