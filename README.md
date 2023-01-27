@@ -26,20 +26,16 @@ docker run -t ghcr.io/lineville/usta-cli -n "Liam Neville" -f SINGLES -g M -l 4.
 
 ### CLI Options
 
-- `--name` or `-n` - The name of the player to search for
-- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES)
-- `--gender` or `-g` - The gender of the player to search for (M or F)
-- `--level` or `-l` - The NTRP level of the player to search for, options include
+- (Optional) `--name` or `-n` - The name of the player to search for. Defaults to interactive prompt
+- (Optional) `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
+- (Optional) `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
+- (Optional) `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
 
   - 3.0
   - 3.5
   - 4.0
   - 4.5
   - 5.0
-  - 5.5
-  - 6.0
-  - 6.5
-  - 7.0
 
 - `--section` or `-s` - The section of the player to search for, options include
 

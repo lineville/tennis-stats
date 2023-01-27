@@ -14,7 +14,7 @@ public record Player
         // Print out the player ranking as markdown
         return @$"## {this.Options?.Name}
 
-### {this.Options?.Section} {(this.Options?.Gender == Gender.M ? "Men's" : "Women's")} {this.Options?.Level} {this.Options?.Format.ToString().ToLower()}
+### {this.Options?.Section} {(this.Options?.Gender == Gender.M ? "Men's" : "Women's")} {this.Options?.Level} {this.Options?.Format?.ToString().ToLower()}
 
 - National Rank: {this.NationalRank}
 - Section Rank: {this.SectionRank}
