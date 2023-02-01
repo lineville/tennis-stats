@@ -80,11 +80,13 @@ jobs:
         id: get-subscribers
         with:
           script: |
-            const PocketBase = require('pocketbase/cjs')
             require('cross-fetch/polyfill')
+            const PocketBase = require('pocketbase/cjs')
+            
             const pb = new PocketBase('https://usta-cli-subscribers.pockethost.io')
-            await pb.collection('users').authWithPassword('${{ secrets.POCKETHOST_EMAIL}}', '${{ secrets.POCKETHOST_PASSWORD }}');
+            await pb.admins.authWithPassword('${{ secrets.POCKETHOST_EMAIL}}', '${{ secrets.POCKETHOST_PASSWORD }}');
             const records = await pb.collection('users').getFullList(200)
+            
             console.log(records)
             return records
           result-encoding: json
