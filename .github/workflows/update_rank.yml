@@ -35,10 +35,6 @@ on:
           - "4.0"
           - "4.5"
           - "5.0"
-          - "5.5"
-          - "6.0"
-          - "6.5"
-          - "7.0"
         required: true
         default: "4.0"
       section:
@@ -69,17 +65,17 @@ env:
   NAME: Liam Neville
   FORMAT: SINGLES
   GENDER: M
-  LEVEL: '4.0'
+  LEVEL: "4.0"
   SECTION: Northern California
 
 jobs:
-  update_rank:
+  build:
     runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
+
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
 
@@ -87,19 +83,28 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
 
+  run_and_send_email:
+    needs: build
+    runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        emails: ["liamgneville@gmail.com", "lineville@github.com"] # TODO Read this from db or maybe just a file in the repo ?
+
+    steps:
       - name: Run
         id: run
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
           docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-        
+
       - name: Summary
         run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
 
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
+          TO_EMAIL: ${{ matrix.emails }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
