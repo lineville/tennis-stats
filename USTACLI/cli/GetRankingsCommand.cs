@@ -61,6 +61,7 @@ public class GetRankingsCommand : Command<RankingsSettings>
     {
       AnsiConsole.Clear();
       player.Print();
+      AnsiConsole.WriteLine();
     }
     return 0;
   }
@@ -89,7 +90,7 @@ public class GetRankingsCommand : Command<RankingsSettings>
 
     return new RankingsReport()
     {
-      Player = new Player(elements[3].Text, elements[0].Text, elements[1].Text, elements[2].Text, elements[3].Text, elements[4].Text),
+      Player = new Player(elements[3].Text, elements[0].Text, elements[1].Text, elements[2].Text, elements[4].Text, elements[5].Text),
       Settings = settings
     };
   }

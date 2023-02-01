@@ -9,27 +9,63 @@ Command Line Tool to scrape the USTA rankings page to get a player's current ran
 - Install docker locally or open in GitHub CodeSpaces
 
 ```console
-docker run -t ghcr.io/lineville/usta-cli -n "Liam Neville" -f SINGLES -g M -l 4.0 -s "Northern California"
+docker run -t ghcr.io/lineville/usta-cli <command> [options]
 ```
 
-### Example Output
+## Commands
 
-```markdown
-## Liam Neville
+### `rankings list [options]`
 
-### Northern California Men's 4.0 singles
+Lists the top 20 ranked players in a given section, format, and level
 
-- National Rank: 349
-- Section Rank: 16
-- District Rank: 16
-```
+> All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-### CLI Options
+- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
+- `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
+- `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
 
-- (Optional) `--name` or `-n` - The name of the player to search for. Defaults to interactive prompt
-- (Optional) `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
-- (Optional) `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
-- (Optional) `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
+  - 3.0
+  - 3.5
+  - 4.0
+  - 4.5
+  - 5.0
+
+- `--section` or `-s` - The section of the player to search for, options include
+
+  - Eastern
+  - Florida
+  - Hawaii Pacific
+  - Intermountain
+  - Mid-Atlantic
+  - Middle States
+  - Midwest
+  - Missouri Valley
+  - New England
+  - Northern California
+  - Northern
+  - Pacific NW
+  - Southern
+  - Southern California
+  - Southwest
+  - Texas
+  - Unassigned
+
+#### Example `rankings list` Output
+
+TODO image
+
+---
+
+### `rankings get [options]`
+
+Gets the ranking of a single player in a given section, format, and level
+
+> All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
+
+- `--name` or `-n` - The name of the player to search for. Defaults to interactive prompt
+- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
+- `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
+- `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
 
   - 3.0
   - 3.5
@@ -60,5 +96,15 @@ docker run -t ghcr.io/lineville/usta-cli -n "Liam Neville" -f SINGLES -g M -l 4.
 - (Optional) `--output` or `-o` - Defaults to markdown, options include
   - html
   - json
-- (Optional) `--help` or `-h` - Display the help screen
-- (Optional) `--version` or `-v` - Display version information
+
+#### Example `rankings get` Output
+
+```markdown
+## Liam Neville
+
+### Northern California Men's 4.0 singles
+
+- National Rank: 349
+- Section Rank: 16
+- District Rank: 16
+```

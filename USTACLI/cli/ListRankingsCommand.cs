@@ -1,7 +1,6 @@
 using Spectre.Console.Cli;
 using Spectre.Console;
 using Microsoft.Extensions.Configuration;
-using OpenQA.Selenium.Chrome;
 using Microsoft.AspNetCore.WebUtilities;
 using OpenQA.Selenium;
 
@@ -36,30 +35,31 @@ public class ListRankingsCommand : Command<RankingsSettings>
       }
     });
 
-    var grid = new Grid();
-
-    // Add columns 
-    grid.AddColumns(6);
-
+    var table = new Table();
+    table.Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black));
+    table.Border = TableBorder.HeavyEdge;
+    
     // Add header row 
-    grid.AddRow(new Text[]
+    table.AddColumns(new TableColumn[]
       {
-        new Text("Name", new Style(Color.Blue, Color.Black)).LeftJustified(),
-        new Text("District", new Style(Color.Red, Color.Black)).LeftJustified(),
-        new Text("Section", new Style(Color.Yellow, Color.Black)).LeftJustified(),
-        new Text("National", new Style(Color.Green, Color.Black)).LeftJustified(),
-        new Text("Points", new Style(Color.Gold1, Color.Black)).LeftJustified(),
-        new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified()
+        new TableColumn(new Text("Name", new Style(Color.Blue, Color.Black)).LeftJustified()),
+        new TableColumn(new Text("District", new Style(Color.Red, Color.Black)).LeftJustified()),
+        new TableColumn(new Text("Section", new Style(Color.Yellow, Color.Black)).LeftJustified()),
+        new TableColumn(new Text("National", new Style(Color.Green, Color.Black)).LeftJustified()),
+        new TableColumn(new Text("Points", new Style(Color.Gold1, Color.Black)).LeftJustified()),
+        new TableColumn(new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified())
       });
 
     foreach (var player in players)
     {
-      grid.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
+      table.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
     }
 
     // Write to Console
     AnsiConsole.Clear();
-    AnsiConsole.Write(grid);
+    AnsiConsole.Write(table);
+    AnsiConsole.WriteLine();
+
     return 0;
   }
 
@@ -95,7 +95,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
     {
       var level = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Select your [aqua]NTRP level[/]")
+        .Title("Select [aqua]NTRP level[/]")
         .PageSize(10)
         .AddChoices(new[] { "3.0", "3.5", "4.0", "4.5", "5.0" }));
       settings.Level = level;
@@ -105,7 +105,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
     {
       var gender = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Select your [aqua]gender[/]")
+        .Title("Select [aqua]gender[/]")
         .PageSize(10)
         .AddChoices(new[] { "M 👨", "F 👩" }));
       settings.Gender = gender.StartsWith("M") ? Gender.M : Gender.F;
@@ -115,7 +115,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
     {
       var format = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Select your [aqua]match format[/]")
+        .Title("Select [aqua]match format[/]")
         .PageSize(10)
         .AddChoices(new[]
           { $"SINGLES {(settings.Gender == Gender.M ? "🙋" : "🙋‍♀️")}",
@@ -131,7 +131,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
       var sectionNames = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>()?.Keys ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");
       var section = AnsiConsole.Prompt(
         new SelectionPrompt<string>()
-        .Title("Select your [aqua]USTA section[/]")
+        .Title("Select [aqua]USTA section[/]")
         .PageSize(20)
         .AddChoices(sectionNames));
       settings.Section = section;

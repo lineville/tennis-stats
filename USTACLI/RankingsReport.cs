@@ -18,6 +18,8 @@ public record RankingsReport
 - National Rank: {this.Player?.NationalRank}
 - Section Rank: {this.Player?.SectionRank}
 - District Rank: {this.Player?.DistrictRank}
+- Total Points: {this.Player?.TotalPoints}
+- Location: {this.Player?.Location}
 ";
     }
 
