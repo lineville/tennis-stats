@@ -75,7 +75,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm install pocketbase
+      - run: npm install pocketbase cross-fetch/polyfill
       - uses: actions/github-script@v6
         id: get-subscribers
         with:
