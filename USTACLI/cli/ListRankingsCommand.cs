@@ -6,8 +6,11 @@ using OpenQA.Selenium;
 
 public class ListRankingsCommand : Command<RankingsSettings>
 {
+#nullable disable
   public override int Execute(CommandContext context, RankingsSettings settings)
   {
+#nullable enable
+
     // Load appsettings.json static data
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
