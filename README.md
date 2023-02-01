@@ -52,7 +52,7 @@ Lists the top 20 ranked players in a given section, format, and level
 
 #### Example `rankings list` Output
 
-TODO image
+![0B48D7E0-4D69-46D6-AB35-E3456F46A793](https://user-images.githubusercontent.com/25349044/215961392-42bc161d-9342-4e8c-a727-72b86db979bf.jpeg)
 
 ---
 
