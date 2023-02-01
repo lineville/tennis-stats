@@ -69,13 +69,35 @@ env:
   SECTION: Northern California
 
 jobs:
+  get_subscriber_details:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/github-script@v6
+        id: get-subscribers
+        with:
+          script: |
+            const PocketBase = require('pocketbase')
+            const pb = new PocketBase('https://usta-cli-subscribers.pockethost.io')
+            await pb.collection('users').authWithPassword(${{ secrets.POCKETHOST_EMAIL}}, ${{ secrets.POCKETHOST_PASSWORD }});
+            const records = await pb.collection('users').getFullList(200)
+            console.log(records)
+            return records
+          result-encoding: json
+      
+      - name: Get result
+        run: |
+          echo 'SUBSCRIBERS<<EOF' >> $GITHUB_ENV
+          echo ${{ steps.get-subscribers.outputs.result }} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+
   run_and_send_emails:
-    needs: build
+    needs: get_subscriber_details
     runs-on: ubuntu-22.04
 
     strategy:
       matrix:
-        emails: ["liamgneville@gmail.com", "lineville@github.com"] # TODO Read this from db or maybe just a file in the repo
+        subscribers: ${{ fromJson(env.SUBSCRIBERS) }}
 
     steps:
       - name: Checkout
@@ -100,6 +122,6 @@ jobs:
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
-          TO_EMAIL: ${{ matrix.emails }}
+          TO_EMAIL: ${{ matrix.subscribers.email }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
