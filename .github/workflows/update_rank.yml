@@ -97,7 +97,7 @@ jobs:
 
     strategy:
       matrix:
-        subscribers: ${{ env.SUBSCRIBERS }}
+        subscribers: ["liamgneville@gmail.com", "lineville@github.com"]
 
     steps:
       - name: Checkout
@@ -122,6 +122,6 @@ jobs:
       - name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
-          TO_EMAIL: ${{ matrix.subscribers.email }}
+          TO_EMAIL: ${{ matrix.subscribers }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
