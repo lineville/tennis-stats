@@ -69,8 +69,13 @@ env:
   SECTION: Northern California
 
 jobs:
-  build:
+  run_and_send_emails:
+    needs: build
     runs-on: ubuntu-22.04
+
+    strategy:
+      matrix:
+        emails: ["liamgneville@gmail.com", "lineville@github.com"] # TODO Read this from db or maybe just a file in the repo
 
     steps:
       - name: Checkout
@@ -82,16 +87,6 @@ jobs:
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
-
-  run_and_send_email:
-    needs: build
-    runs-on: ubuntu-22.04
-
-    strategy:
-      matrix:
-        emails: ["liamgneville@gmail.com", "lineville@github.com"] # TODO Read this from db or maybe just a file in the repo ?
-
-    steps:
       - name: Run
         id: run
         run: |
