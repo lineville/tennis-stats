@@ -93,9 +93,9 @@ jobs:
 
       - name: Get result
         run: |
-          echo 'SUBSCRIBERS<<EOF' >> $GITHUB_ENV
-          echo ${{ steps.get-subscribers.outputs.result }} >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
+          echo "subscribers=$(
+            ${{ steps.get-subscribers.outputs.result }}
+          )" >> $GITHUB_OUTPUT
 
   run_and_send_emails:
     needs: get_subscriber_details
@@ -103,7 +103,7 @@ jobs:
 
     strategy:
       matrix:
-        subscribers: ${{ fromJson(needs.get_subscriber_details.outputs.SUBSCRIBERS) }}
+        subscribers: ${{ fromJson(needs.get_subscriber_details.outputs.subscribers) }}
 
     steps:
       - name: Checkout
