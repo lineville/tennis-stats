@@ -11,16 +11,16 @@ public class Driver
 
     ChromeOptions options = new ChromeOptions();
     options.AddArguments(
-      "no-sandbox",
-      "headless",
-      "disable-gpu",
-      "disable-logging",
-      "disable-dev-shm-usage",
-      "window-size=1920,1080",
-      "disable-extensions",
-      "log-level=OFF",
+      "--no-sandbox",
+      "--headless",
+      "--disable-gpu",
+      "--disable-logging",
+      "--disable-dev-shm-usage",
+      "--window-size=1920,1080",
+      "--disable-extensions",
+      "--log-level=OFF",
       "--user-agent=Chrome/73.0.3683.86",
-      "output=/dev/null"
+      "--output=/dev/null"
     );
 
     var driver = new ChromeDriver(service, options);
