@@ -3,12 +3,12 @@ namespace USTACLI.Tests;
 using Xunit;
 using Microsoft.Extensions.Configuration;
 
-public class UnitTests
+public class RankingsTests
 {
     [Fact]
     public void TestBuildUSTARankingURL()
     {
-        var options = new CLIOptions()
+        var settings = new RankingsSettings()
         {
             Name = "Liam Neville",
             Format = MatchFormat.SINGLES,
@@ -22,21 +22,21 @@ public class UnitTests
             .AddJsonFile("appsettings.Test.json", false, true)
             .Build();
 
-        var url = Program.BuildUSTARankingURL(options, config);
+        var url = GetRankingsCommand.BuildUSTARankingURL(settings, config);
         Assert.Equal("https://www.usta.com/en/home/play/rankings.html#?ntrp-searchText=Liam%20Neville&ntrp-matchFormat=SINGLES&ntrp-rankListGender=M&ntrp-ntrpPlayerLevel=level_4_0&ntrp-sectionCode=S50#tab=ntrp", url);
     }
 
     [Fact]
     public void TestChromeDriverService()
     {
-        var service = Program.CreateChromeDriverService();
+        var service = GetRankingsCommand.CreateChromeDriverService();
         Assert.NotNull(service);
     }
 
     [Fact]
     public void TestScrapePlayerRanking()
     {
-        var options = new CLIOptions()
+        var settings = new RankingsSettings()
         {
             Name = "Liam Neville",
             Format = MatchFormat.SINGLES,
@@ -50,10 +50,10 @@ public class UnitTests
             .AddJsonFile("appsettings.Test.json", false, true)
             .Build();
 
-        var driver = Program.CreateChromeDriverService();
-        var url = Program.BuildUSTARankingURL(options, config);
+        var driver = GetRankingsCommand.CreateChromeDriverService();
+        var url = GetRankingsCommand.BuildUSTARankingURL(settings, config);
 
-        var player = Program.ScrapePlayerRanking(driver, url, config, options);
+        var player = GetRankingsCommand.ScrapePlayerRanking(driver, url, config, settings);
 
         Assert.NotNull(player);
     }
