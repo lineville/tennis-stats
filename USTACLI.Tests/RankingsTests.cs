@@ -44,6 +44,6 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
 
     var players = ListRankingsCommand.ScrapeRankings(Fixture.ChromeDriver, url, Fixture.Configuration, Fixture.Settings);
 
-    Assert.NotNull(players.Count > 0);
+    Assert.NotEmpty(players);
   }
 }

@@ -38,7 +38,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
     var table = new Table();
     table.Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black));
     table.Border = TableBorder.HeavyEdge;
-    
+
     // Add header row 
     table.AddColumns(new TableColumn[]
       {

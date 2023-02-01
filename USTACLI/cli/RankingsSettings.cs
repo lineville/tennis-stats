@@ -3,41 +3,39 @@ using Spectre.Console.Cli;
 
 public class RankingsSettings : CommandSettings
 {
-    [CommandOption("-n|--name")]
-    public string? Name { get; set; }
+  [CommandOption("-n|--name")]
+  public string? Name { get; set; }
 
-    [CommandOption("-f|--format")]
-    public MatchFormat? Format { get; set; }
+  [CommandOption("-f|--format")]
+  public MatchFormat? Format { get; set; }
 
-    [CommandOption("-g|--gender")]
-    public Gender? Gender { get; set; }
+  [CommandOption("-g|--gender")]
+  public Gender? Gender { get; set; }
 
-    [CommandOption("-l|--level")]
-    public string? Level { get; set; }
+  [CommandOption("-l|--level")]
+  public string? Level { get; set; }
 
-    [CommandOption("-s|--section")]
-    public string? Section { get; set; }
+  [CommandOption("-s|--section")]
+  public string? Section { get; set; }
 
-    [CommandOption("-o|--output")]
-    public Output? Output { get; set; }
+  [CommandOption("-o|--output")]
+  public Output? Output { get; set; }
 }
 
 public enum MatchFormat
 {
-    SINGLES,
-    DOUBLES
+  SINGLES,
+  DOUBLES
 }
 
 public enum Gender
 {
-    [Description("Men's")]
-    M,
-    [Description("Women's")]
-    F
+  M,
+  F
 }
 
 public enum Output
 {
-    json,
-    html
+  json,
+  html
 }

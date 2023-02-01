@@ -2,23 +2,23 @@
 
 public class Program
 {
-    /// <summary>
-    /// Main entry point
-    /// </summary>
-    public static int Main(string[] args)
+  /// <summary>
+  /// Main entry point
+  /// </summary>
+  public static int Main(string[] args)
+  {
+    // Parse command line arguments
+    var app = new CommandApp();
+    app.Configure(config =>
     {
-        // Parse command line arguments
-        var app = new CommandApp();
-        app.Configure(config =>
-        {
-            config.AddBranch<RankingsSettings>("rankings", rankings =>
-            {
-                rankings.AddCommand<GetRankingsCommand>("get");
-                rankings.AddCommand<ListRankingsCommand>("list");
-            });
-            // config.AddCommand<ScheduleCommand>("results");
+      config.AddBranch<RankingsSettings>("rankings", rankings =>
+          {
+          rankings.AddCommand<GetRankingsCommand>("get");
+          rankings.AddCommand<ListRankingsCommand>("list");
         });
+      // config.AddCommand<ScheduleCommand>("results");
+    });
 
-        return app.Run(args);
-    }
+    return app.Run(args);
+  }
 }
