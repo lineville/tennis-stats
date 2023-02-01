@@ -7,7 +7,7 @@
       "type": "process",
       "args": [
         "build",
-        "${workspaceFolder}/usta-cli.csproj",
+        "${workspaceFolder}/USTACLI/usta-cli.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -19,7 +19,7 @@
       "type": "process",
       "args": [
         "publish",
-        "${workspaceFolder}/usta-cli.csproj",
+        "${workspaceFolder}/USTACLI/usta-cli.csproj",
         "/property:GenerateFullPaths=true",
         "/consoleloggerparameters:NoSummary"
       ],
@@ -33,7 +33,7 @@
         "watch",
         "run",
         "--project",
-        "${workspaceFolder}/usta-cli.csproj"
+        "${workspaceFolder}/USTACLI/usta-cli.csproj"
       ],
       "problemMatcher": "$msCompile"
     },
@@ -45,11 +45,11 @@
         "tag": "usta-cli:dev",
         "target": "base",
         "dockerfile": "${workspaceFolder}/Dockerfile",
-        "context": "${workspaceFolder}",
+        "context": "${workspaceFolder}/USTACLI",
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-cli.csproj"
+        "appProject": "${workspaceFolder}/USTACLI/usta-cli.csproj"
       }
     },
     {
@@ -59,11 +59,11 @@
       "dockerBuild": {
         "tag": "usta-cli:latest",
         "dockerfile": "${workspaceFolder}/Dockerfile",
-        "context": "${workspaceFolder}",
+        "context": "${workspaceFolder}/USTACLI",
         "pull": true
       },
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-cli.csproj"
+        "appProject": "${workspaceFolder}/USTACLI/usta-cli.csproj"
       }
     },
     {
@@ -72,7 +72,7 @@
       "dependsOn": ["docker-build: debug"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-cli.csproj",
+        "appProject": "${workspaceFolder}/USTACLI/usta-cli.csproj",
         "enableDebugging": true
       }
     },
@@ -82,7 +82,7 @@
       "dependsOn": ["docker-build: release"],
       "dockerRun": {},
       "netCore": {
-        "appProject": "${workspaceFolder}/usta-cli.csproj"
+        "appProject": "${workspaceFolder}/USTACLI/usta-cli.csproj"
       }
     }
   ]

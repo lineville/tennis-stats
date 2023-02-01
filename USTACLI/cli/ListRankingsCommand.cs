@@ -73,13 +73,9 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
-    // driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(timeout);
-
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
     Thread.Sleep(timeout * 1000);
-    // var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
-    // wait.Until(d => d.FindElement(By.ClassName(htmlElement)));
 
     var elements = driver.FindElements(By.ClassName(htmlElement));
 

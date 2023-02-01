@@ -30,6 +30,7 @@ public class GetRankingsCommand : Command<RankingsSettings>
     .Spinner(new TennisBallSpinner())
     .Start("Searching for rankings", _ctx =>
     {
+      // Try a few times in case of failures
       while (retries < maxRetries && player == null)
       {
         // Create the chrome driver service
