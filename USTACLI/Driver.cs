@@ -1,8 +1,6 @@
 using OpenQA.Selenium.Chrome;
 public class Driver
 {
-
-  // TODO Make this a global singleton service that can be injected to each command
   /// <summary>
   /// Setup silent headless chrome driver service
   /// </summary>
