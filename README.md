@@ -20,9 +20,9 @@ Lists the top 20 ranked players in a given section, format, and level
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
-- `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
-- `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
+- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES).
+- `--gender` or `-g` - The gender of the player to search for (M or F).
+- `--level` or `-l` - The NTRP level of the player to search for, options include.
 
   - 3.0
   - 3.5
@@ -62,10 +62,10 @@ Gets the ranking of a single player in a given section, format, and level
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--name` or `-n` - The name of the player to search for. Defaults to interactive prompt
-- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES). Defaults to interactive prompt
-- `--gender` or `-g` - The gender of the player to search for (M or F). Defaults to interactive prompt
-- `--level` or `-l` - The NTRP level of the player to search for, options include. Defaults to interactive prompt
+- `--name` or `-n` - The name of the player to search for.
+- `--format` or `-f` - The format of the ranking to search for (SINGLES or DOUBLES).
+- `--gender` or `-g` - The gender of the player to search for (M or F).
+- `--level` or `-l` - The NTRP level of the player to search for, options include.
 
   - 3.0
   - 3.5
