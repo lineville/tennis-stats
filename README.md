@@ -1,4 +1,4 @@
-# USTA CLI
+# USTA CLI 🎾
 
 ## [![🚀 Release](https://github.com/lineville/usta-cli/actions/workflows/release.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/release.yml) [![🧪 CI](https://github.com/lineville/usta-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/ci.yml) [![🏆 Update Rank](https://github.com/lineville/usta-cli/actions/workflows/update_rank.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/update_rank.yml)
 
@@ -6,7 +6,7 @@ Command Line Tool to scrape the USTA rankings page to get a player's current ran
 
 ## Usage
 
-- Install docker locally or open in GitHub CodeSpaces
+- Install [docker](https://docs.docker.com/get-docker/) or open in a GitHub CodeSpace 🚀
 
 ```console
 docker run -it ghcr.io/lineville/usta-cli <command> [options]
