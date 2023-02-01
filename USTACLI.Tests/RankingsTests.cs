@@ -38,7 +38,7 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
   [Fact]
   public void TestListPlayerRanking()
   {
-    var players = ListRankingsCommand.ScrapeRankings(Fixture.ChromeDriver, Fixture.Configuration, Fixture.Settings, "ListRankingsCommand");
+    var players = ListRankingsCommand.ScrapeRankings(Fixture.ChromeDriver, Fixture.Configuration, Fixture.Settings, "list");
 
     Assert.NotEmpty(players);
   }
