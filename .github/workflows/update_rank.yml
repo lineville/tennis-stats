@@ -97,7 +97,7 @@ jobs:
 
     strategy:
       matrix:
-        subscribers: ${{ fromJson(env.SUBSCRIBERS) }}
+        subscribers: ${{ env.SUBSCRIBERS }}
 
     steps:
       - name: Checkout
