@@ -32,5 +32,4 @@ public class RankingsTestFixture : IDisposable
     ChromeDriver.Quit();
     ChromeDriver.Dispose();
   }
-
 }

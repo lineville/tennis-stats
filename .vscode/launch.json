@@ -9,7 +9,7 @@
       "program": "${workspaceFolder}/USTACLI/bin/Debug/net7.0/usta-cli.dll",
       "args": [
         "rankings",
-        "list",
+        "get",
         "--format",
         "SINGLES",
         "--gender",
