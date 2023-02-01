@@ -3,58 +3,47 @@ namespace USTACLI.Tests;
 using Xunit;
 using Microsoft.Extensions.Configuration;
 
-public class RankingsTests
+public class RankingsTests : IClassFixture<RankingsTestFixture>
 {
-    [Fact]
-    public void TestBuildUSTARankingURL()
-    {
-        var settings = new RankingsSettings()
-        {
-            Name = "Liam Neville",
-            Format = MatchFormat.SINGLES,
-            Gender = Gender.M,
-            Level = "4.0",
-            Section = "Northern California"
-        };
+  private readonly RankingsTestFixture Fixture;
 
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.Test.json", false, true)
-            .Build();
+  public RankingsTests(RankingsTestFixture fixture)
+  {
+    Fixture = fixture;
+  }
 
-        var url = GetRankingsCommand.BuildUSTARankingURL(settings, config);
-        Assert.Equal("https://www.usta.com/en/home/play/rankings.html#?ntrp-searchText=Liam%20Neville&ntrp-matchFormat=SINGLES&ntrp-rankListGender=M&ntrp-ntrpPlayerLevel=level_4_0&ntrp-sectionCode=S50#tab=ntrp", url);
-    }
+  [Fact]
+  public void TestBuildUSTARankingURL()
+  {
 
-    [Fact]
-    public void TestChromeDriverService()
-    {
-        var service = GetRankingsCommand.CreateChromeDriverService();
-        Assert.NotNull(service);
-    }
+    var url = GetRankingsCommand.BuildUSTARankingURL(Fixture.Settings, Fixture.Configuration);
+    Assert.Equal("https://www.usta.com/en/home/play/rankings.html#?ntrp-searchText=Liam%20Neville&ntrp-matchFormat=SINGLES&ntrp-rankListGender=M&ntrp-ntrpPlayerLevel=level_4_0&ntrp-sectionCode=S50#tab=ntrp", url);
+  }
 
-    [Fact]
-    public void TestScrapePlayerRanking()
-    {
-        var settings = new RankingsSettings()
-        {
-            Name = "Liam Neville",
-            Format = MatchFormat.SINGLES,
-            Gender = Gender.M,
-            Level = "4.0",
-            Section = "Northern California"
-        };
+  [Fact]
+  public void TestChromeDriverService()
+  {
+    Assert.NotNull(Fixture.ChromeDriver);
+  }
 
-        var config = new ConfigurationBuilder()
-            .SetBasePath(AppContext.BaseDirectory)
-            .AddJsonFile("appsettings.Test.json", false, true)
-            .Build();
+  [Fact]
+  public void TestGetPlayerRanking()
+  {
+    var url = GetRankingsCommand.BuildUSTARankingURL(Fixture.Settings, Fixture.Configuration);
 
-        var driver = GetRankingsCommand.CreateChromeDriverService();
-        var url = GetRankingsCommand.BuildUSTARankingURL(settings, config);
+    var player = GetRankingsCommand.ScrapePlayerRanking(Fixture.ChromeDriver, url, Fixture.Configuration, Fixture.Settings);
 
-        var player = GetRankingsCommand.ScrapePlayerRanking(driver, url, config, settings);
+    Assert.NotNull(player);
+  }
 
-        Assert.NotNull(player);
-    }
+  [Fact]
+  public void TestListPlayerRanking()
+  {
+
+    var url = ListRankingsCommand.BuildUSTARankingURL(Fixture.Settings, Fixture.Configuration);
+
+    var players = ListRankingsCommand.ScrapeRankings(Fixture.ChromeDriver, url, Fixture.Configuration, Fixture.Settings);
+
+    Assert.NotNull(players.Count > 0);
+  }
 }

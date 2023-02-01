@@ -16,7 +16,7 @@ public class Program
                 rankings.AddCommand<GetRankingsCommand>("get");
                 rankings.AddCommand<ListRankingsCommand>("list");
             });
-            // config.AddCommand<ScheduleCommand>("results"); // TODO implement me, may need auth permission...
+            // config.AddCommand<ScheduleCommand>("results");
         });
 
         return app.Run(args);

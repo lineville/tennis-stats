@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium.Chrome;
 using Microsoft.AspNetCore.WebUtilities;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 
 public class ListRankingsCommand : Command<RankingsSettings>
 {

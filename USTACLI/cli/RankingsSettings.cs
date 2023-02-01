@@ -18,7 +18,7 @@ public class RankingsSettings : CommandSettings
     [CommandOption("-s|--section")]
     public string? Section { get; set; }
 
-    [CommandOption("-o|--output")] // TODO maybe make global?
+    [CommandOption("-o|--output")]
     public Output? Output { get; set; }
 }
 
