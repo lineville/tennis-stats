@@ -71,6 +71,10 @@ env:
 jobs:
   get_subscriber_details:
     runs-on: ubuntu-22.04
+
+    outputs:
+      subscribers: ${{ steps.get_result.outputs.subscribers }}
+    
     steps:
       - uses: actions/setup-node@v3
         with:
@@ -89,7 +93,7 @@ jobs:
             
             console.log(records)
             return records
-          result-encoding: string
+          result-encoding: json
 
       - name: Get result
         id: get_result
