@@ -120,12 +120,21 @@ jobs:
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
-      - name: Run
-        id: run
+      
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Run Manual
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
           docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
+      
+      - if: ${{ github.event_name == 'schedule' }}
+        name: Run Scheduled
+        run: |
+          echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
+          docker run usta-cli rankings get -n '${{ matrix.subscribers.name || env.NAME }}' -f '${{ matrix.subscribers.format || env.FORMAT }}' -g '${{ matrix.subscribers.gender || env.GENDER }}' -l '${{ matrix.subscribers.level || env.LEVEL }}' -s '${{ matrix.subscribers.section || env.SECTION }}' -o html >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
 
       - name: Summary
         run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
