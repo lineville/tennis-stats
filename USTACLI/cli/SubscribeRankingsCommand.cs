@@ -23,10 +23,11 @@ public class SubscribeRankingsCommand : Command<RankingsSettings>
 
   public async Task<string?> AddSubscriber()
   {
+    // TODO just shell out to nodejs instead...
     string javascriptModule = @"
     
     module.exports = async (callback) => {
-      require('cross-fetch/polyfill')
+      // require('cross-fetch/polyfill')
       const PocketBase = require('pocketbase/cjs')
       
       const pb = new PocketBase('https://usta-cli-subscribers.pockethost.io')

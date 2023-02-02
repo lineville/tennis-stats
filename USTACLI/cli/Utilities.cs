@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Spectre.Console;
-using Spectre.Console.Cli;
 
 public class Utilities
 {
