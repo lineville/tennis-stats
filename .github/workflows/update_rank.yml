@@ -132,7 +132,7 @@ jobs:
       - name: Run Scheduled
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-          docker run usta-cli rankings get -n '${{ matrix.subscribers.name || env.NAME }}' -f '${{ matrix.subscribers.format || env.FORMAT }}' -g '${{ matrix.subscribers.gender || env.GENDER }}' -l '${{ matrix.subscribers.level || env.LEVEL }}' -s '${{ matrix.subscribers.section || env.SECTION }}' -o html >> $GITHUB_ENV
+          docker run usta-cli rankings get -n '${{ matrix.subscribers.name }}' -f '${{ matrix.subscribers.format }}' -g '${{ matrix.subscribers.gender }}' -l '${{ matrix.subscribers.level }}' -s '${{ matrix.subscribers.section }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
 
