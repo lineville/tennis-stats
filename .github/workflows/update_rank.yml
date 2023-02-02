@@ -89,12 +89,13 @@ jobs:
             
             console.log(records)
             return records
-          result-encoding: json
+          result-encoding: string
 
       - name: Get result
+        id: get_result
         run: |
           echo "subscribers=$(
-            ${{ steps.get-subscribers.outputs.result }}
+            echo '${{ steps.get-subscribers.outputs.result }}'
           )" >> $GITHUB_OUTPUT
 
   run_and_send_emails:
