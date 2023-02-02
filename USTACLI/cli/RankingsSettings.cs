@@ -19,6 +19,9 @@ public class RankingsSettings : CommandSettings
 
   [CommandOption("-o|--output")]
   public Output? Output { get; set; }
+
+  [CommandOption("-e|--email")]
+  public string? Email { get; set; }
 }
 
 public enum MatchFormat

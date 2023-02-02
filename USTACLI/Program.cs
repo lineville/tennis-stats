@@ -15,6 +15,8 @@ public class Program
           {
           rankings.AddCommand<GetRankingsCommand>("get");
           rankings.AddCommand<ListRankingsCommand>("list");
+          rankings.AddCommand<SubscribeRankingsCommand>("subscribe");
+          rankings.AddCommand<UnsubscribeRankingsCommand>("unsubscribe");
         });
       // config.AddCommand<ScheduleCommand>("results");
     });
