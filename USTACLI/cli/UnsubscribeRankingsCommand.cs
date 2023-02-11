@@ -37,7 +37,6 @@ public class UnsubscribeRankingsCommand : Command<RankingsSettings>
 
     var key = $"{settings.Email}-{settings.Name}-{settings.Format}-{settings.Gender}-{settings.Level}-{settings.Section}";
     await db.KeyDeleteAsync(key);
-
-    db.Multiplexer.Close();
+    await redis.CloseAsync();
   }
 }
