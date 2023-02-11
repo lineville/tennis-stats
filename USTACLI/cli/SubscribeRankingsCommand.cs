@@ -1,6 +1,7 @@
-using Jering.Javascript.NodeJS;
+using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Spectre.Console.Cli;
+using StackExchange.Redis;
 
 public class SubscribeRankingsCommand : Command<RankingsSettings>
 {
@@ -16,46 +17,32 @@ public class SubscribeRankingsCommand : Command<RankingsSettings>
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
 
-    var res = AddSubscriber().GetAwaiter().GetResult();
+    AddSubscriber(configuration, settings).GetAwaiter().GetResult();
 
     return 0;
   }
 
-  public async Task<string?> AddSubscriber()
+  public async Task AddSubscriber(IConfiguration configuration, RankingsSettings settings)
   {
-    // TODO just shell out to nodejs instead...
-    string javascriptModule = @"
-    
-    module.exports = async (callback) => {
-      // require('cross-fetch/polyfill')
-      const PocketBase = require('pocketbase/cjs')
-      
-      const pb = new PocketBase('https://usta-cli-subscribers.pockethost.io')
-      await pb.admins.authWithPassword('liamgneville@gmail.com', '${{ secrets.POCKETHOST_PASSWORD }}')
+    // Use Redis C# SDK to add a user to the subscriber list
+    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(new ConfigurationOptions
+    {
+      User = configuration["REDIS_USER"],
+      Password = configuration["REDIS_PASSWORD"],
+      EndPoints = { configuration["REDIS_ENDPOINT"] ?? "localhost:6379" },
+      AllowAdmin = true
+    });
 
-      const data = {
-        'email': 'test@example.com',
-        'emailVisibility': true,
-        'password': '12345678',
-        'passwordConfirm': '12345678',
-        'name': 'test',
-        'format': 'test',
-        'gender': 'test',
-        'level': 'test',
-        'section': 'test'
-      };
+    var db = redis.GetDatabase();
+    var key = $"{settings.Email}-{settings.Name}-{settings.Format}-{settings.Gender}-{settings.Level}-{settings.Section}";
 
-      const record = await pb.collection('users').create(data);
+    var stringEnumConverter = new System.Text.Json.Serialization.JsonStringEnumConverter();
+    JsonSerializerOptions options = new JsonSerializerOptions();
+    options.Converters.Add(stringEnumConverter);
 
-      // (optional) send an email verification request
-      await pb.collection('users').requestVerification('test@example.com');
-      
-      const result = 'Hello World';
-      callback(null, result);
-    }";
+    var value = JsonSerializer.Serialize(settings, options);
 
-    // Invoke javascript
-    var result = await StaticNodeJSService.InvokeFromStringAsync<string>(javascriptModule);
-    return result;
+    await db.SetAddAsync(key, value);
+    await redis.CloseAsync();
   }
 }

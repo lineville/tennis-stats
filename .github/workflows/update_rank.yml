@@ -74,25 +74,33 @@ jobs:
 
     outputs:
       subscribers: ${{ steps.get_result.outputs.subscribers }}
-    
+
     steps:
       - uses: actions/setup-node@v3
         with:
           node-version: 18
-      - run: npm install pocketbase cross-fetch
+
+      - run: npm install redis
       - uses: actions/github-script@v6
         id: get-subscribers
         with:
           script: |
-            require('cross-fetch/polyfill')
-            const PocketBase = require('pocketbase/cjs')
+            const redis = require('redis')
             
-            const pb = new PocketBase('https://usta-cli-subscribers.pockethost.io')
-            await pb.admins.authWithPassword('liamgneville@gmail.com', '${{ secrets.POCKETHOST_PASSWORD }}')
-            const records = await pb.collection('users').getFullList(200)
-            
-            console.log(records)
-            return records
+            const client = redis.createClient({
+              host: ${{ secrets.REDIS_HOST }},
+              user: ${{ secrets.REDIS_USER }},
+              password: ${{ secrets.REDIS_PASSWORD }}
+            })
+
+            let subscribers = []
+            client.keys('*', (err, key) => {
+              if (err) return console.log(err)
+              console.log(key)
+              subscribers.push(key)
+            })
+
+            return subscribers
           result-encoding: json
 
       - name: Get result
@@ -120,21 +128,20 @@ jobs:
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
-      
+
       - if: ${{ github.event_name == 'workflow_dispatch' }}
         name: Run Manual
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
           docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-      
+
       - if: ${{ github.event_name == 'schedule' }}
         name: Run Scheduled
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
           docker run usta-cli rankings get -n '${{ matrix.subscribers.name }}' -f '${{ matrix.subscribers.format }}' -g '${{ matrix.subscribers.gender }}' -l '${{ matrix.subscribers.level }}' -s '${{ matrix.subscribers.section }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
-
 
       - name: Summary
         run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
