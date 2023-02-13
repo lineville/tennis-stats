@@ -13,8 +13,8 @@ client.on("error", function (err) {
 
 console.log("Redis client connected");
 
-const keys = await client.sendCommand(["keys","*"])
-
-console.log(keys)
+client.sendCommand(["keys","*"]).then((keys) => {
+  console.log(keys);
+});
 
 client.disconnect();
