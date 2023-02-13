@@ -85,22 +85,31 @@ jobs:
         id: get-subscribers
         with:
           script: |
-            const redis = require('redis')
-            
-            const client = redis.createClient({
+            import { createClient } from 'redis';
+
+            const client = createClient({
               host: ${{ secrets.REDIS_HOST }},
               user: ${{ secrets.REDIS_USER }},
               password: ${{ secrets.REDIS_PASSWORD }}
-            })
+            });
 
-            let subscribers = []
+            client.on('error', err => console.log('Redis Client Error', err));
+
+            await client.connect();
+
+            let subscribers = [];
+            
             client.keys('*', (err, key) => {
-              if (err) return console.log(err)
-              console.log(key)
-              subscribers.push(key)
+              if (err) {
+                console.log(err);
+              }
+              console.log(key);
+              subscribers.push(key);
             })
 
-            return subscribers
+            await client.disconnect();
+
+            return subscribers;
           result-encoding: json
 
       - name: Get result
