@@ -72,17 +72,17 @@ jobs:
   get_subscriber_details:
     runs-on: ubuntu-latest
 
-    container: node:10.18-jessie
+    # container: node:10.18-jessie
 
-    services:
-      redis:
-        image: redis
+    # services:
+    #   redis:
+    #     image: redis
 
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    #     options: >-
+    #       --health-cmd "redis-cli ping"
+    #       --health-interval 10s
+    #       --health-timeout 5s
+    #       --health-retries 5
 
     outputs:
       subscribers: ${{ steps.get_result.outputs.subscribers }}
