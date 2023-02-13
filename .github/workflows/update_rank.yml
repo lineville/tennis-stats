@@ -90,13 +90,7 @@ jobs:
           script: |
             const redis = require('redis')
             
-            const client = createClient({
-              host: ${{ secrets.REDIS_HOST }},
-              user: ${{ secrets.REDIS_USER }},
-              password: ${{ secrets.REDIS_PASSWORD }}
-            })
-
-            client.on('error', err => console.log('Redis Client Error', err))
+            const client = createClient({ host: ${{ secrets.REDIS_HOST }}, user: ${{ secrets.REDIS_USER }}, password: ${{ secrets.REDIS_PASSWORD }} })
 
             await client.connect()
 
