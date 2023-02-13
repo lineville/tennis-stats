@@ -6,15 +6,11 @@ const client = redis.createClient({
   password: process.env.REDIS_PASSWORD,
   user: process.env.REDIS_USER,
 });
-
-client.on("error", function (err) {
-  console.log("Error " + err);
-});
-
-console.log("Redis client connected");
-
-client.sendCommand(["keys","*"]).then((keys) => {
-  console.log(keys);
+client.connect().then(() => {
+  console.log("Connected to Redis");
+  client.sendCommand(["keys", "*"]).then((keys) => {
+    console.log(keys);
+  });
 });
 
 client.disconnect();
