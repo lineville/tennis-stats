@@ -35,5 +35,4 @@ msbuild.wrn
 screenshot.png
 *.log
 appsettings.json
-package-lock.json
 node_modules/
