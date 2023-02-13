@@ -85,8 +85,8 @@ jobs:
         id: get-subscribers
         with:
           script: |
-            import { createClient } from 'redis';
-
+            const redis = require('redis');
+            
             const client = createClient({
               host: ${{ secrets.REDIS_HOST }},
               user: ${{ secrets.REDIS_USER }},
