@@ -94,13 +94,15 @@ jobs:
         with:
           node-version: 18
 
-      # - run: npm ci
+      - run: npm ci
 
       - name: Connect to Redis
         run: node client.js
         env:
-          REDIS_HOST: ${{ job.services.redis.outputs.host }}
-          REDIS_PORT: ${{ job.services.redis.outputs.port }}
+          REDIS_HOST: ${{ secrets.REDIS_HOST }}
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
+          REDIS_USER: ${{ secrets.REDIS_USER }}
+          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
 
       # - uses: actions/github-script@v6
       #   id: get-subscribers
