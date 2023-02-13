@@ -8,6 +8,10 @@ const client = redis.createClient({
   },
 });
 
+client.on("error", (error) => {
+  console.error(error);
+});
+
 client.on("connect", () => {
   console.log("Connected to Redis");
 
@@ -15,5 +19,3 @@ client.on("connect", () => {
     console.log(keys);
   });
 });
-
-client.disconnect();
