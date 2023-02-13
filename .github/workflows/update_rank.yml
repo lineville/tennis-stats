@@ -76,40 +76,39 @@ jobs:
       subscribers: ${{ steps.get_result.outputs.subscribers }}
 
     steps:
+      - uses: actions/checkout@v3
+      
       - uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - run: npm install redis
+      
       - uses: actions/github-script@v6
         id: get-subscribers
         with:
           script: |
-            const redis = require('redis');
+            const redis = require('redis')
             
             const client = createClient({
               host: ${{ secrets.REDIS_HOST }},
               user: ${{ secrets.REDIS_USER }},
               password: ${{ secrets.REDIS_PASSWORD }}
-            });
-
-            client.on('error', err => console.log('Redis Client Error', err));
-
-            await client.connect();
-
-            let subscribers = [];
-            
-            client.keys('*', (err, key) => {
-              if (err) {
-                console.log(err);
-              }
-              console.log(key);
-              subscribers.push(key);
             })
 
-            await client.disconnect();
+            client.on('error', err => console.log('Redis Client Error', err))
 
-            return subscribers;
+            await client.connect()
+
+            console.log('Redis connected')
+
+            const keys = await client.sendCommand(["keys","*"])
+            
+            console.log(keys)
+
+            await client.disconnect()
+
+            return keys
           result-encoding: json
 
       - name: Get result
