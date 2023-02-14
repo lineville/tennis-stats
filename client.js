@@ -14,15 +14,8 @@ client.on("error", function(err) {
 
 // Sets the key "octocat" to a value of "Mona the octocat"
 client.set("octocat", "Mona the Octocat", redis.print);
-// Sets a key to "octocat", field to "species", and "value" to "Cat and Octopus"
-client.hset("species", "octocat", "Cat and Octopus", redis.print);
-// Sets a key to "octocat", field to "species", and "value" to "Dinosaur and Octopus"
-client.hset("species", "dinotocat", "Dinosaur and Octopus", redis.print);
-// Sets a key to "octocat", field to "species", and "value" to "Cat and Robot"
-client.hset(["species", "robotocat", "Cat and Robot"], redis.print);
-// Gets all fields in "species" key
 
-client.hkeys("species", function (err, replies) {
+client.keys("species", function (err, replies) {
   console.log(replies.length + " replies:");
   replies.forEach(function (reply, i) {
       console.log("    " + i + ": " + reply);
