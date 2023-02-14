@@ -12,12 +12,16 @@ public class Program
     app.Configure(config =>
     {
       config.AddBranch<RankingsSettings>("rankings", rankings =>
-          {
-          rankings.AddCommand<GetRankingsCommand>("get");
-          rankings.AddCommand<ListRankingsCommand>("list");
-          rankings.AddCommand<SubscribeRankingsCommand>("subscribe");
-          rankings.AddCommand<UnsubscribeRankingsCommand>("unsubscribe");
-        });
+      {
+        rankings.AddCommand<GetRankingsCommand>("get");
+        rankings.AddCommand<ListRankingsCommand>("list");
+        rankings.AddCommand<SubscribeRankingsCommand>("subscribe");
+        rankings.AddCommand<UnsubscribeRankingsCommand>("unsubscribe");
+      });
+      config.AddBranch("subscribers", subscribers =>
+      {
+        subscribers.AddCommand<ListSubscribersCommand>("list");
+      });
       // config.AddCommand<ScheduleCommand>("results");
     });
 

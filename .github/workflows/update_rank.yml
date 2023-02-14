@@ -78,11 +78,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      # TODO write separate dotnet program to get subscribers
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
 
-      # Just call dotnet setup and run to get subscribers
-      
-
+      - name: Get Subscribers
+        id: get-subscribers
+        run: |
+          dotnet run subscribers list
 
       - name: Get result
         id: get_result
