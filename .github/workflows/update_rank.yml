@@ -73,7 +73,7 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      subscribers: ${{ steps.get_result.outputs.subscribers }}
+      subscribers: ${{ steps.get-subscribers.outputs.subscribers }}
 
     steps:
       - uses: actions/checkout@v3
@@ -87,14 +87,10 @@ jobs:
         id: get-subscribers
         working-directory: ${{ github.workspace }}/USTACLI
         run: |
-          dotnet run subscribers list
-
-      - name: Get result
-        id: get_result
-        run: |
           echo "subscribers=$(
-            echo '${{ steps.get-subscribers.outputs.result }}'
+            dotnet run subscribers list
           )" >> $GITHUB_OUTPUT
+
 
   run_and_send_emails:
     needs: get_subscriber_details
