@@ -35,4 +35,3 @@ msbuild.wrn
 screenshot.png
 *.log
 appsettings.json
-node_modules/

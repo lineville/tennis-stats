@@ -72,58 +72,17 @@ jobs:
   get_subscriber_details:
     runs-on: ubuntu-latest
 
-    # container: node:10.18-jessie
-
-    # services:
-    #   redis:
-    #     image: redis
-
-    #     options: >-
-    #       --health-cmd "redis-cli ping"
-    #       --health-interval 10s
-    #       --health-timeout 5s
-    #       --health-retries 5
-
     outputs:
       subscribers: ${{ steps.get_result.outputs.subscribers }}
 
     steps:
       - uses: actions/checkout@v3
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      # TODO write separate dotnet program to get subscribers
 
-      - run: npm ci
+      # Just call dotnet setup and run to get subscribers
+      
 
-      - name: Connect to Redis
-        run: node client.js
-        env:
-          REDIS_HOST: ${{ secrets.REDIS_HOST }}
-          REDIS_PORT: ${{ secrets.REDIS_PORT }}
-          REDIS_USER: ${{ secrets.REDIS_USER }}
-          REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
-
-      # - uses: actions/github-script@v6
-      #   id: get-subscribers
-      #   with:
-      #     script: |
-      #       const redis = require('redis')
-
-      #       const client = createClient({ host: ${{ secrets.REDIS_HOST }}, user: ${{ secrets.REDIS_USER }}, password: ${{ secrets.REDIS_PASSWORD }} })
-
-      #       await client.connect()
-
-      #       console.log('Redis connected')
-
-      #       const keys = await client.sendCommand(["keys","*"])
-
-      #       console.log(keys)
-
-      #       await client.disconnect()
-
-      #       return keys
-      #     result-encoding: json
 
       - name: Get result
         id: get_result
