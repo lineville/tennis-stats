@@ -85,6 +85,7 @@ jobs:
 
       - name: Get Subscribers
         id: get-subscribers
+        working-directory: ${{ github.workspace }}/USTACLI
         run: |
           dotnet run subscribers list
 
