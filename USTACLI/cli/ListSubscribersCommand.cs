@@ -33,6 +33,6 @@ public class ListSubscribersCommand : Command
 
     var docs = await subscribers.Find(filter).ToListAsync();
 
-    Console.WriteLine(JsonConvert.SerializeObject(docs, Formatting.Indented));
+    Console.WriteLine(JsonConvert.SerializeObject(docs, Formatting.None));
   }
 }
