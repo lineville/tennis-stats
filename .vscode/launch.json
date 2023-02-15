@@ -9,7 +9,7 @@
       "program": "${workspaceFolder}/USTACLI/bin/Debug/net7.0/usta-cli.dll",
       "args": [
         "rankings",
-        "subscribe",
+        "unsubscribe",
         "--name",
         "Liam Neville",
         "--format",
@@ -17,7 +17,7 @@
         "--gender",
         "M",
         "--level",
-        "4.0",
+        "5.0",
         "--section",
         "Northern California",
         "--output",

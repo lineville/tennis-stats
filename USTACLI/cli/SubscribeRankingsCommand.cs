@@ -32,5 +32,7 @@ public class SubscribeRankingsCommand : Spectre.Console.Cli.Command<RankingsSett
     var subscribers = db.GetCollection<RankingsSettings>("subscribers");
 
     await subscribers.InsertOneAsync(settings);
+
+    Console.WriteLine($"Successfully subscribed to rankings updates for {settings.Name}, level {settings.Level}, section {settings.Section}, format {settings.Format}");
   }
 }

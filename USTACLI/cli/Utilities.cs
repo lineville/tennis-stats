@@ -62,6 +62,13 @@ public class Utilities
         .AddChoices(sectionNames));
       settings.Section = section;
     }
+
+    if (settings.Email == null && (context == "subscribe" || context == "unsubscribe"))
+    {
+      var email = AnsiConsole.Prompt(
+        new TextPrompt<string>("What's your [aqua]email[/]?"));
+      settings.Email = email;
+    }
   }
 
 

@@ -32,12 +32,18 @@ public class UnsubscribeRankingsCommand : Spectre.Console.Cli.Command<RankingsSe
     var subscribers = db.GetCollection<RankingsSettings>("subscribers");
 
     var builder = Builders<RankingsSettings>.Filter;
-    var filter = builder.Eq(r => r.Email, settings.Email) 
-      & builder.Eq(r => r.Name, settings.Name)
-      & builder.Eq(r => r.Format, settings.Format)
-      & builder.Eq(r => r.Gender, settings.Gender)
-      & builder.Eq(r => r.Section, settings.Section);
-    
+    var filter = builder.And(new List<FilterDefinition<RankingsSettings>>()
+      {
+        builder.Eq(r => r.Level, settings.Level),
+        builder.Eq(r => r.Email, settings.Email),
+        builder.Eq(r => r.Name, settings.Name),
+        builder.Eq(r => r.Format, settings.Format),
+        builder.Eq(r => r.Gender, settings.Gender),
+        builder.Eq(r => r.Section, settings.Section)
+      });
+
     await subscribers.DeleteOneAsync(filter);
+
+    Console.WriteLine($"Successfully unsubscribed to rankings updates for {settings.Name}, level {settings.Level}, section {settings.Section}, format {settings.Format}");
   }
 }
