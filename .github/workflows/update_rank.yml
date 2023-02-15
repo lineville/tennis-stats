@@ -89,7 +89,7 @@ jobs:
         env:
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: |
-          dotnet run subscribers list >> $GITHUB_OUTPUT
+          echo dotnet run subscribers list
 
   run_and_send_emails:
     needs: get_subscriber_details
