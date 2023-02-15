@@ -12,6 +12,7 @@ public class UnsubscribeRankingsCommand : Spectre.Console.Cli.Command<RankingsSe
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json", optional: false)
+      .AddEnvironmentVariables()
       .Build();
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);

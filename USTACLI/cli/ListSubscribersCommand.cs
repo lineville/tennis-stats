@@ -13,6 +13,7 @@ public class ListSubscribersCommand : Command
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json", optional: false)
+      .AddEnvironmentVariables()
       .Build();
 
     GetSubscribers(configuration).GetAwaiter().GetResult();

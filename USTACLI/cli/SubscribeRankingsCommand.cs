@@ -1,4 +1,3 @@
-using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Spectre.Console.Cli;
@@ -13,6 +12,7 @@ public class SubscribeRankingsCommand : Spectre.Console.Cli.Command<RankingsSett
     IConfiguration configuration = new ConfigurationBuilder()
       .SetBasePath(Directory.GetCurrentDirectory())
       .AddJsonFile("appsettings.json", optional: false)
+      .AddEnvironmentVariables()
       .Build();
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
