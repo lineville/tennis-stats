@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Spectre.Console;
-using Spectre.Console.Cli;
 
 public class Utilities
 {
@@ -62,6 +61,13 @@ public class Utilities
         .PageSize(20)
         .AddChoices(sectionNames));
       settings.Section = section;
+    }
+
+    if (settings.Email == null && (context == "subscribe" || context == "unsubscribe"))
+    {
+      var email = AnsiConsole.Prompt(
+        new TextPrompt<string>("What's your [aqua]email[/]?"));
+      settings.Email = email;
     }
   }
 

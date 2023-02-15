@@ -114,3 +114,93 @@ Gets the ranking of a single player in a given section, format, and level
 - Section Rank: 16
 - District Rank: 16
 ```
+
+### `rankings subscribe [options]`
+
+Subscribes to a player's rankings updates and sends a weekly email when new rankings are posted
+
+> All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
+
+- `--name` or `-n` - The player's full name
+- `--format` or `-f` - The match format
+  - SINGLES
+  - DOUBLES
+- `--gender` or `-g` - The player's listed gender
+  - M
+  - F
+- `--level` or `-l` - The NTRP level
+  - 3.0
+  - 3.5
+  - 4.0
+  - 4.5
+  - 5.0
+- `--section` or `-s` - The USTA section
+
+  - Eastern
+  - Florida
+  - Hawaii Pacific
+  - Intermountain
+  - Mid-Atlantic
+  - Middle States
+  - Midwest
+  - Missouri Valley
+  - New England
+  - Northern California
+  - Northern
+  - Pacific NW
+  - Southern
+  - Southern California
+  - Southwest
+  - Texas
+  - Unassigned
+
+#### Example `rankings subscribe` Output
+
+```console
+Successfully subscribed to rankings updates for Liam Neville, level 4.0, section Northern California, format SINGLES
+```
+
+### `rankings unsubscribe [options]`
+
+Unsubscribes from a player's rankings updates
+
+> All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
+
+- `--name` or `-n` - The player's full name
+- `--format` or `-f` - The match format
+  - SINGLES
+  - DOUBLES
+- `--gender` or `-g` - The player's listed gender
+  - M
+  - F
+- `--level` or `-l` - The NTRP level
+  - 3.0
+  - 3.5
+  - 4.0
+  - 4.5
+  - 5.0
+- `--section` or `-s` - The USTA section
+
+  - Eastern
+  - Florida
+  - Hawaii Pacific
+  - Intermountain
+  - Mid-Atlantic
+  - Middle States
+  - Midwest
+  - Missouri Valley
+  - New England
+  - Northern California
+  - Northern
+  - Pacific NW
+  - Southern
+  - Southern California
+  - Southwest
+  - Texas
+  - Unassigned
+
+#### Example `rankings unsubscribe` Output
+
+```console
+Successfully unsubscribed to rankings updates for Liam Neville, level 4.0, section Northern California, format SINGLES
+```
