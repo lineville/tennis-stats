@@ -83,6 +83,7 @@ jobs:
         with:
           dotnet-version: 7.0.x
 
+      # Get the list of subscribers from the database and pass to matrix for next job
       - name: Get Subscribers
         id: get-subscribers
         working-directory: ${{ github.workspace }}/USTACLI
@@ -93,7 +94,7 @@ jobs:
 
   run_and_send_emails:
     needs: get_subscriber_details
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
@@ -110,6 +111,7 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
 
+      # Manual Trigger should just use the inputs not the list of subscribers
       - if: ${{ github.event_name == 'workflow_dispatch' }}
         name: Run Manual
         run: |
@@ -117,6 +119,7 @@ jobs:
           docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
+      # Scheduled Trigger should use the list of subscribers from the database
       - if: ${{ github.event_name == 'schedule' }}
         name: Run Scheduled
         run: |
@@ -127,18 +130,11 @@ jobs:
       - name: Summary
         run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
 
+      # Scheduled Trigger should send an email to each subscriber
       - if: ${{ github.event_name == 'schedule' }}
         name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
           TO_EMAIL: ${{ matrix.subscribers.email }}
-          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
-          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
-
-      - if: ${{ github.event_name == 'workflow_dispatch' }}
-        name: Send Email Notification
-        uses: peter-evans/sendgrid-action@v1
-        env:
-          TO_EMAIL: ${{ secrets.TO_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
