@@ -110,15 +110,15 @@ jobs:
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
 
-      # - if: ${{ github.event_name == 'workflow_dispatch' }}
-      #   name: Run Manual
-      #   run: |
-      #     echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-      #     docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
-      #     echo 'EOF' >> $GITHUB_ENV
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Run Manual
+        run: |
+          echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
+          docker run usta-cli rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
-      # - if: ${{ github.event_name == 'schedule' }}
-      - name: Run Scheduled
+      - if: ${{ github.event_name == 'schedule' }}
+        name: Run Scheduled
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
           docker run usta-cli rankings get -n '${{ matrix.subscribers.name }}' -f '${{ matrix.subscribers.format }}' -g '${{ matrix.subscribers.gender }}' -l '${{ matrix.subscribers.level }}' -s '${{ matrix.subscribers.section }}' -o html >> $GITHUB_ENV
@@ -127,9 +127,18 @@ jobs:
       - name: Summary
         run: echo "$EMAIL_BODY" >> $GITHUB_STEP_SUMMARY
 
-      - name: Send Email Notification
+      - if: ${{ github.event_name == 'schedule' }}
+        name: Send Email Notification
         uses: peter-evans/sendgrid-action@v1
         env:
           TO_EMAIL: ${{ matrix.subscribers.email }}
+          FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+
+      - if: ${{ github.event_name == 'workflow_dispatch' }}
+        name: Send Email Notification
+        uses: peter-evans/sendgrid-action@v1
+        env:
+          TO_EMAIL: ${{ secrets.TO_EMAIL }}
           FROM_EMAIL: ${{ secrets.FROM_EMAIL }}
           SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
