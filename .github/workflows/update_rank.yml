@@ -86,9 +86,10 @@ jobs:
       - name: Get Subscribers
         id: get-subscribers
         working-directory: ${{ github.workspace }}/USTACLI
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: |
-          dotnet run subscribers list -o json > subscribers.json
-          echo "subscribers=$(cat subscribers.json)" >> $GITHUB_OUTPUT
+          dotnet run subscribers list >> $GITHUB_OUTPUT
 
   run_and_send_emails:
     needs: get_subscriber_details
