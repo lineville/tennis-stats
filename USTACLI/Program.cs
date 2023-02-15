@@ -22,7 +22,6 @@ public class Program
       {
         subscribers.AddCommand<ListSubscribersCommand>("list");
       });
-      // config.AddCommand<ScheduleCommand>("results");
     });
 
     return app.Run(args);
