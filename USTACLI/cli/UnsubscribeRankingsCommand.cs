@@ -1,9 +1,8 @@
-using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Driver;
 using Spectre.Console.Cli;
-using StackExchange.Redis;
 
-public class UnsubscribeRankingsCommand : Command<RankingsSettings>
+public class UnsubscribeRankingsCommand : Spectre.Console.Cli.Command<RankingsSettings>
 {
 #nullable disable
   public override int Execute(CommandContext context, RankingsSettings settings)
@@ -24,19 +23,20 @@ public class UnsubscribeRankingsCommand : Command<RankingsSettings>
 
   public async Task DeleteSubscriber(IConfiguration configuration, RankingsSettings settings)
   {
-    // Use Redis C# SDK to delete a user from the subscriber list
-    ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(new ConfigurationOptions
-    {
-      User = configuration["REDIS_USER"],
-      Password = configuration["REDIS_PASSWORD"],
-      EndPoints = { configuration["REDIS_ENDPOINT"] ?? "localhost:6379" },
-      AllowAdmin = true
-    });
+    var connection = MongoClientSettings.FromConnectionString($"mongodb+srv://admin:{configuration["MONGO_PASSWORD"]}@prod.gngcbq9.mongodb.net/?retryWrites=true&w=majority");
+    connection.ServerApi = new ServerApi(ServerApiVersion.V1);
+    var client = new MongoClient(connection);
+    var db = client.GetDatabase("usta-cli-subscribers");
 
-    var db = redis.GetDatabase();
+    var subscribers = db.GetCollection<RankingsSettings>("subscribers");
 
-    var key = $"{settings.Email}-{settings.Name}-{settings.Format}-{settings.Gender}-{settings.Level}-{settings.Section}";
-    await db.KeyDeleteAsync(key);
-    await redis.CloseAsync();
+    var builder = Builders<RankingsSettings>.Filter;
+    var filter = builder.Eq(r => r.Email, settings.Email) 
+      & builder.Eq(r => r.Name, settings.Name)
+      & builder.Eq(r => r.Format, settings.Format)
+      & builder.Eq(r => r.Gender, settings.Gender)
+      & builder.Eq(r => r.Section, settings.Section);
+    
+    await subscribers.DeleteOneAsync(filter);
   }
 }
