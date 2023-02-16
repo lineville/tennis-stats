@@ -10,7 +10,7 @@ public class Utilities
   /// <summary>
   public static void InteractiveFallback(RankingsSettings settings, IConfiguration configuration, string context)
   {
-    if (settings.Name == null && context == "get")
+    if (settings.Name == null && context != "list") 
     {
       var name = AnsiConsole.Prompt(
         new TextPrompt<string>("What's your [aqua]name[/]?"));
