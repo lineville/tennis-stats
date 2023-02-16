@@ -2,6 +2,9 @@
 FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
+ARG MONGO_PASSWORD
+ENV MONGO_PASSWORD=${MONGO_PASSWORD}
+
 # Install Base Dependencies
 RUN apt-get update && apt-get install -y \
   curl \

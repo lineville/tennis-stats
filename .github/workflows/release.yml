@@ -48,5 +48,5 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          secrets: |
-            MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}
+          build-args: |
+            "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}"
