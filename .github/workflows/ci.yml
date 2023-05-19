@@ -20,7 +20,7 @@ jobs:
           command: config
           globs: |
             config/.markdownlint-cli2.jsonc
-             **/*.md
+            '**/*.md'
           
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
