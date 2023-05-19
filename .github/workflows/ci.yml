@@ -18,7 +18,9 @@ jobs:
         uses: DavidAnson/markdownlint-cli2-action@v10
         with:
           command: config
-          globs: config/.markdownlint-cli2.jsonc '**/*.md'
+          globs: |
+            config/.markdownlint-cli2.jsonc
+             **/*.md
           
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
