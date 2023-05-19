@@ -6,7 +6,7 @@ Command Line Tool to scrape the USTA rankings page to get a player's current ran
 
 ## Usage
 
-- Install [docker](https://docs.docker.com/get-docker/) or open in a GitHub CodeSpace 🚀
+* Install [docker](https://docs.docker.com/get-docker/) or open in a GitHub CodeSpace 🚀
 
 ```console
 docker run -it ghcr.io/lineville/usta-cli <command> [options]
@@ -20,39 +20,39 @@ Lists the top 20 ranked players in a given section, format, and level
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--format` or `-f` - The match format
-  - SINGLES
-  - DOUBLES
-- `--gender` or `-g` - The player's listed gender
-  - M
-  - F
-- `--level` or `-l` - The NTRP level
+* `--format` or `-f` - The match format
+  * SINGLES
+  * DOUBLES
+* `--gender` or `-g` - The player's listed gender
+  * M
+  * F
+* `--level` or `-l` - The NTRP level
 
-  - 3.0
-  - 3.5
-  - 4.0
-  - 4.5
-  - 5.0
+  * 3.0
+  * 3.5
+  * 4.0
+  * 4.5
+  * 5.0
 
-- `--section` or `-s` - The USTA section
+* `--section` or `-s` - The USTA section
 
-  - Eastern
-  - Florida
-  - Hawaii Pacific
-  - Intermountain
-  - Mid-Atlantic
-  - Middle States
-  - Midwest
-  - Missouri Valley
-  - New England
-  - Northern California
-  - Northern
-  - Pacific NW
-  - Southern
-  - Southern California
-  - Southwest
-  - Texas
-  - Unassigned
+  * Eastern
+  * Florida
+  * Hawaii Pacific
+  * Intermountain
+  * Mid-Atlantic
+  * Middle States
+  * Midwest
+  * Missouri Valley
+  * New England
+  * Northern California
+  * Northern
+  * Pacific NW
+  * Southern
+  * Southern California
+  * Southwest
+  * Texas
+  * Unassigned
 
 #### Example `rankings list` Output
 
@@ -66,42 +66,42 @@ Gets the ranking of a single player in a given section, format, and level
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--name` or `-n` - The player's full name
-- `--format` or `-f` - The match format
-  - SINGLES
-  - DOUBLES
-- `--gender` or `-g` - The player's listed gender
-  - M
-  - F
-- `--level` or `-l` - The NTRP level
-  - 3.0
-  - 3.5
-  - 4.0
-  - 4.5
-  - 5.0
-- `--section` or `-s` - The USTA section
+* `--name` or `-n` - The player's full name
+* `--format` or `-f` - The match format
+  * SINGLES
+  * DOUBLES
+* `--gender` or `-g` - The player's listed gender
+  * M
+  * F
+* `--level` or `-l` - The NTRP level
+  * 3.0
+  * 3.5
+  * 4.0
+  * 4.5
+  * 5.0
+* `--section` or `-s` - The USTA section
 
-  - Eastern
-  - Florida
-  - Hawaii Pacific
-  - Intermountain
-  - Mid-Atlantic
-  - Middle States
-  - Midwest
-  - Missouri Valley
-  - New England
-  - Northern California
-  - Northern
-  - Pacific NW
-  - Southern
-  - Southern California
-  - Southwest
-  - Texas
-  - Unassigned
+  * Eastern
+  * Florida
+  * Hawaii Pacific
+  * Intermountain
+  * Mid-Atlantic
+  * Middle States
+  * Midwest
+  * Missouri Valley
+  * New England
+  * Northern California
+  * Northern
+  * Pacific NW
+  * Southern
+  * Southern California
+  * Southwest
+  * Texas
+  * Unassigned
 
-- (Optional) `--output` or `-o` - Defaults to markdown, options include
-  - html
-  - json
+* (Optional) `--output` or `-o` - Defaults to markdown, options include
+  * html
+  * json
 
 #### Example `rankings get` Output
 
@@ -121,38 +121,38 @@ Subscribes to a player's rankings updates and sends a weekly email when new rank
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--name` or `-n` - The player's full name
-- `--format` or `-f` - The match format
-  - SINGLES
-  - DOUBLES
-- `--gender` or `-g` - The player's listed gender
-  - M
-  - F
-- `--level` or `-l` - The NTRP level
-  - 3.0
-  - 3.5
-  - 4.0
-  - 4.5
-  - 5.0
-- `--section` or `-s` - The USTA section
+* `--name` or `-n` - The player's full name
+* `--format` or `-f` - The match format
+  * SINGLES
+  * DOUBLES
+* `--gender` or `-g` - The player's listed gender
+  * M
+  * F
+* `--level` or `-l` - The NTRP level
+  * 3.0
+  * 3.5
+  * 4.0
+  * 4.5
+  * 5.0
+* `--section` or `-s` - The USTA section
 
-  - Eastern
-  - Florida
-  - Hawaii Pacific
-  - Intermountain
-  - Mid-Atlantic
-  - Middle States
-  - Midwest
-  - Missouri Valley
-  - New England
-  - Northern California
-  - Northern
-  - Pacific NW
-  - Southern
-  - Southern California
-  - Southwest
-  - Texas
-  - Unassigned
+  * Eastern
+  * Florida
+  * Hawaii Pacific
+  * Intermountain
+  * Mid-Atlantic
+  * Middle States
+  * Midwest
+  * Missouri Valley
+  * New England
+  * Northern California
+  * Northern
+  * Pacific NW
+  * Southern
+  * Southern California
+  * Southwest
+  * Texas
+  * Unassigned
 
 #### Example `rankings subscribe` Output
 
@@ -166,38 +166,38 @@ Unsubscribes from a player's rankings updates
 
 > All of the options listed below are optional (**not required**), if any of these are not provided it will give you an interactive prompt to select the options. If you wish to skip the interactive prompt or run this from an automated context, you must provide all of the options listed below.
 
-- `--name` or `-n` - The player's full name
-- `--format` or `-f` - The match format
-  - SINGLES
-  - DOUBLES
-- `--gender` or `-g` - The player's listed gender
-  - M
-  - F
-- `--level` or `-l` - The NTRP level
-  - 3.0
-  - 3.5
-  - 4.0
-  - 4.5
-  - 5.0
-- `--section` or `-s` - The USTA section
+* `--name` or `-n` - The player's full name
+* `--format` or `-f` - The match format
+  * SINGLES
+  * DOUBLES
+* `--gender` or `-g` - The player's listed gender
+  * M
+  * F
+* `--level` or `-l` - The NTRP level
+  * 3.0
+  * 3.5
+  * 4.0
+  * 4.5
+  * 5.0
+* `--section` or `-s` - The USTA section
 
-  - Eastern
-  - Florida
-  - Hawaii Pacific
-  - Intermountain
-  - Mid-Atlantic
-  - Middle States
-  - Midwest
-  - Missouri Valley
-  - New England
-  - Northern California
-  - Northern
-  - Pacific NW
-  - Southern
-  - Southern California
-  - Southwest
-  - Texas
-  - Unassigned
+  * Eastern
+  * Florida
+  * Hawaii Pacific
+  * Intermountain
+  * Mid-Atlantic
+  * Middle States
+  * Midwest
+  * Missouri Valley
+  * New England
+  * Northern California
+  * Northern
+  * Pacific NW
+  * Southern
+  * Southern California
+  * Southwest
+  * Texas
+  * Unassigned
 
 #### Example `rankings unsubscribe` Output
 
