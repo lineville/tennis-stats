@@ -33,20 +33,22 @@ public class ListRankingsCommand : Command<RankingsSettings>
       }
     });
 
-    var table = new Table();
-    table.Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black));
-    table.Border = TableBorder.HeavyEdge;
+    var table = new Table
+    {
+      Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black)),
+      Border = TableBorder.HeavyEdge
+    };
 
     // Add header row 
     table.AddColumns(new TableColumn[]
-      {
+  {
         new TableColumn(new Text("Name", new Style(Color.Blue, Color.Black)).LeftJustified()),
         new TableColumn(new Text("District", new Style(Color.Red, Color.Black)).LeftJustified()),
         new TableColumn(new Text("Section", new Style(Color.Yellow, Color.Black)).LeftJustified()),
         new TableColumn(new Text("National", new Style(Color.Green, Color.Black)).LeftJustified()),
         new TableColumn(new Text("Points", new Style(Color.Gold1, Color.Black)).LeftJustified()),
         new TableColumn(new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified())
-      });
+  });
 
     foreach (var player in players)
     {
@@ -64,7 +66,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  public static List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context)
+  public List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context)
   {
     var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
       ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");

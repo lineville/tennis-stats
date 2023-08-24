@@ -24,22 +24,39 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
   [Fact]
   public void TestChromeDriverService()
   {
-    Assert.NotNull(Fixture.ChromeDriver);
+    var driver = Driver.Create();
+    
+    Assert.NotNull(driver);
+
+    driver.Quit();
+    driver.Dispose();
   }
 
   [Fact]
   public void TestGetPlayerRanking()
   {
-    var player = GetRankingsCommand.ScrapePlayerRanking(Fixture.ChromeDriver, Fixture.Configuration, Fixture.Settings, "get");
+    var driver = Driver.Create();
+    var command = new GetRankingsCommand();
+
+    var player = command.ScrapePlayerRanking(driver, Fixture.Configuration, Fixture.Settings, "get");
 
     Assert.NotNull(player);
+
+    driver.Quit();
+    driver.Dispose();
   }
 
   [Fact]
   public void TestListPlayerRanking()
   {
-    var players = ListRankingsCommand.ScrapeRankings(Fixture.ChromeDriver, Fixture.Configuration, Fixture.Settings, "list");
+    var driver = Driver.Create();
+    var command = new ListRankingsCommand();
+    
+    var players = command.ScrapeRankings(driver, Fixture.Configuration, Fixture.Settings, "list");
 
     Assert.NotEmpty(players);
+
+    driver.Quit();
+    driver.Dispose();
   }
 }

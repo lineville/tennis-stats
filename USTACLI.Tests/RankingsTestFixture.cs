@@ -1,11 +1,10 @@
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium.Chrome;
 
-public class RankingsTestFixture : IDisposable
+public class RankingsTestFixture
 {
   public RankingsSettings Settings { get; set; }
   public IConfiguration Configuration { get; set; }
-  public ChromeDriver ChromeDriver { get; set; }
 
   public RankingsTestFixture()
   {
@@ -22,14 +21,5 @@ public class RankingsTestFixture : IDisposable
       .SetBasePath(AppContext.BaseDirectory)
       .AddJsonFile("appsettings.Test.json", false, true)
       .Build();
-
-    ChromeDriver = Driver.Create();
-
-  }
-
-  public void Dispose()
-  {
-    ChromeDriver.Quit();
-    ChromeDriver.Dispose();
   }
 }
