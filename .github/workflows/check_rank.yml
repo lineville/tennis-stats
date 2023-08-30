@@ -105,6 +105,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: setup-docker
+        uses: docker-practice/actions-setup-docker@v1
+
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
