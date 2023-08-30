@@ -1,6 +1,6 @@
 # USTA CLI 🎾
 
-## [![🚀 Release](https://github.com/lineville/usta-cli/actions/workflows/release.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/release.yml) [![🧪 CI](https://github.com/lineville/usta-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/ci.yml) [![🏆 Update Rank](https://github.com/lineville/usta-cli/actions/workflows/update_rank.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/update_rank.yml)
+## [![🚀 Release](https://github.com/lineville/usta-cli/actions/workflows/release.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/release.yml) [![🧪 CI](https://github.com/lineville/usta-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/ci.yml) [![🏆 Check Ranking](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml)
 
 Command Line Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
@@ -111,8 +111,8 @@ Gets the ranking of a single player in a given section, format, and level
 ### Northern California Men's 4.0 singles
 
 - National Rank: 349
-- Section Rank: 16
-- District Rank: 16
+- Section Rank: 11
+- District Rank: 11
 ```
 
 ### `rankings subscribe [options]`

@@ -59,14 +59,14 @@ on:
           - "Texas"
           - "Unassigned"
         required: true
-        default: "Northern California"
+        default: "New England"
 
 env:
   NAME: Liam Neville
   FORMAT: SINGLES
   GENDER: M
-  LEVEL: "4.5"
-  SECTION: Northern California
+  LEVEL: "4.0"
+  SECTION: New England
 
 jobs:
   get_subscriber_details:

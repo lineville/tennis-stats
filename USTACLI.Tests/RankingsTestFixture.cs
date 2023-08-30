@@ -14,7 +14,7 @@ public class RankingsTestFixture
       Format = MatchFormat.SINGLES,
       Gender = Gender.M,
       Level = "4.0",
-      Section = "Northern California"
+      Section = "New England"
     };
 
     Configuration = new ConfigurationBuilder()
