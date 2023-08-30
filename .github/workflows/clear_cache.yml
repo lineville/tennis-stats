@@ -1,13 +1,16 @@
-name: 🧹 Clear Actions Cache
+name: 🧹 Clear Cache
 
 on:
+  schedule: 
+    # Every 2 months
+    - cron: '0 0 1 */2 *'
   workflow_dispatch:
 
 jobs:
-  my-job:
-    name: Delete all caches
+  clear-cache:
+    name: Delete All Caches
     runs-on: ubuntu-latest
-
     steps:
-      - name: Clear caches
-        uses: easimon/wipe-cache@main
+      - run: gh cache delete --repo ${{ github.repository }} --all
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
