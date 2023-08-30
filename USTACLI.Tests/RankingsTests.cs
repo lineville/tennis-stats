@@ -18,7 +18,7 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
   {
     var url = Utilities.BuildUSTARankingURL(Fixture.Settings, Fixture.Configuration, "get");
 
-    Assert.Equal("https://www.usta.com/en/home/play/rankings.html#?ntrp-matchFormat=SINGLES&ntrp-rankListGender=M&ntrp-ntrpPlayerLevel=level_4_0&ntrp-sectionCode=S50&ntrp-searchText=Liam%20Neville#tab=ntrp", url);
+    Assert.Equal("https://www.usta.com/en/home/play/rankings.html#?ntrp-matchFormat=SINGLES&ntrp-rankListGender=M&ntrp-ntrpPlayerLevel=level_4_0&ntrp-sectionCode=S45&ntrp-searchText=Liam%20Neville#tab=ntrp", url);
   }
 
   [Fact]
