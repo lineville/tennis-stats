@@ -94,10 +94,11 @@ jobs:
 
   run_and_send_emails:
     needs: get_subscriber_details
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         subscribers: ${{ fromJson(needs.get_subscriber_details.outputs.subscribers) }}
 
     steps:

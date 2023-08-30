@@ -13,7 +13,7 @@ public class Utilities
     if (settings.Name == null && context != "list") 
     {
       var name = AnsiConsole.Prompt(
-        new TextPrompt<string>("What's your [aqua]name[/]?"));
+        new TextPrompt<string>("Player name [aqua]name[/]:"));
       settings.Name = name;
     }
 
@@ -66,7 +66,7 @@ public class Utilities
     if (settings.Email == null && (context == "subscribe" || context == "unsubscribe"))
     {
       var email = AnsiConsole.Prompt(
-        new TextPrompt<string>("What's your [aqua]email[/]?"));
+        new TextPrompt<string>("[aqua]Email[/]:"));
       settings.Email = email;
     }
   }
