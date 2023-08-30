@@ -105,7 +105,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: setup-docker
+      - if: ${{ matrix.os == 'macos-latest' }}
+        name: setup-docker
         uses: docker-practice/actions-setup-docker@v1
 
       - name: Build
