@@ -51,6 +51,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      - if: ${{ matrix.os == 'macos-latest' }}
+        name: Install Docker
+        run: |
+          brew install --cask docker
+          open --background -a Docker
+          sleep 10
+          docker ps -a
+
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker build -t usta-cli .
