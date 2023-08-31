@@ -55,8 +55,9 @@ jobs:
         name: Install Docker
         run: |
           brew install --cask docker
+          sleep 5
           open --background -a Docker
-          sleep 10
+          sleep 5
           docker ps -a
 
       - name: Build
