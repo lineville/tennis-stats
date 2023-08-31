@@ -94,20 +94,15 @@ jobs:
 
   run_and_send_emails:
     needs: get_subscriber_details
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
         subscribers: ${{ fromJson(needs.get_subscriber_details.outputs.subscribers) }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - if: ${{ matrix.os == 'macos-latest' }}
-        name: setup-docker
-        uses: docker-practice/actions-setup-docker@v1
 
       - name: Build
         working-directory: ${{ github.workspace }}
