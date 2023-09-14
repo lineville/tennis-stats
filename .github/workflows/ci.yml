@@ -37,7 +37,7 @@ jobs:
 
       - name: Build
         working-directory: ${{ github.workspace }}
-        run: docker buildx build --platform=linux/amd64,linux/arm64 -t usta-cli .
+        run: docker buildx build -t usta-cli .
 
       - name: Run
         run: |
