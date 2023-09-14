@@ -44,7 +44,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: [ { os: ubuntu-latest, buildplatform: linux/amd64}, { os: windows-latest, buildplatform: windows }, { os: macos-latest, buildplatform: linux/amd64 } ]
+        platform: [ { os: ubuntu-latest, buildplatform: linux/amd64}, { os: windows-latest, buildplatform: windows/amd64 }, { os: macos-latest, buildplatform: linux/amd64 } ]
     
     steps:
 
