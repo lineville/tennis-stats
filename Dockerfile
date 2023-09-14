@@ -1,5 +1,5 @@
 # Base on dotnet 7
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/runtime:7.0 AS base
+FROM mcr.microsoft.com/dotnet/runtime:7.0 AS base
 WORKDIR /app
 
 ARG MONGO_PASSWORD
