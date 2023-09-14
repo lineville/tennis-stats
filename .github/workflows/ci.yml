@@ -34,6 +34,11 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
 
+      - if: matrix.os == 'macos-latest'
+        name: Setup Docker on macOS
+        uses: douglascamata/setup-docker-macos-action@v1-alpha
+            
+
       - name: Build
         working-directory: ${{ github.workspace }}
         run: docker buildx build --platform=linux/amd64,linux/arm64 -t usta-cli .
