@@ -40,28 +40,25 @@ jobs:
 
       
   build:
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.platform.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
+        platform: [ { os: ubuntu-latest, buildplatform: linux/amd64}, { os: windows-latest, buildplatform: windows}, { os: macOS-latest, buildplatform: darwin/amd64} ]
     
     steps:
 
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - if: ${{ matrix.os == 'macos-latest' }}
-        name: Install Docker
-        run: |
-          brew install --cask docker
-          sleep 5
-          open --background -a Docker
-          sleep 5
-          docker ps -a
+      - if: ${{ matrix.platform.os == 'macos-latest' }}
+        name: Setup Docker on macOS
+        uses: douglascamata/setup-docker-macos-action@v1-alpha
 
       - name: Build
         working-directory: ${{ github.workspace }}
+        env:
+          BUILDPLATFORM: ${{ matrix.platform.buildplatform }}
         run: docker build -t usta-cli .
       
       - name: Run
