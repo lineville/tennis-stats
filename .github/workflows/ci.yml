@@ -65,27 +65,16 @@ jobs:
       - if: matrix.os == 'macos-latest'
         name: Setup Docker on macOS
         uses: douglascamata/setup-docker-macos-action@v1-alpha
-      
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
+
+      - uses: docker/build-push-action@v5
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          load: true
+          tags: test-image:latest
           push: false
-          platforms: linux/amd64,linux/arm64
-      
-      - name: Run MultiPlatform
-        run: |
-          echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-          docker run usta-cli rankings get -n '${{ env.NAME }}' -f '${{ env.FORMAT }}' -g '${{ env.GENDER }}' -l '${{ env.LEVEL }}' -s '${{ env.SECTION }}' -o html >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV      
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          image: test-image:latest
+          run: |
+            echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
+            docker run test-image:latest rankings get -n '${{ env.NAME }}' -f '${{ env.FORMAT }}' -g '${{ env.GENDER }}' -l '${{ env.LEVEL }}' -s '${{ env.SECTION }}' -o html >> $GITHUB_ENV
+            echo 'EOF' >> $GITHUB_ENV
