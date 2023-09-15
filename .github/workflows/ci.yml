@@ -17,19 +17,10 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
-
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
-      - if: matrix.os == 'macos-latest'
-        name: Setup Docker on macOS
-        uses: douglascamata/setup-docker-macos-action@v1-alpha
 
       - name: Docker Build
         working-directory: ${{ github.workspace }}
@@ -58,3 +49,43 @@ jobs:
       - name: 🧪 Test
         run: |
           dotnet test
+
+  multi-platform-run:
+    runs-on: ${{ matrix.os }}
+    needs: test
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - if: matrix.os == 'macos-latest'
+        name: Setup Docker on macOS
+        uses: douglascamata/setup-docker-macos-action@v1-alpha
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          load: true
+          push: false
+          platforms: linux/amd64,linux/arm64
+      
+      - name: Run MultiPlatform
+        run: |
+          echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
+          docker run usta-cli rankings get -n '${{ env.NAME }}' -f '${{ env.FORMAT }}' -g '${{ env.GENDER }}' -l '${{ env.LEVEL }}' -s '${{ env.SECTION }}' -o html >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV      
