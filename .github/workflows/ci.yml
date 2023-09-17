@@ -14,7 +14,7 @@ env:
   LEVEL: "4.0"
   SECTION: New England
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}:test
+  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   # Unit tests
