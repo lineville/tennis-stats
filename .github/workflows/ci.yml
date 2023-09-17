@@ -70,11 +70,9 @@ jobs:
         with:
           tags: test-image:latest
           push: false
-
-      - uses: addnab/docker-run-action@v3
-        with:
-          image: test-image:latest
-          run: |
-            echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-            docker run test-image:latest rankings get -n '${{ env.NAME }}' -f '${{ env.FORMAT }}' -g '${{ env.GENDER }}' -l '${{ env.LEVEL }}' -s '${{ env.SECTION }}' -o html >> $GITHUB_ENV
-            echo 'EOF' >> $GITHUB_ENV
+      
+      - name: Docker run
+        run: |
+          echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
+          docker run test-image:latest rankings get -n '${{ env.NAME }}' -f '${{ env.FORMAT }}' -g '${{ env.GENDER }}' -l '${{ env.LEVEL }}' -s '${{ env.SECTION }}' -o html >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
