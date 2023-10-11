@@ -22,26 +22,22 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          source-url: https://nuget.pkg.github.com/lineville/index.json
           dotnet-version: 7.0.x
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
       - name: 🧪 Test
         run: |
           dotnet test
 
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 7.0.x
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-
       - name: 📦 Build
         working-directory: ./USTACLI
-        run: dotnet pack -c Release -o out
+        run: dotnet pack -c Release
 
-      - name: 🚀 Publish
+      - name: 🚀 Publish to Nuget
         working-directory: ./USTACLI
-        run: dotnet nuget push ./out/*.nupkg --skip-duplicate -n true -k ${{ secrets.NUGET_API_KEY }} --source https://nuget.pkg.github.com/lineville/index.json
+        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+
+      - name: 🚀 Publish to GitHub
+        working-directory: ./USTACLI
+        run: dotnet nuget push *.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/lineville/index.json
