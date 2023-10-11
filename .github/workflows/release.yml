@@ -22,7 +22,11 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
+          source-url: https://nuget.pkg.github.com/lineville/index.json
           dotnet-version: 7.0.x
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
       - name: 🧪 Test
         run: |
@@ -33,15 +37,13 @@ jobs:
           dotnet-version: 7.0.x
           source-url: https://nuget.pkg.github.com/lineville/index.json
         env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_API_KEY }}
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-      
-      - name: Dotnet Build
-        run: dotnet build --configuration Release USTACLI
-      
-      - name: Create the package
-        run: dotnet pack --configuration Release USTACLI
-      
-      - name: Publish the package to GPR
-        run: dotnet nuget push USTACLI/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
 
+      - name: 📦 Build
+        working-directory: ./USTACLI
+        run: dotnet pack -c Release -o out
+
+      - name: 🚀 Publish
+        working-directory: ./USTACLI
+        run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true
