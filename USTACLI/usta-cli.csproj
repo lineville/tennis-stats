@@ -11,10 +11,12 @@
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageVersion>2.0.2</PackageVersion>
+    <RepositoryUrl>https://github.com/lineville/usta-cli</RepositoryUrl> 
+    <RepositoryType>git</RepositoryType> 
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json" Pack="true">
+    <None Include="appsettings.json" Pack="true">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="../README.md" Pack="true" PackagePath=""/>

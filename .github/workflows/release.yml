@@ -24,6 +24,8 @@ jobs:
         run: |
           dotnet test
 
+      # TODO mongo password not getting embedded properly some commands fail
+
       - name: 📦 Build
         working-directory: ./USTACLI
         env:
