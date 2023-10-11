@@ -43,4 +43,5 @@ jobs:
         run: dotnet pack --configuration Release USTACLI
       
       - name: Publish the package to GPR
-        run: dotnet nuget push USTACLI/bin/Release/*.nupkg
+        run: dotnet nuget push USTACLI/bin/Release/*.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+
