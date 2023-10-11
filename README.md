@@ -1,6 +1,6 @@
 # USTA CLI 🎾
 
-## [![🚀 Release](https://github.com/lineville/usta-cli/actions/workflows/release.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/release.yml) [![🧪 CI](https://github.com/lineville/usta-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/ci.yml) [![🏆 Check Ranking](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml)
+## [![🚀 Release](https://github.com/lineville/usta-cli/actions/workflows/release.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/release.yml) [![🧪 CI](https://github.com/lineville/usta-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/ci.yml) [![🏆 Check Ranking](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml/badge.svg)](https://github.com/lineville/usta-cli/actions/workflows/check_rank.yml)![Nuget](https://img.shields.io/nuget/v/usta-cli)
 
 Command Line Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
