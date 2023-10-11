@@ -6,9 +6,6 @@ public class Driver
   /// </summary>
   public static ChromeDriver Create()
   {
-    ChromeDriverService service = ChromeDriverService.CreateDefaultService();
-    service.SuppressInitialDiagnosticInformation = true;
-
     ChromeOptions options = new ChromeOptions();
     options.AddArguments(
       "--no-sandbox",
@@ -23,7 +20,6 @@ public class Driver
       "--output=/dev/null"
     );
 
-    var driver = new ChromeDriver(service, options);
-    return driver;
+    return new ChromeDriver(options);
   }
 }
