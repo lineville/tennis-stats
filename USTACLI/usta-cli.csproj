@@ -10,11 +10,11 @@
     <ToolCommandName>usta-cli</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageVersion>2.0.1</PackageVersion>
+    <PackageVersion>2.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json">
+    <None Update="appsettings.json" Pack="true">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="../README.md" Pack="true" PackagePath=""/>
