@@ -5,8 +5,7 @@ on:
     types: [published]
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
 jobs:
   release:
@@ -23,8 +22,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
       - name: 🧪 Test
         run: |
@@ -36,8 +33,8 @@ jobs:
 
       - name: 🚀 Publish to Nuget
         working-directory: ./USTACLI
-        run: dotnet nuget push *.nupkg -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
+        run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
       - name: 🚀 Publish to GitHub
         working-directory: ./USTACLI
-        run: dotnet nuget push *.nupkg -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/lineville/index.json
+        run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/lineville/index.json
