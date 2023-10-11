@@ -30,8 +30,8 @@ jobs:
 
       - uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x' # SDK Version to use.
-          source-url: https://nuget.pkg.github.com/<owner>/index.json
+          dotnet-version: 7.0.x
+          source-url: https://nuget.pkg.github.com/lineville/index.json
         env:
           NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
