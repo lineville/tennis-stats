@@ -6,10 +6,10 @@ Command Line Tool to scrape the USTA rankings page to get a player's current ran
 
 ## Usage
 
-* Install [docker](https://docs.docker.com/get-docker/) or open in a GitHub CodeSpace 🚀
+* Install [dotnet](https://dotnet.microsoft.com/en-us/download) or open in a GitHub CodeSpace 🚀
 
 ```console
-docker run -it ghcr.io/lineville/usta-cli <command> [options]
+dotnet run -- ghcr.io/lineville/usta-cli <command> [options]
 ```
 
 ## Commands
