@@ -110,7 +110,7 @@ jobs:
         working-directory: ${{ github.workspace }}/USTACLI
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-          dotnet run -- rankings get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
+          dotnet run -- get -n '${{ inputs.Name || env.NAME }}' -f '${{ inputs.Format || env.FORMAT }}' -g '${{ inputs.Gender || env.GENDER }}' -l '${{ inputs.Level || env.LEVEL }}' -s '${{ inputs.Section || env.SECTION }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       # Scheduled Trigger should use the list of subscribers from the database
@@ -119,7 +119,7 @@ jobs:
         working-directory: ${{ github.workspace }}/USTACLI
         run: |
           echo 'EMAIL_BODY<<EOF' >> $GITHUB_ENV
-          dotnet run -- rankings get -n '${{ matrix.subscribers.name }}' -f '${{ matrix.subscribers.format }}' -g '${{ matrix.subscribers.gender }}' -l '${{ matrix.subscribers.level }}' -s '${{ matrix.subscribers.section }}' -o html >> $GITHUB_ENV
+          dotnet run -- get -n '${{ matrix.subscribers.name }}' -f '${{ matrix.subscribers.format }}' -g '${{ matrix.subscribers.gender }}' -l '${{ matrix.subscribers.level }}' -s '${{ matrix.subscribers.section }}' -o html >> $GITHUB_ENV
           echo 'EOF' >> $GITHUB_ENV
 
       - name: Summary
