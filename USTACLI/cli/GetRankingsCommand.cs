@@ -6,15 +6,12 @@ using OpenQA.Selenium.Support.UI;
 
 public class GetRankingsCommand : Command<RankingsSettings>
 {
-  #nullable disable
+#nullable disable
   public override int Execute(CommandContext context, RankingsSettings settings)
   {
-  #nullable enable
-    // Load appsettings.json static data
-    IConfiguration configuration = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: false)
-      .Build();
+#nullable enable
+    var configuration = context.Data as IConfiguration
+      ?? throw new Exception("Failed to load configuration from appsettings.json");
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
 
@@ -75,7 +72,7 @@ public class GetRankingsCommand : Command<RankingsSettings>
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
     var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
-    
+
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
     var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));

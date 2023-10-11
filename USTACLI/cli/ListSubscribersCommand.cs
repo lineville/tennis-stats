@@ -9,12 +9,8 @@ public class ListSubscribersCommand : Command
   public override int Execute(CommandContext context)
   {
 #nullable enable
-    // Load appsettings.json static data
-    IConfiguration configuration = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: false)
-      .AddEnvironmentVariables()
-      .Build();
+    var configuration = context.Data as IConfiguration
+      ?? throw new Exception("Failed to load configuration from appsettings.json");
 
     GetSubscribers(configuration).GetAwaiter().GetResult();
     return 0;

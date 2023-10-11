@@ -9,12 +9,8 @@ public class ListRankingsCommand : Command<RankingsSettings>
   public override int Execute(CommandContext context, RankingsSettings settings)
   {
 #nullable enable
-
-    // Load appsettings.json static data
-    IConfiguration configuration = new ConfigurationBuilder()
-      .SetBasePath(Directory.GetCurrentDirectory())
-      .AddJsonFile("appsettings.json", optional: false)
-      .Build();
+    var configuration = context.Data as IConfiguration
+      ?? throw new Exception("Failed to load configuration from appsettings.json");
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
 

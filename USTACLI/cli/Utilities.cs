@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Spectre.Console;
 
-public class Utilities
+public static class Utilities
 {
 
   /// <summary>

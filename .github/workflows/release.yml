@@ -24,22 +24,21 @@ jobs:
         run: |
           dotnet test
 
-      # TODO mongo password not getting embedded properly some commands fail
+      - name: 🔏 Configure Secrets
+        uses: microsoft/variable-substitution@v1 
+        with:
+          files: '**/appsettings.json'
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
 
       - name: 📦 Build
         working-directory: ./USTACLI
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet pack -c Release
 
       - name: 🚀 Publish to Nuget
         working-directory: ./USTACLI
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
       - name: 🚀 Publish to GitHub
         working-directory: ./USTACLI
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/lineville/index.json
