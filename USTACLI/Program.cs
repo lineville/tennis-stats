@@ -11,13 +11,11 @@ public class Program
     var app = new CommandApp();
     app.Configure(config =>
     {
-      config.AddBranch<RankingsSettings>("rankings", rankings =>
-      {
-        rankings.AddCommand<GetRankingsCommand>("get");
-        rankings.AddCommand<ListRankingsCommand>("list");
-        rankings.AddCommand<SubscribeRankingsCommand>("subscribe");
-        rankings.AddCommand<UnsubscribeRankingsCommand>("unsubscribe");
-      });
+      config.AddCommand<GetRankingsCommand>("get");
+      config.AddCommand<ListRankingsCommand>("list");
+      config.AddCommand<SubscribeRankingsCommand>("subscribe");
+      config.AddCommand<UnsubscribeRankingsCommand>("unsubscribe");
+
       config.AddBranch("subscribers", subscribers =>
       {
         subscribers.AddCommand<ListSubscribersCommand>("list");
