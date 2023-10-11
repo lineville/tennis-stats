@@ -4,9 +4,6 @@ on:
   release:
     types: [published]
 
-env:
-  MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -29,12 +26,18 @@ jobs:
 
       - name: 📦 Build
         working-directory: ./USTACLI
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet pack -c Release
 
       - name: 🚀 Publish to Nuget
         working-directory: ./USTACLI
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json
 
       - name: 🚀 Publish to GitHub
         working-directory: ./USTACLI
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: dotnet nuget push ./nupkg/*.nupkg -n -k ${{ secrets.GITHUB_TOKEN }} -s https://nuget.pkg.github.com/lineville/index.json

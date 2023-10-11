@@ -52,6 +52,7 @@ Subscribes to weekly email updates for a player's rankings
 - `-l | --level [3.0|3.5|4.0|4.5|5.0]`
 - `-s | --section [Eastern|Florida|Hawaii Pacific|Intermountain|Mid-Atlantic|Middle States|Midwest|Missouri Valley|New England|Northern California|Northern|Pacific NW|Southern|Southern California|Southwest|Texas|Unassigned]`
 - `-o | --output [html|json]`
+- `-e | --email ['youremail@mail.com']`
 
 ---
 
@@ -65,3 +66,4 @@ Unsubscribes to weekly email updates for a player's rankings
 - `-l | --level [3.0|3.5|4.0|4.5|5.0]`
 - `-s | --section [Eastern|Florida|Hawaii Pacific|Intermountain|Mid-Atlantic|Middle States|Midwest|Missouri Valley|New England|Northern California|Northern|Pacific NW|Southern|Southern California|Southwest|Texas|Unassigned]`
 - `-o | --output [html|json]`
+- `-e | --email ['youremail@mail.com']`
