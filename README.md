@@ -4,9 +4,11 @@
 
 Command Line Tool to scrape the USTA rankings page to get a player's current ranking and send scheduled email updates when new rankings are posted
 
-## Usage
+## Requirements
 
-* Install [dotnet](https://dotnet.microsoft.com/en-us/download) or open in a GitHub CodeSpace 🚀
+Install [dotnet](https://dotnet.microsoft.com/en-us/download)
+
+## Usage
 
 ```console
 dotnet tool install --global usta-cli
