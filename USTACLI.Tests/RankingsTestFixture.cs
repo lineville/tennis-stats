@@ -14,12 +14,14 @@ public class RankingsTestFixture
       Format = MatchFormat.SINGLES,
       Gender = Gender.M,
       Level = "4.0",
-      Section = "New England"
+      Section = "New England",
+      Email = "email@gmail.com"
     };
 
     Configuration = new ConfigurationBuilder()
       .SetBasePath(AppContext.BaseDirectory)
       .AddJsonFile("appsettings.Test.json", false, true)
+      .AddEnvironmentVariables()
       .Build();
   }
 }

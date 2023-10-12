@@ -1,8 +1,6 @@
 namespace USTACLI.Tests;
 
 using Xunit;
-using Microsoft.Extensions.Configuration;
-using Spectre.Console.Cli;
 
 public class RankingsTests : IClassFixture<RankingsTestFixture>
 {
@@ -25,7 +23,7 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
   public void TestChromeDriverService()
   {
     var driver = Driver.Create();
-    
+
     Assert.NotNull(driver);
 
     driver.Quit();
@@ -51,12 +49,36 @@ public class RankingsTests : IClassFixture<RankingsTestFixture>
   {
     var driver = Driver.Create();
     var command = new ListRankingsCommand();
-    
+
     var players = command.ScrapeRankings(driver, Fixture.Configuration, Fixture.Settings, "list");
 
     Assert.NotEmpty(players);
 
     driver.Quit();
     driver.Dispose();
+  }
+
+  [Fact]
+  public async void TestSubUnsub()
+  {
+    var subscribeCommand = new SubscribeRankingsCommand();
+    var getSubscribersCommand = new ListSubscribersCommand();
+    var unsubscribeCommand = new UnsubscribeRankingsCommand();
+
+    var subscribers = await getSubscribersCommand.GetSubscribers(Fixture.Configuration);
+
+    Assert.NotEmpty(subscribers);
+
+    await subscribeCommand.AddSubscriber(Fixture.Configuration, Fixture.Settings);
+
+    var subscribersOneMore = await getSubscribersCommand.GetSubscribers(Fixture.Configuration);
+
+    Assert.Equal(subscribers.Count + 1, subscribersOneMore.Count);
+
+    await unsubscribeCommand.DeleteSubscriber(Fixture.Configuration, Fixture.Settings);
+
+    var subscribersOneLess = await getSubscribersCommand.GetSubscribers(Fixture.Configuration);
+
+    Assert.Equal(subscribersOneMore.Count - 1, subscribersOneLess.Count);
   }
 }
