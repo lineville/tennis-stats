@@ -24,8 +24,18 @@ public class ListRankingsCommand : Command<RankingsSettings>
       // Create the chrome driver service
       using (var driver = Driver.Create())
       {
-        // Scrape the player ranking
-        players.AddRange(ScrapeRankings(driver, configuration, settings, context.Name));
+        // Paginate to grab all players until we get a page less than 20
+        var idx = 1;
+        var page = ScrapeRankings(driver, configuration, settings, context.Name, idx);
+        players.AddRange(page);
+
+        while (page.Count() == 20)
+        {
+          players.AddRange(page);
+          idx++;
+          driver.Close();
+          page = ScrapeRankings(driver, configuration, settings, context.Name, idx);
+        }
       }
     });
 
@@ -62,14 +72,14 @@ public class ListRankingsCommand : Command<RankingsSettings>
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  public List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context)
+  public List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context, int pageNumber)
   {
     var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
       ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
 
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
-    var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
+    var url = Utilities.BuildUSTARankingURL(settings, configuration, context, pageNumber);
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);

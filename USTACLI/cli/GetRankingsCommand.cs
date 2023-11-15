@@ -71,7 +71,7 @@ public class GetRankingsCommand : Command<RankingsSettings>
 
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
-    var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
+    var url = Utilities.BuildUSTARankingURL(settings, configuration, context, 1);
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);

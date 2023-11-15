@@ -75,7 +75,7 @@ public static class Utilities
   /// <summary>
   /// Construct the correct URL from CLI args
   /// </summary>
-  public static string BuildUSTARankingURL(RankingsSettings settings, IConfiguration configuration, string context)
+  public static string BuildUSTARankingURL(RankingsSettings settings, IConfiguration configuration, string context, int pageNumber)
   {
     var queryKeys = configuration.GetRequiredSection("QUERY_PARAMS").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load QUERY_PARAMS from appsettings.json");
     var sectionCodes = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");
@@ -98,7 +98,7 @@ public static class Utilities
     var url = QueryHelpers.AddQueryString(ustaBaseURL, queryParams);
 
     // Workaround for weird # getting ignored in QueryHelpers
-    url = url.Insert(ustaBaseURL.Count(), "#") + "#tab=ntrp";
+    url = url.Insert(ustaBaseURL.Count(), "#") + "#tab=ntrp&ntrp-page=" + pageNumber;
     return url;
   }
 
