@@ -75,7 +75,7 @@ public static class Utilities
   /// <summary>
   /// Construct the correct URL from CLI args
   /// </summary>
-  public static string BuildUSTARankingURL(RankingsSettings settings, IConfiguration configuration, string context, int pageNumber)
+  public static string BuildUSTARankingURL(RankingsSettings settings, IConfiguration configuration, string context, int? pageNumber = 1)
   {
     var queryKeys = configuration.GetRequiredSection("QUERY_PARAMS").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load QUERY_PARAMS from appsettings.json");
     var sectionCodes = configuration.GetRequiredSection("SECTION_CODES").Get<Dictionary<string, string>>() ?? throw new Exception("Failed to load SECTION_CODES from appsettings.json");

@@ -76,7 +76,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
   /// <summary>
   /// Extracts the HTML element and returns a Player object
   /// </summary>
-  public List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context, int pageNumber)
+  public List<Player> ScrapeRankings(WebDriver driver, IConfiguration configuration, RankingsSettings settings, string context, int? pageNumber = 1)
   {
     var htmlElement = configuration.GetValue<string>("HTML_ELEMENT_TARGET")
       ?? throw new Exception("Failed to load HTML_ELEMENT_TARGET from appsettings.json");
