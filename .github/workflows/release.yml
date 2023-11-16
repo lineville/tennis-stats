@@ -20,18 +20,16 @@ jobs:
         with:
           dotnet-version: 7.0.x
 
-      - name: 🧪 Test
-        env:
-          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
-        run: |
-          dotnet test
-
       - name: 🔏 Configure Secrets
         uses: microsoft/variable-substitution@v1 
         with:
           files: '**/appsettings.json'
         env:
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      
+      - name: 🧪 Test
+        run: |
+          dotnet test
 
       - name: 📦 Build
         working-directory: ./USTACLI
