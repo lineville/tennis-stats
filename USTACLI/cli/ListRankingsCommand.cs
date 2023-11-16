@@ -2,6 +2,7 @@ using Spectre.Console.Cli;
 using Spectre.Console;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 public class ListRankingsCommand : Command<RankingsSettings>
 {
@@ -16,29 +17,6 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     List<Player> players = new List<Player>();
 
-    AnsiConsole
-    .Status()
-    .Spinner(new TennisBallSpinner())
-    .Start("Searching for rankings", _ctx =>
-    {
-      // Create the chrome driver service
-      using (var driver = Driver.Create())
-      {
-        // Paginate to grab all players until we get a page less than 20
-        var idx = 1;
-        var page = ScrapeRankings(driver, configuration, settings, context.Name, idx);
-        players.AddRange(page);
-
-        while (page.Count() == 20)
-        {
-          players.AddRange(page);
-          idx++;
-          driver.Close();
-          page = ScrapeRankings(driver, configuration, settings, context.Name, idx);
-        }
-      }
-    });
-
     var table = new Table
     {
       Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black)),
@@ -47,24 +25,50 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     // Add header row 
     table.AddColumns(new TableColumn[]
-  {
-        new TableColumn(new Text("Name", new Style(Color.Blue, Color.Black)).LeftJustified()),
-        new TableColumn(new Text("District", new Style(Color.Red, Color.Black)).LeftJustified()),
-        new TableColumn(new Text("Section", new Style(Color.Yellow, Color.Black)).LeftJustified()),
-        new TableColumn(new Text("National", new Style(Color.Green, Color.Black)).LeftJustified()),
-        new TableColumn(new Text("Points", new Style(Color.Gold1, Color.Black)).LeftJustified()),
-        new TableColumn(new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified())
-  });
-
-    foreach (var player in players)
     {
-      table.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
-    }
+      new TableColumn(new Text("Name", new Style(Color.Blue, Color.Black)).LeftJustified()),
+      new TableColumn(new Text("District", new Style(Color.Red, Color.Black)).LeftJustified()),
+      new TableColumn(new Text("Section", new Style(Color.Yellow, Color.Black)).LeftJustified()),
+      new TableColumn(new Text("National", new Style(Color.Green, Color.Black)).LeftJustified()),
+      new TableColumn(new Text("Points", new Style(Color.Gold1, Color.Black)).LeftJustified()),
+      new TableColumn(new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified())
+    });
 
-    // Write to Console
-    AnsiConsole.Clear();
-    AnsiConsole.Write(table);
-    AnsiConsole.WriteLine();
+    AnsiConsole
+      .Live(table)
+      .Cropping(VerticalOverflowCropping.Bottom)
+      .Overflow(VerticalOverflow.Ellipsis)
+      .Start(ctx =>
+      {
+        var pageNumber = 1;
+        var keepFetching = true;
+
+        // Keep fetching as long as there are more players to fetch and we haven't exceeded settings.Top many players
+        while (keepFetching)
+        {
+          // Create the chrome driver service
+          using (var driver = Driver.Create())
+          {
+            // Scrape a page of players, add them to the list, update the live table and increment the page number
+            var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top));
+            players.AddRange(pageOfPlayers);
+            pageNumber++;
+
+            foreach (var player in pageOfPlayers)
+            {
+              table.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
+            }
+
+            ctx.Refresh();
+
+            if (pageOfPlayers.Count() < 20 || players.Count() >= settings.Top)
+            {
+              keepFetching = false;
+            }
+          } // Driver gets disposed here
+
+        }
+      });
 
     return 0;
   }
@@ -83,9 +87,10 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
-    Thread.Sleep(timeout * 1000);
-
     var elements = driver.FindElements(By.ClassName(htmlElement));
+
+    var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
+    wait.Until(d => d.FindElement(By.ClassName(htmlElement)));
 
     var playerElements = elements.Chunk(9);
 
