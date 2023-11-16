@@ -15,7 +15,6 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
 
-    List<Player> players = new List<Player>();
 
     var table = new Table
     {
@@ -34,41 +33,41 @@ public class ListRankingsCommand : Command<RankingsSettings>
       new TableColumn(new Text("Location", new Style(Color.Purple, Color.Black)).LeftJustified())
     });
 
+    List<Player> players = new List<Player>();
+
     AnsiConsole
-      .Live(table)
-      .Cropping(VerticalOverflowCropping.Bottom)
-      .Overflow(VerticalOverflow.Ellipsis)
-      .Start(ctx =>
+    .Status()
+    .Spinner(new TennisBallSpinner())
+    .Start("Searching for rankings", _ctx =>
+    {
+      var pageNumber = 1;
+      var keepFetching = true;
+      // Keep fetching as long as there are more players to fetch and we haven't exceeded settings.Top many players
+      while (keepFetching)
       {
-        var pageNumber = 1;
-        var keepFetching = true;
-
-        // Keep fetching as long as there are more players to fetch and we haven't exceeded settings.Top many players
-        while (keepFetching)
+        // Create the chrome driver service
+        using (var driver = Driver.Create())
         {
-          // Create the chrome driver service
-          using (var driver = Driver.Create())
+          // Scrape a page of players, add them to the list, update the live table and increment the page number
+          var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top - players.Count()));
+          players.AddRange(pageOfPlayers);
+          pageNumber++;
+          if (pageOfPlayers.Count() < 20 || players.Count() >= settings.Top)
           {
-            // Scrape a page of players, add them to the list, update the live table and increment the page number
-            var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top));
-            players.AddRange(pageOfPlayers);
-            pageNumber++;
+            keepFetching = false;
+          }
+        } // Driver gets disposed here
+      }
+      foreach (var player in players)
+      {
+        table.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
+      }
+    });
 
-            foreach (var player in pageOfPlayers)
-            {
-              table.AddRow(new string[] { player.Name.ToString(), player.DistrictRank.ToString(), player.SectionRank.ToString(), player.NationalRank.ToString(), player.TotalPoints.ToString(), player.Location.ToString() });
-            }
-
-            ctx.Refresh();
-
-            if (pageOfPlayers.Count() < 20 || players.Count() >= settings.Top)
-            {
-              keepFetching = false;
-            }
-          } // Driver gets disposed here
-
-        }
-      });
+    // Write to Console
+    AnsiConsole.Clear();
+    AnsiConsole.Write(table);
+    AnsiConsole.WriteLine();
 
     return 0;
   }
