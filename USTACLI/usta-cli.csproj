@@ -10,7 +10,7 @@
     <ToolCommandName>usta-cli</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageVersion>2.0.6</PackageVersion>
+    <PackageVersion>2.0.7</PackageVersion>
     <RepositoryUrl>https://github.com/lineville/usta-cli</RepositoryUrl> 
     <RepositoryType>git</RepositoryType> 
   </PropertyGroup>

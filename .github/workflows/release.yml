@@ -28,6 +28,8 @@ jobs:
           MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
       
       - name: 🧪 Test
+        env:
+          MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
         run: |
           dotnet test
 
