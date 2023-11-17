@@ -69,6 +69,13 @@ public static class Utilities
         new TextPrompt<string>("[aqua]Email[/]:"));
       settings.Email = email;
     }
+
+    if (settings.Top == null && context == "list")
+    {
+      var top = AnsiConsole.Prompt(
+        new TextPrompt<int>("[aqua]Top N players[/]:"));
+      settings.Top = top;
+    }
   }
 
 

@@ -49,7 +49,9 @@ public class ListRankingsCommand : Command<RankingsSettings>
         using (var driver = Driver.Create())
         {
           // Scrape a page of players, add them to the list, update the live table and increment the page number
-          var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top - players.Count()));
+#nullable disable
+          var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top.Value - players.Count()));
+#nullable enable
           players.AddRange(pageOfPlayers);
           pageNumber++;
           if (pageOfPlayers.Count() < 20 || players.Count() >= settings.Top)

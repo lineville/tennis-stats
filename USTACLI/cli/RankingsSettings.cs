@@ -35,7 +35,7 @@ public class RankingsSettings : CommandSettings
   public string? Email { get; set; }
   
   [CommandOption("-t|--top")]
-  public int Top { get; set; } = 100;
+  public int? Top { get; set; }
 }
 
 public enum MatchFormat
