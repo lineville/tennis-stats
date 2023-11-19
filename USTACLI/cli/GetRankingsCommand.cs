@@ -73,12 +73,15 @@ public class GetRankingsCommand : Command<RankingsSettings>
 
     var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
 
+    // Extra delay to allow the page to reload after name is searched
+    Thread.Sleep(timeout * 1000);
+
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
+    var elements = driver.FindElements(By.ClassName(htmlElement));
+
     var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
     wait.Until(d => d.FindElement(By.ClassName(htmlElement)));
-
-    var elements = driver.FindElements(By.ClassName(htmlElement));
 
     if (elements[3].Text != settings.Name) // Throw if the name doesn't match
     {

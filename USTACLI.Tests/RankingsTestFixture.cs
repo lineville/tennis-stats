@@ -15,7 +15,8 @@ public class RankingsTestFixture
       Gender = Gender.M,
       Level = "4.0",
       Section = "New England",
-      Email = "email@gmail.com"
+      Email = "email@gmail.com",
+      Top = 50,
     };
 
     Configuration = new ConfigurationBuilder()

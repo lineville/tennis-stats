@@ -14,9 +14,11 @@
         "--gender",
         "M",
         "--level",
-        "4.0",
+        "4.5",
         "--section",
-        "Northern California",
+        "New England",
+        "--top",
+        "30"
       ],
       "cwd": "${workspaceFolder}",
       "console": "internalConsole",

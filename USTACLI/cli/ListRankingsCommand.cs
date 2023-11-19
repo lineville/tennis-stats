@@ -15,7 +15,6 @@ public class ListRankingsCommand : Command<RankingsSettings>
 
     Utilities.InteractiveFallback(settings, configuration, context.Name);
 
-
     var table = new Table
     {
       Title = new TableTitle($"{settings.Section} {(settings.Gender == Gender.M ? "Men's" : "Women's")} {settings.Level} {settings.Format} USTA Rankings", new Style(Color.Aqua, Color.Black)),
@@ -34,6 +33,7 @@ public class ListRankingsCommand : Command<RankingsSettings>
     });
 
     List<Player> players = new List<Player>();
+    int pageSize = 20;
 
     AnsiConsole
     .Status()
@@ -50,11 +50,11 @@ public class ListRankingsCommand : Command<RankingsSettings>
         {
           // Scrape a page of players, add them to the list, update the live table and increment the page number
 #nullable disable
-          var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(20, settings.Top.Value - players.Count()));
+          var pageOfPlayers = ScrapeRankings(driver, configuration, settings, context.Name, pageNumber).Take(Math.Min(pageSize, settings.Top.Value - players.Count()));
 #nullable enable
           players.AddRange(pageOfPlayers);
           pageNumber++;
-          if (pageOfPlayers.Count() < 20 || players.Count() >= settings.Top)
+          if (pageOfPlayers.Count() < pageSize || players.Count() >= settings.Top)
           {
             keepFetching = false;
           }
