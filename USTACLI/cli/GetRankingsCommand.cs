@@ -72,12 +72,13 @@ public class GetRankingsCommand : Command<RankingsSettings>
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
     var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
+    
+    // Navigate to the URL and wait for the page to load
+    driver.Navigate().GoToUrl(url);
 
     // Extra delay to allow the page to reload after name is searched
     Thread.Sleep(timeout * 1000);
 
-    // Navigate to the URL and wait for the page to load
-    driver.Navigate().GoToUrl(url);
     var elements = driver.FindElements(By.ClassName(htmlElement));
 
     var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(timeout));
