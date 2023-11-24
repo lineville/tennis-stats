@@ -38,6 +38,8 @@ public class GetRankingsCommand : Command<RankingsSettings>
           }
           catch (Exception)
           {
+            Console.WriteLine($"Failed to find ranking for {settings.Name} in {settings.Section}. Searching for ranking in any section.");
+            settings.Section = null;
             retries++;
           }
           finally
@@ -72,7 +74,6 @@ public class GetRankingsCommand : Command<RankingsSettings>
     var timeout = configuration.GetValue<int>("PAGE_LOAD_TIMEOUT");
 
     var url = Utilities.BuildUSTARankingURL(settings, configuration, context);
-    
     // Navigate to the URL and wait for the page to load
     driver.Navigate().GoToUrl(url);
 

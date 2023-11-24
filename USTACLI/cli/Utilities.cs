@@ -93,9 +93,13 @@ public static class Utilities
     {
       { queryKeys["Format"], settings.Format?.ToString() ?? ""},
       { queryKeys["Gender"], settings.Gender?.ToString() ?? ""},
-      { queryKeys["Level"], "level_" + settings.Level?.ToString().Replace(".", "_")},
-      { queryKeys["Section"], sectionCodes[settings.Section ?? ""] }
+      { queryKeys["Level"], "level_" + settings.Level?.ToString().Replace(".", "_")}
     };
+
+    if (settings.Section != null)
+    {
+      queryParams.Add(queryKeys["Section"], sectionCodes[settings.Section]);
+    }
 
     if (context == "get")
     {
